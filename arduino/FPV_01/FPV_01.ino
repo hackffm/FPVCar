@@ -39,14 +39,14 @@ void receive_serial_cmd(void) {
             if(temp > 0) {
               if(temp > 255) temp = 255;
               digitalWrite(BIN_1, HIGH);
-              digitalWrite(BIN_2, LOW);
+              digitalWrite(BIN_2, HIGH);
               analogWrite(BIN_1, temp);                    
             } else {
               temp = -temp;
               if(temp > 255) temp = 255;
-              digitalWrite(BIN_1, LOW);
-              digitalWrite(BIN_2, HIGH);
-              analogWrite(BIN_2, temp); 
+              digitalWrite(BIN_1, HIGH);
+              digitalWrite(BIN_2, LOW);
+              analogWrite(BIN_1, temp); 
             }
           }                    
           break; 
@@ -59,14 +59,14 @@ void receive_serial_cmd(void) {
             if(temp > 0) {
               if(temp > 255) temp = 255;
               digitalWrite(AIN_1, HIGH);
-              digitalWrite(AIN_2, LOW);
+              digitalWrite(AIN_2, HIGH);
               analogWrite(AIN_1, temp);                    
             } else {
               temp = -temp;
               if(temp > 255) temp = 255;
-              digitalWrite(AIN_1, LOW);
-              digitalWrite(AIN_2, HIGH);
-              analogWrite(AIN_2, temp); 
+              digitalWrite(AIN_1, HIGH);
+              digitalWrite(AIN_2, LOW);
+              analogWrite(AIN_1, temp); 
             }                        
           }  
           break; 
