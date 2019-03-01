@@ -169,7 +169,7 @@
 <layer number="249" name="Edge" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="250" name="Descript" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="251" name="SMDround" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="254" name="Kommentar" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="254" name="Kommentar" color="12" fill="1" visible="yes" active="yes"/>
 <layer number="255" name="HELP" color="7" fill="1" visible="yes" active="yes"/>
 </layers>
 <schematic xreflabel="%F%N/%S.%C%R" xrefpart="/%S.%C%R">
@@ -7191,8 +7191,8 @@ Source: www.kingbright.com</description>
 <part name="R210" library="FPV-Auto" deviceset="R" device="" value="1M"/>
 <part name="R200" library="FPV-Auto" deviceset="R" device="" value="1K"/>
 <part name="R201" library="FPV-Auto" deviceset="R" device="" value="1K"/>
-<part name="C212" library="FPV-Auto" deviceset="C" device="0603" value="680pF"/>
-<part name="C213" library="FPV-Auto" deviceset="C" device="0603" value="680pF"/>
+<part name="C212" library="FPV-Auto" deviceset="C" device="0603" value="220pF"/>
+<part name="C213" library="FPV-Auto" deviceset="C" device="0603" value="220pF"/>
 <part name="R211" library="FPV-Auto" deviceset="R_SWITCH_2_WAY" device="_0603" value="R_SWITCH_2_WAY_0603"/>
 <part name="+5V7" library="FPV-Auto" deviceset="+5V1" device=""/>
 <part name="U$1" library="microbuilder" deviceset="GND" device=""/>
@@ -7248,7 +7248,7 @@ Transceiver </text>
 <text x="226.06" y="228.6" size="6.35" layer="94" rot="R180" align="bottom-center">Raspberry Pi
 Zero W V1.1</text>
 <text x="101.6" y="228.6" size="6.35" layer="94" rot="R180" align="bottom-center">ATmega328/P</text>
-<text x="193.04" y="20.32" size="1.27" layer="97" align="top-left">GAIN:
+<text x="182.88" y="20.32" size="1.27" layer="97" align="top-left">GAIN:
  3dB 2-C 100K
  6dB 2-C   0R
  9dB OPEN
@@ -7277,6 +7277,19 @@ on powerup</text>
 <text x="166.116" y="157.734" size="1.778" layer="150" align="center-left">pin changed</text>
 <text x="166.116" y="152.654" size="1.778" layer="150" align="center-left">pin changed</text>
 <text x="166.116" y="139.954" size="1.778" layer="150" align="center-left">pin changed</text>
+<text x="195.58" y="127" size="1.27" layer="254">DIN, BCLK, LRCLK was on wrong pins (was pin# instead GPIO#). 
+Should be now: DIN=GPIO21, BLCK=GPIO18, LRCLK=GPIO19</text>
+<text x="208.28" y="93.98" size="1.27" layer="97">SD_MODE only connected to resistor. 
+Resistor defines channel: 
+1M = L+R mode, 
+370k = R only, 
+0k = L only</text>
+<text x="203.2" y="20.32" size="1.27" layer="97" align="top-left">R211 = default open 
+(should be good for Raspberry)</text>
+<text x="337.82" y="198.12" size="1.778" layer="254">Yes please, this is 
+better for antenna </text>
+<text x="195.58" y="154.94" size="1.4224" layer="97" rot="R90">Arduino avrdude w auto-reset:
+https://github.com/SpellFoundry/avrdude-rpi</text>
 </plain>
 <instances>
 <instance part="U100" gate="A" x="101.6" y="165.1"/>
@@ -7654,9 +7667,9 @@ on powerup</text>
 <pinref part="U210" gate="A" pin="BCLK"/>
 </segment>
 <segment>
-<pinref part="U200" gate="GPIO" pin="GPIO24/GEN5"/>
-<wire x1="241.3" y1="167.64" x2="251.46" y2="167.64" width="0.1524" layer="91"/>
-<label x="251.46" y="167.64" size="0.8128" layer="95" xref="yes"/>
+<label x="246.38" y="175.26" size="0.8128" layer="95" xref="yes"/>
+<pinref part="U200" gate="GPIO" pin="GPIO18"/>
+<wire x1="246.38" y1="175.26" x2="241.3" y2="175.26" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="LRCLK" class="0">
@@ -7666,9 +7679,9 @@ on powerup</text>
 <wire x1="205.74" y1="71.12" x2="208.28" y2="71.12" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="U200" gate="GPIO" pin="GPIO10/MOSI"/>
-<wire x1="210.82" y1="165.1" x2="203.2" y2="165.1" width="0.1524" layer="91"/>
-<label x="203.2" y="165.1" size="0.8128" layer="95" rot="R180" xref="yes"/>
+<label x="203.2" y="144.78" size="0.8128" layer="95" rot="R180" xref="yes"/>
+<pinref part="U200" gate="GPIO" pin="GPIO19"/>
+<wire x1="210.82" y1="144.78" x2="203.2" y2="144.78" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="DIN" class="0">
@@ -7678,9 +7691,9 @@ on powerup</text>
 <pinref part="U210" gate="A" pin="DIN"/>
 </segment>
 <segment>
-<pinref part="U200" gate="GPIO" pin="GPIO9/MISO"/>
-<wire x1="210.82" y1="162.56" x2="203.2" y2="162.56" width="0.1524" layer="91"/>
-<label x="203.2" y="162.56" size="0.8128" layer="95" rot="R180" xref="yes"/>
+<label x="246.38" y="139.7" size="0.8128" layer="95" xref="yes"/>
+<pinref part="U200" gate="GPIO" pin="GPIO21"/>
+<wire x1="241.3" y1="139.7" x2="246.38" y2="139.7" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="GAIN" class="0">
@@ -7937,11 +7950,9 @@ on powerup</text>
 </net>
 <net name="RASPI_DTR" class="0">
 <segment>
-<pinref part="U200" gate="GPIO" pin="GPIO18"/>
-<wire x1="241.3" y1="175.26" x2="248.92" y2="175.26" width="0.1524" layer="91"/>
-<wire x1="248.92" y1="175.26" x2="248.92" y2="172.72" width="0.1524" layer="91"/>
-<wire x1="248.92" y1="172.72" x2="264.16" y2="172.72" width="0.1524" layer="91"/>
-<label x="264.16" y="172.72" size="0.8128" layer="95" xref="yes"/>
+<label x="205.74" y="170.18" size="0.8128" layer="95" rot="R180" xref="yes"/>
+<pinref part="U200" gate="GPIO" pin="GPIO22/GEN3"/>
+<wire x1="210.82" y1="170.18" x2="205.74" y2="170.18" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <wire x1="116.84" y1="25.4" x2="104.14" y2="25.4" width="0.1524" layer="91"/>
