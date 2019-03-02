@@ -2644,7 +2644,6 @@ active low</text>
 <pin name="GND" x="17.78" y="-5.08" length="middle" direction="pwr" rot="R180"/>
 <text x="8.128" y="3.81" size="0.6096" layer="97" font="vector" align="center">(3.0V typ.)</text>
 <wire x1="10.922" y1="3.81" x2="11.938" y2="3.81" width="0.254" layer="97"/>
-<text x="0" y="13.462" size="1.778" layer="150" align="bottom-center">connect PIN 9 to GND?</text>
 </symbol>
 <symbol name="A3L-HACKFFM">
 <wire x1="288.29" y1="3.81" x2="342.265" y2="3.81" width="0.1016" layer="94"/>
@@ -3574,7 +3573,7 @@ Single Chip 2.4GHz Transceiver
 <connects>
 <connect gate="A" pin="!CS" pad="4"/>
 <connect gate="A" pin="CE" pad="3"/>
-<connect gate="A" pin="GND" pad="2"/>
+<connect gate="A" pin="GND" pad="2 9"/>
 <connect gate="A" pin="IRQ" pad="8"/>
 <connect gate="A" pin="MISO" pad="7"/>
 <connect gate="A" pin="MOSI" pad="6"/>
@@ -7125,7 +7124,7 @@ Source: www.kingbright.com</description>
 <part name="GND10" library="supply1" deviceset="GND" device=""/>
 <part name="+3V2" library="supply1" deviceset="+3V3" device=""/>
 <part name="+3V3" library="supply1" deviceset="+3V3" device=""/>
-<part name="R102" library="FPV-Auto" deviceset="R" device="" value="10K"/>
+<part name="R101" library="FPV-Auto" deviceset="R" device="" value="10K"/>
 <part name="C104" library="FPV-Auto" deviceset="C" device="0603" value="100nF"/>
 <part name="R304" library="FPV-Auto" deviceset="R" device="" value="30K1"/>
 <part name="RT300" library="FPV-Auto" deviceset="103AT-2" device=""/>
@@ -7238,6 +7237,9 @@ Source: www.kingbright.com</description>
 <part name="GND39" library="supply1" deviceset="GND" device=""/>
 <part name="GND40" library="supply1" deviceset="GND" device=""/>
 <part name="GND41" library="supply1" deviceset="GND" device=""/>
+<part name="R103" library="FPV-Auto" deviceset="R" device="" value="1K"/>
+<part name="R102" library="FPV-Auto" deviceset="R" device="" value="1K"/>
+<part name="+3V4" library="supply1" deviceset="+3V3" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -7290,6 +7292,7 @@ Resistor defines channel:
 better for antenna </text>
 <text x="195.58" y="154.94" size="1.4224" layer="97" rot="R90">Arduino avrdude w auto-reset:
 https://github.com/SpellFoundry/avrdude-rpi</text>
+<text x="305.816" y="205.994" size="1.778" layer="150" align="center-left">pin 9 connected to GND</text>
 </plain>
 <instances>
 <instance part="U100" gate="A" x="101.6" y="165.1"/>
@@ -7308,7 +7311,7 @@ https://github.com/SpellFoundry/avrdude-rpi</text>
 <instance part="GND10" gate="1" x="38.1" y="170.18"/>
 <instance part="+3V2" gate="G$1" x="48.26" y="215.9"/>
 <instance part="+3V3" gate="G$1" x="17.78" y="208.28"/>
-<instance part="R102" gate="A" x="48.26" y="205.74" smashed="yes" rot="R90">
+<instance part="R101" gate="A" x="48.26" y="205.74" smashed="yes" rot="R90">
 <attribute name="NAME" x="46.7614" y="205.74" size="1.778" layer="95" font="vector" rot="R90" align="bottom-center"/>
 <attribute name="VALUE" x="49.784" y="205.74" size="1.778" layer="96" font="vector" rot="R90" align="top-center"/>
 </instance>
@@ -7384,6 +7387,15 @@ https://github.com/SpellFoundry/avrdude-rpi</text>
 <instance part="GND28" gate="1" x="304.8" y="111.76"/>
 <instance part="C120" gate="A" x="294.64" y="119.38"/>
 <instance part="C121" gate="A" x="304.8" y="119.38"/>
+<instance part="R103" gate="A" x="175.26" y="195.58" smashed="yes" rot="R90">
+<attribute name="NAME" x="173.7614" y="195.58" size="1.778" layer="95" font="vector" rot="R90" align="bottom-center"/>
+<attribute name="VALUE" x="176.784" y="195.58" size="1.778" layer="96" font="vector" rot="R90" align="top-center"/>
+</instance>
+<instance part="R102" gate="A" x="167.64" y="195.58" smashed="yes" rot="R90">
+<attribute name="NAME" x="166.1414" y="195.58" size="1.778" layer="95" font="vector" rot="R90" align="bottom-center"/>
+<attribute name="VALUE" x="169.164" y="195.58" size="1.778" layer="96" font="vector" rot="R90" align="top-center"/>
+</instance>
+<instance part="+3V4" gate="G$1" x="175.26" y="210.82"/>
 </instances>
 <busses>
 </busses>
@@ -7542,7 +7554,7 @@ https://github.com/SpellFoundry/avrdude-rpi</text>
 <segment>
 <wire x1="48.26" y1="213.36" x2="48.26" y2="210.82" width="0.1524" layer="91"/>
 <pinref part="+3V2" gate="G$1" pin="+3V3"/>
-<pinref part="R102" gate="A" pin="2"/>
+<pinref part="R101" gate="A" pin="2"/>
 </segment>
 <segment>
 <pinref part="+3V3" gate="G$1" pin="+3V3"/>
@@ -7583,6 +7595,16 @@ https://github.com/SpellFoundry/avrdude-rpi</text>
 <pinref part="+3V10" gate="G$1" pin="+3V3"/>
 <pinref part="C120" gate="A" pin="1"/>
 <wire x1="294.64" y1="121.92" x2="294.64" y2="127" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="R102" gate="A" pin="2"/>
+<wire x1="167.64" y1="200.66" x2="167.64" y2="203.2" width="0.1524" layer="91"/>
+<wire x1="167.64" y1="203.2" x2="175.26" y2="203.2" width="0.1524" layer="91"/>
+<pinref part="R103" gate="A" pin="2"/>
+<wire x1="175.26" y1="203.2" x2="175.26" y2="200.66" width="0.1524" layer="91"/>
+<pinref part="+3V4" gate="G$1" pin="+3V3"/>
+<wire x1="175.26" y1="203.2" x2="175.26" y2="208.28" width="0.1524" layer="91"/>
+<junction x="175.26" y="203.2"/>
 </segment>
 </net>
 <net name="MISO" class="0">
@@ -7741,7 +7763,7 @@ https://github.com/SpellFoundry/avrdude-rpi</text>
 <wire x1="43.18" y1="213.36" x2="25.4" y2="213.36" width="0.1524" layer="91"/>
 <junction x="43.18" y="198.12"/>
 <pinref part="C104" gate="A" pin="1"/>
-<pinref part="R102" gate="A" pin="1"/>
+<pinref part="R101" gate="A" pin="1"/>
 <pinref part="U100" gate="A" pin="PC6/!RESET!"/>
 </segment>
 <segment>
@@ -7765,15 +7787,23 @@ https://github.com/SpellFoundry/avrdude-rpi</text>
 <net name="SDA" class="0">
 <segment>
 <pinref part="U100" gate="A" pin="PC4"/>
-<wire x1="149.86" y1="187.96" x2="152.4" y2="187.96" width="0.1524" layer="91"/>
-<label x="152.4" y="187.96" size="0.8128" layer="95" xref="yes"/>
+<wire x1="149.86" y1="187.96" x2="167.64" y2="187.96" width="0.1524" layer="91"/>
+<label x="177.8" y="187.96" size="0.8128" layer="95" xref="yes"/>
+<pinref part="R102" gate="A" pin="1"/>
+<wire x1="167.64" y1="187.96" x2="177.8" y2="187.96" width="0.1524" layer="91"/>
+<wire x1="167.64" y1="190.5" x2="167.64" y2="187.96" width="0.1524" layer="91"/>
+<junction x="167.64" y="187.96"/>
 </segment>
 </net>
 <net name="SCL" class="0">
 <segment>
 <pinref part="U100" gate="A" pin="PC5"/>
-<wire x1="149.86" y1="185.42" x2="152.4" y2="185.42" width="0.1524" layer="91"/>
-<label x="152.4" y="185.42" size="0.8128" layer="95" xref="yes"/>
+<wire x1="149.86" y1="185.42" x2="175.26" y2="185.42" width="0.1524" layer="91"/>
+<label x="177.8" y="185.42" size="0.8128" layer="95" xref="yes"/>
+<pinref part="R103" gate="A" pin="1"/>
+<wire x1="175.26" y1="185.42" x2="177.8" y2="185.42" width="0.1524" layer="91"/>
+<wire x1="175.26" y1="190.5" x2="175.26" y2="185.42" width="0.1524" layer="91"/>
+<junction x="175.26" y="185.42"/>
 </segment>
 </net>
 <net name="CHARGER_!CE" class="0">
