@@ -7868,13 +7868,12 @@ Zero W V1.1</text>
  9dB OPEN
 12dB 1-C   0R
 15dB 1-C 100K</text>
-<text x="292.1" y="35.56" size="1.778" layer="150" rot="R90">680pF(eval-board) vs 220pF(Adafruit-board)</text>
 <text x="48.26" y="116.84" size="6.35" layer="94" rot="R180" align="bottom-center">ISP</text>
 <text x="226.06" y="116.84" size="6.35" layer="94" rot="R180" align="bottom-center">I2S Audio Amplifier</text>
 <text x="320.04" y="165.1" size="6.35" layer="94" rot="R180" align="bottom-center">Servo</text>
 <text x="96.52" y="58.42" size="1.778" layer="97" align="bottom-center">button
 connector</text>
-<text x="91.44" y="17.78" size="1.778" layer="150" align="center">RASPI GPIO #22</text>
+<text x="91.44" y="15.24" size="1.778" layer="150" align="center">RASPI GPIO #22</text>
 <text x="121.92" y="116.84" size="6.35" layer="94" rot="R180" align="bottom-center">Power on and
 programming
 push button</text>
@@ -7890,25 +7889,15 @@ Resistor defines channel:
 0k = L only</text>
 <text x="203.2" y="20.32" size="1.27" layer="97" align="top-left">R211 = default open 
 (should be good for Raspberry)</text>
-<text x="337.82" y="198.12" size="1.778" layer="254">Yes please, this is 
-better for antenna </text>
 <text x="195.58" y="154.94" size="1.4224" layer="97" rot="R90">Arduino avrdude w auto-reset:
 https://github.com/SpellFoundry/avrdude-rpi</text>
-<text x="305.816" y="205.994" size="1.778" layer="150" align="center-left">pin 9 connected to GND
-add polygon</text>
 <text x="340.36" y="27.94" size="1.4224" layer="94">Unsere Namen hier irgendwo</text>
 <text x="172.72" y="137.16" size="1.4224" layer="254" rot="R90">All pins checked -  seems to be ok.</text>
 <text x="86.36" y="73.66" size="1.4224" layer="254">Reset on power-up does not 
 matter - all supplies held 
 by button already.</text>
-<text x="147.32" y="38.1" size="1.4224" layer="254">Add-on to detect 
+<text x="142.24" y="35.56" size="1.4224" layer="254">Add-on to detect 
 button press after start-up</text>
-<text x="154.94" y="198.12" size="1.778" layer="150" align="center-left">changed pin again, double check all</text>
-<text x="154.94" y="195.58" size="1.778" layer="150" align="center-left">changed pin again, double check all</text>
-<text x="154.94" y="193.04" size="1.778" layer="150" align="center-left">changed pin again, double check all</text>
-<text x="154.94" y="190.5" size="1.778" layer="150" align="center-left">changed pin again, double check all</text>
-<text x="154.94" y="139.7" size="1.778" layer="150" align="center-left">changed pin again, double check all</text>
-<text x="154.94" y="180.34" size="1.778" layer="150" align="center-left">changed pin</text>
 </plain>
 <instances>
 <instance part="U100" gate="A" x="101.6" y="165.1"/>
@@ -8840,12 +8829,10 @@ protection
 <text x="152.4" y="152.4" size="1.778" layer="150" align="center">AGND</text>
 <text x="129.54" y="177.8" size="1.778" layer="150" align="center">AGND</text>
 <text x="91.44" y="119.38" size="1.778" layer="94">Max. 14V</text>
-<text x="170.18" y="38.1" size="1.778" layer="94">Z-Diode mit 8-10V im SC79 bzw SOT523 package nehmen, z.B.
-https://www.mouser.de/datasheet/2/348/edzvfht2r9.1b-e-1493803.pdf
-
-Kondensator am Gate halte ich für Unsinn.</text>
-<text x="175.26" y="50.8" size="1.778" layer="150" align="center">done</text>
-<text x="190.5" y="35.56" size="1.778" layer="150" align="center">stand so in deiner Vorlage</text>
+<text x="193.04" y="215.9" size="1.778" layer="254">Poly GND für Audio
+Step-up Polygone</text>
+<text x="185.42" y="210.82" size="1.778" layer="254">Version o. Datum auf PCB</text>
+<text x="180.34" y="208.28" size="1.778" layer="254">Hackffm-Mänchen in Stop-Lack</text>
 </plain>
 <instances>
 <instance part="FRAME2" gate="G$1" x="0" y="0"/>
@@ -8915,7 +8902,7 @@ Kondensator am Gate halte ich für Unsinn.</text>
 <instance part="GND14" gate="1" x="185.42" y="58.42"/>
 <instance part="C300" gate="A" x="40.64" y="180.34" rot="R90"/>
 <instance part="GND15" gate="1" x="40.64" y="160.02"/>
-<instance part="R300" gate="A" x="66.04" y="193.04" rot="MR0"/>
+<instance part="R300" gate="A" x="50.8" y="193.04" rot="MR0"/>
 <instance part="R333" gate="A" x="259.08" y="185.42"/>
 <instance part="R334" gate="A" x="259.08" y="175.26"/>
 <instance part="R351" gate="A" x="261.62" y="71.12"/>
@@ -8938,7 +8925,7 @@ Kondensator am Gate halte ich für Unsinn.</text>
 <attribute name="VALUE" x="280.162" y="106.68" size="1.778" layer="96" rot="R90" align="top-center"/>
 </instance>
 <instance part="+3V8" gate="G$1" x="370.84" y="63.5" rot="MR0"/>
-<instance part="LED300" gate="G$1" x="50.8" y="193.04" rot="MR270"/>
+<instance part="LED300" gate="G$1" x="63.5" y="195.58" rot="MR270"/>
 <instance part="PAD_BAT+" gate="G$1" x="144.78" y="124.46" smashed="yes" rot="MR0">
 <attribute name="NAME" x="147.32" y="124.46" size="1.778" layer="95" align="center-left"/>
 </instance>
@@ -8954,7 +8941,7 @@ Kondensator am Gate halte ich für Unsinn.</text>
 <attribute name="NAME" x="116.84" y="119.38" size="1.778" layer="95" align="center-left"/>
 </instance>
 <instance part="GND31" gate="1" x="48.26" y="33.02"/>
-<instance part="LED301" gate="G$1" x="50.8" y="187.96" rot="MR270"/>
+<instance part="LED301" gate="G$1" x="63.5" y="190.5" rot="MR270"/>
 <instance part="GND32" gate="1" x="289.56" y="172.72"/>
 <instance part="GND33" gate="1" x="335.28" y="180.34"/>
 <instance part="GND34" gate="1" x="289.56" y="104.14"/>
@@ -9549,17 +9536,13 @@ Kondensator am Gate halte ich für Unsinn.</text>
 <net name="VBUS" class="0">
 <segment>
 <pinref part="U300" gate="A" pin="VBUS"/>
-<wire x1="73.66" y1="198.12" x2="45.72" y2="198.12" width="0.1524" layer="91"/>
-<label x="43.18" y="198.12" size="1.778" layer="95" rot="R180" xref="yes"/>
-<wire x1="45.72" y1="198.12" x2="43.18" y2="198.12" width="0.1524" layer="91"/>
-<wire x1="48.26" y1="193.04" x2="45.72" y2="193.04" width="0.1524" layer="91"/>
-<wire x1="45.72" y1="198.12" x2="45.72" y2="193.04" width="0.1524" layer="91"/>
-<junction x="45.72" y="198.12"/>
-<pinref part="LED300" gate="G$1" pin="A"/>
-<pinref part="LED301" gate="G$1" pin="A"/>
-<wire x1="45.72" y1="193.04" x2="45.72" y2="187.96" width="0.1524" layer="91"/>
-<wire x1="45.72" y1="187.96" x2="48.26" y2="187.96" width="0.1524" layer="91"/>
-<junction x="45.72" y="193.04"/>
+<wire x1="73.66" y1="198.12" x2="40.64" y2="198.12" width="0.1524" layer="91"/>
+<label x="35.56" y="198.12" size="1.778" layer="95" rot="R180" xref="yes"/>
+<wire x1="40.64" y1="198.12" x2="35.56" y2="198.12" width="0.1524" layer="91"/>
+<wire x1="40.64" y1="198.12" x2="40.64" y2="193.04" width="0.1524" layer="91"/>
+<junction x="40.64" y="198.12"/>
+<pinref part="R300" gate="A" pin="2"/>
+<wire x1="40.64" y1="193.04" x2="45.72" y2="193.04" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="Q310" gate="A" pin="S"/>
@@ -9583,23 +9566,17 @@ Kondensator am Gate halte ich für Unsinn.</text>
 <wire x1="40.64" y1="185.42" x2="73.66" y2="185.42" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="STAT" class="0">
-<segment>
-<pinref part="U300" gate="A" pin="STAT"/>
-<pinref part="R300" gate="A" pin="1"/>
-<wire x1="73.66" y1="193.04" x2="71.12" y2="193.04" width="0.1524" layer="91"/>
-</segment>
-</net>
 <net name="N$19" class="0">
 <segment>
-<pinref part="R300" gate="A" pin="2"/>
-<wire x1="55.88" y1="193.04" x2="58.42" y2="193.04" width="0.1524" layer="91"/>
+<wire x1="68.58" y1="195.58" x2="71.12" y2="195.58" width="0.1524" layer="91"/>
 <pinref part="LED300" gate="G$1" pin="C"/>
 <pinref part="LED301" gate="G$1" pin="C"/>
-<wire x1="58.42" y1="193.04" x2="60.96" y2="193.04" width="0.1524" layer="91"/>
-<wire x1="55.88" y1="187.96" x2="58.42" y2="187.96" width="0.1524" layer="91"/>
-<wire x1="58.42" y1="187.96" x2="58.42" y2="193.04" width="0.1524" layer="91"/>
-<junction x="58.42" y="193.04"/>
+<wire x1="68.58" y1="190.5" x2="71.12" y2="190.5" width="0.1524" layer="91"/>
+<wire x1="71.12" y1="190.5" x2="71.12" y2="193.04" width="0.1524" layer="91"/>
+<pinref part="U300" gate="A" pin="STAT"/>
+<wire x1="71.12" y1="193.04" x2="71.12" y2="195.58" width="0.1524" layer="91"/>
+<wire x1="71.12" y1="193.04" x2="73.66" y2="193.04" width="0.1524" layer="91"/>
+<junction x="71.12" y="193.04"/>
 </segment>
 </net>
 <net name="EN_5V5" class="0">
@@ -9736,6 +9713,19 @@ Kondensator am Gate halte ich für Unsinn.</text>
 <wire x1="68.58" y1="25.4" x2="66.04" y2="25.4" width="0.1524" layer="91"/>
 <label x="66.04" y="25.4" size="0.8128" layer="95" rot="MR0" xref="yes"/>
 <pinref part="X140" gate="G$1" pin="4"/>
+</segment>
+</net>
+<net name="N$20" class="0">
+<segment>
+<pinref part="LED301" gate="G$1" pin="A"/>
+<pinref part="LED300" gate="G$1" pin="A"/>
+<wire x1="60.96" y1="195.58" x2="58.42" y2="195.58" width="0.1524" layer="91"/>
+<wire x1="58.42" y1="195.58" x2="58.42" y2="193.04" width="0.1524" layer="91"/>
+<wire x1="58.42" y1="193.04" x2="58.42" y2="190.5" width="0.1524" layer="91"/>
+<wire x1="58.42" y1="190.5" x2="60.96" y2="190.5" width="0.1524" layer="91"/>
+<pinref part="R300" gate="A" pin="1"/>
+<wire x1="55.88" y1="193.04" x2="58.42" y2="193.04" width="0.1524" layer="91"/>
+<junction x="58.42" y="193.04"/>
 </segment>
 </net>
 </nets>
