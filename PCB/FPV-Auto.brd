@@ -8,26 +8,26 @@
 </settings>
 <grid distance="0.5" unitdist="mm" unit="mm" style="lines" multiple="1" display="no" altdistance="0.1" altunitdist="mm" altunit="mm"/>
 <layers>
-<layer number="1" name="Top" color="4" fill="1" visible="no" active="yes"/>
+<layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="2" name="GND" color="3" fill="1" visible="no" active="yes"/>
 <layer number="3" name="Route3" color="4" fill="3" visible="no" active="no"/>
 <layer number="14" name="Route14" color="1" fill="6" visible="no" active="no"/>
 <layer number="15" name="Route15" color="5" fill="1" visible="no" active="yes"/>
-<layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
+<layer number="16" name="Bottom" color="1" fill="1" visible="no" active="yes"/>
 <layer number="17" name="Pads" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="18" name="Vias" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="yes"/>
 <layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="yes"/>
 <layer number="21" name="tPlace" color="7" fill="1" visible="no" active="yes"/>
 <layer number="22" name="bPlace" color="7" fill="1" visible="no" active="yes"/>
-<layer number="23" name="tOrigins" color="15" fill="1" visible="no" active="yes"/>
-<layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="yes"/>
+<layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="yes"/>
+<layer number="24" name="bOrigins" color="15" fill="1" visible="no" active="yes"/>
 <layer number="25" name="tNames" color="7" fill="1" visible="no" active="yes"/>
 <layer number="26" name="bNames" color="7" fill="1" visible="no" active="yes"/>
 <layer number="27" name="tValues" color="7" fill="1" visible="no" active="yes"/>
 <layer number="28" name="bValues" color="7" fill="1" visible="no" active="yes"/>
-<layer number="29" name="tStop" color="7" fill="3" visible="no" active="yes"/>
-<layer number="30" name="bStop" color="7" fill="6" visible="yes" active="yes"/>
+<layer number="29" name="tStop" color="7" fill="3" visible="yes" active="yes"/>
+<layer number="30" name="bStop" color="7" fill="6" visible="no" active="yes"/>
 <layer number="31" name="tCream" color="7" fill="4" visible="no" active="yes"/>
 <layer number="32" name="bCream" color="7" fill="5" visible="no" active="yes"/>
 <layer number="33" name="tFinish" color="6" fill="3" visible="no" active="yes"/>
@@ -1876,7 +1876,7 @@ Source: http://www.osram.convergy.de/ ... Lb_q993.pdf</description>
 <class number="0" name="default" width="0" drill="0">
 </class>
 </classes>
-<designrules name="PCB-POOL Standard_ML4">
+<designrules name="PCB-POOL Standard_ML4 *">
 <description language="de">&lt;b&gt;EAGLE Design Rules Prototypen  für PCB-POOL(R)&lt;/b&gt;
 &lt;p&gt;
 Wir haben in diesem DRU File alle notwendigen Design Einstellungen vorgenommen, damit Sie Ihre Leiterplatte 
@@ -1948,7 +1948,7 @@ Covered vias can be set in Masks (Limit).
 <param name="mlMaxStopFrame" value="0.2mm"/>
 <param name="mlMinCreamFrame" value="0mil"/>
 <param name="mlMaxCreamFrame" value="0.2mm"/>
-<param name="mlViaStopLimit" value="0mil"/>
+<param name="mlViaStopLimit" value="0.3mm"/>
 <param name="srRoundness" value="0"/>
 <param name="srMinRoundness" value="0mil"/>
 <param name="srMaxRoundness" value="0mil"/>
@@ -2075,8 +2075,8 @@ Covered vias can be set in Masks (Limit).
 <element name="R331" library="FPV-Auto" package="R0603" value="1M" x="37.41" y="18.3" rot="R270"/>
 <element name="R332" library="FPV-Auto" package="R0603" value="324K" x="37.41" y="21.2" rot="R270"/>
 <element name="R330" library="FPV-Auto" package="R0603" value="1M" x="39.11" y="20.4" rot="R270"/>
-<element name="C331" library="FPV-Auto" package="C0402" value="1µF" x="41.61" y="19.9" rot="R180"/>
-<element name="C330" library="FPV-Auto" package="C0603" value="10µF" x="41.61" y="21.8" rot="R180"/>
+<element name="C331" library="FPV-Auto" package="C0603" value="1µF" x="41.71" y="19.9" rot="R180"/>
+<element name="C330" library="FPV-Auto" package="C0603" value="10µF" x="41.61" y="21.9" rot="R180"/>
 <element name="C332" library="FPV-Auto" package="C0805" value="22µF" x="40.21" y="13"/>
 <element name="C333" library="FPV-Auto" package="C0805" value="22µF" x="36.81" y="11.3" rot="R90"/>
 <element name="C334" library="FPV-Auto" package="C0805" value="22µF" x="40.21" y="10.7"/>
@@ -2088,7 +2088,7 @@ Covered vias can be set in Masks (Limit).
 <element name="R341" library="FPV-Auto" package="R0603" value="1M" x="50.61" y="6.5" rot="R90"/>
 <element name="R342" library="FPV-Auto" package="R0603" value="294K" x="50.61" y="2.9" rot="R90"/>
 <element name="R340" library="FPV-Auto" package="R0603" value="1M" x="48.91" y="2.9" rot="R90"/>
-<element name="C341" library="FPV-Auto" package="C0402" value="1µF" x="45.61" y="2.8"/>
+<element name="C341" library="FPV-Auto" package="C0603" value="1µF" x="45.61" y="2.7"/>
 <element name="C340" library="FPV-Auto" package="C0603" value="10µF" x="45.61" y="0.9"/>
 <element name="C342" library="FPV-Auto" package="C0805" value="22µF" x="47.11" y="9.8" rot="R180"/>
 <element name="C343" library="FPV-Auto" package="C0805" value="22µF" x="47.11" y="12.2" rot="R180"/>
@@ -2270,9 +2270,9 @@ Covered vias can be set in Masks (Limit).
 <contactref element="U300" pad="17"/>
 <contactref element="PAD_BAT-" pad="1"/>
 <contactref element="PAD_IN-" pad="1"/>
-<via x="40.21" y="20.8" extent="1-16" drill="0.3"/>
-<via x="40.81" y="20.8" extent="1-16" drill="0.3"/>
-<via x="41.21" y="18.5" extent="1-16" drill="0.3"/>
+<via x="40.21" y="20.9" extent="1-16" drill="0.3"/>
+<via x="40.81" y="20.9" extent="1-16" drill="0.3"/>
+<via x="41.31" y="18.4" extent="1-16" drill="0.3"/>
 <via x="40.61" y="18.5" extent="1-16" drill="0.3"/>
 <via x="39.71" y="22.3" extent="1-16" drill="0.3"/>
 <via x="39.21" y="22.3" extent="1-16" drill="0.3"/>
@@ -2333,7 +2333,7 @@ Covered vias can be set in Masks (Limit).
 <wire x1="25.11" y1="14.3" x2="23.16" y2="14.3" width="0.3048" layer="16"/>
 <via x="44.91" y="8.8" extent="1-16" drill="0.3"/>
 <via x="51.01" y="0.7" extent="1-16" drill="0.3"/>
-<via x="40.61" y="19" extent="1-16" drill="0.3"/>
+<via x="40.91" y="18.9" extent="1-16" drill="0.3"/>
 <polygon width="0.254" layer="2">
 <vertex x="0" y="30.04"/>
 <vertex x="65.52" y="30.04"/>
@@ -2394,9 +2394,9 @@ Covered vias can be set in Masks (Limit).
 <via x="35.51" y="11.2" extent="1-16" drill="0.3"/>
 <wire x1="36.31" y1="10.475" x2="35.51" y2="10.475" width="0.3048" layer="16"/>
 <wire x1="35.51" y1="10.475" x2="35.51" y2="11.2" width="0.3048" layer="16"/>
-<via x="41.41" y="20.8" extent="1-16" drill="0.3"/>
+<via x="41.41" y="20.9" extent="1-16" drill="0.3"/>
 <via x="38.41" y="22.7" extent="1-16" drill="0.3"/>
-<via x="40.41" y="22.8" extent="1-16" drill="0.3"/>
+<via x="40.41" y="22.9" extent="1-16" drill="0.3"/>
 <via x="38.71" y="22.3" extent="1-16" drill="0.3"/>
 <wire x1="29.67" y1="14.7" x2="30.4" y2="15.43" width="0.254" layer="16"/>
 <wire x1="30.4" y1="15.43" x2="30.4" y2="15.71" width="0.254" layer="16"/>
@@ -2517,7 +2517,7 @@ Covered vias can be set in Masks (Limit).
 <via x="52.31" y="2.2" extent="1-16" drill="0.3"/>
 <via x="53.51" y="2.2" extent="1-16" drill="0.3"/>
 <via x="53.01" y="8.7" extent="1-16" drill="0.3"/>
-<via x="41.21" y="19" extent="1-16" drill="0.3"/>
+<via x="41.41" y="18.9" extent="1-16" drill="0.3"/>
 <via x="46.68" y="4.2" extent="1-16" drill="0.3"/>
 <via x="46.08" y="3.7" extent="1-16" drill="0.3"/>
 <via x="46.68" y="3.7" extent="1-16" drill="0.3"/>
