@@ -8,24 +8,24 @@
 </settings>
 <grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
-<layer number="1" name="Top" color="4" fill="1" visible="yes" active="no"/>
-<layer number="2" name="Route2" color="3" fill="1" visible="yes" active="no"/>
-<layer number="3" name="Route3" color="4" fill="3" visible="yes" active="no"/>
-<layer number="14" name="Route14" color="1" fill="6" visible="yes" active="no"/>
-<layer number="15" name="Route15" color="5" fill="1" visible="yes" active="no"/>
-<layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="no"/>
-<layer number="17" name="Pads" color="2" fill="1" visible="yes" active="no"/>
-<layer number="18" name="Vias" color="2" fill="1" visible="yes" active="no"/>
-<layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="no"/>
-<layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="no"/>
-<layer number="21" name="tPlace" color="7" fill="1" visible="yes" active="no"/>
-<layer number="22" name="bPlace" color="7" fill="1" visible="yes" active="no"/>
-<layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="no"/>
-<layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="no"/>
-<layer number="25" name="tNames" color="7" fill="1" visible="yes" active="no"/>
-<layer number="26" name="bNames" color="7" fill="1" visible="yes" active="no"/>
-<layer number="27" name="tValues" color="7" fill="1" visible="yes" active="no"/>
-<layer number="28" name="bValues" color="7" fill="1" visible="yes" active="no"/>
+<layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
+<layer number="2" name="Route2" color="3" fill="1" visible="no" active="no"/>
+<layer number="3" name="Route3" color="4" fill="3" visible="no" active="no"/>
+<layer number="14" name="Route14" color="1" fill="6" visible="no" active="no"/>
+<layer number="15" name="Route15" color="5" fill="1" visible="no" active="no"/>
+<layer number="16" name="Bottom" color="1" fill="1" visible="no" active="no"/>
+<layer number="17" name="Pads" color="2" fill="1" visible="no" active="no"/>
+<layer number="18" name="Vias" color="2" fill="1" visible="no" active="no"/>
+<layer number="19" name="Unrouted" color="6" fill="1" visible="no" active="no"/>
+<layer number="20" name="Dimension" color="15" fill="1" visible="no" active="no"/>
+<layer number="21" name="tPlace" color="7" fill="1" visible="no" active="no"/>
+<layer number="22" name="bPlace" color="7" fill="1" visible="no" active="no"/>
+<layer number="23" name="tOrigins" color="15" fill="1" visible="no" active="no"/>
+<layer number="24" name="bOrigins" color="15" fill="1" visible="no" active="no"/>
+<layer number="25" name="tNames" color="7" fill="1" visible="no" active="no"/>
+<layer number="26" name="bNames" color="7" fill="1" visible="no" active="no"/>
+<layer number="27" name="tValues" color="7" fill="1" visible="no" active="no"/>
+<layer number="28" name="bValues" color="7" fill="1" visible="no" active="no"/>
 <layer number="29" name="tStop" color="7" fill="3" visible="no" active="no"/>
 <layer number="30" name="bStop" color="7" fill="6" visible="no" active="no"/>
 <layer number="31" name="tCream" color="7" fill="4" visible="no" active="no"/>
@@ -34,8 +34,8 @@
 <layer number="34" name="bFinish" color="6" fill="6" visible="no" active="no"/>
 <layer number="35" name="tGlue" color="7" fill="4" visible="no" active="no"/>
 <layer number="36" name="bGlue" color="7" fill="5" visible="no" active="no"/>
-<layer number="37" name="tTest" color="7" fill="1" visible="yes" active="no"/>
-<layer number="38" name="bTest" color="7" fill="1" visible="yes" active="no"/>
+<layer number="37" name="tTest" color="7" fill="1" visible="no" active="no"/>
+<layer number="38" name="bTest" color="7" fill="1" visible="no" active="no"/>
 <layer number="39" name="tKeepout" color="4" fill="11" visible="no" active="no"/>
 <layer number="40" name="bKeepout" color="1" fill="11" visible="no" active="no"/>
 <layer number="41" name="tRestrict" color="4" fill="10" visible="no" active="no"/>
@@ -43,19 +43,19 @@
 <layer number="43" name="vRestrict" color="2" fill="10" visible="no" active="no"/>
 <layer number="44" name="Drills" color="7" fill="1" visible="no" active="no"/>
 <layer number="45" name="Holes" color="7" fill="1" visible="no" active="no"/>
-<layer number="46" name="Milling" color="3" fill="1" visible="yes" active="no"/>
-<layer number="47" name="Measures" color="7" fill="1" visible="yes" active="no"/>
-<layer number="48" name="Document" color="7" fill="1" visible="yes" active="no"/>
-<layer number="49" name="Reference" color="7" fill="1" visible="yes" active="no"/>
-<layer number="50" name="dxf" color="7" fill="1" visible="yes" active="no"/>
-<layer number="51" name="tDocu" color="7" fill="1" visible="yes" active="no"/>
-<layer number="52" name="bDocu" color="7" fill="1" visible="yes" active="no"/>
-<layer number="53" name="tGND_GNDA" color="7" fill="1" visible="yes" active="no"/>
-<layer number="54" name="bGND_GNDA" color="7" fill="1" visible="yes" active="no"/>
-<layer number="56" name="wert" color="7" fill="1" visible="yes" active="no"/>
-<layer number="57" name="tCAD" color="7" fill="1" visible="yes" active="no"/>
-<layer number="59" name="tCarbon" color="7" fill="1" visible="yes" active="no"/>
-<layer number="60" name="bCarbon" color="7" fill="1" visible="yes" active="no"/>
+<layer number="46" name="Milling" color="3" fill="1" visible="no" active="no"/>
+<layer number="47" name="Measures" color="7" fill="1" visible="no" active="no"/>
+<layer number="48" name="Document" color="7" fill="1" visible="no" active="no"/>
+<layer number="49" name="Reference" color="7" fill="1" visible="no" active="no"/>
+<layer number="50" name="dxf" color="7" fill="1" visible="no" active="no"/>
+<layer number="51" name="tDocu" color="7" fill="1" visible="no" active="no"/>
+<layer number="52" name="bDocu" color="7" fill="1" visible="no" active="no"/>
+<layer number="53" name="tGND_GNDA" color="7" fill="1" visible="no" active="no"/>
+<layer number="54" name="bGND_GNDA" color="7" fill="1" visible="no" active="no"/>
+<layer number="56" name="wert" color="7" fill="1" visible="no" active="no"/>
+<layer number="57" name="tCAD" color="7" fill="1" visible="no" active="no"/>
+<layer number="59" name="tCarbon" color="7" fill="1" visible="no" active="no"/>
+<layer number="60" name="bCarbon" color="7" fill="1" visible="no" active="no"/>
 <layer number="88" name="SimResults" color="9" fill="1" visible="no" active="yes"/>
 <layer number="89" name="SimProbes" color="9" fill="1" visible="no" active="yes"/>
 <layer number="90" name="Modules" color="5" fill="1" visible="yes" active="yes"/>
@@ -8120,7 +8120,7 @@ Source: www.kingbright.com</description>
 <part name="R321" library="FPV-Auto" deviceset="R" device="" value="1K"/>
 <part name="D321" library="diode" deviceset="BAT54A" device=""/>
 <part name="R350" library="FPV-Auto" deviceset="R" device="" value="10K"/>
-<part name="RT301" library="FPV-Auto" deviceset="R" device=""/>
+<part name="RT301" library="FPV-Auto" deviceset="R" device="" value="NTCS0603E3103FLT"/>
 <part name="U140" library="FPV-Auto" deviceset="DRV8835" device=""/>
 <part name="R140" library="FPV-Auto" deviceset="R" device="" value="1K"/>
 <part name="+3V5" library="supply1" deviceset="+3V3" device=""/>
@@ -8227,15 +8227,10 @@ Zero W V1.1</text>
 <text x="320.04" y="165.1" size="6.35" layer="94" rot="R180" align="bottom-center">Servo</text>
 <text x="96.52" y="58.42" size="1.778" layer="97" align="bottom-center">button
 connector</text>
-<text x="91.44" y="15.24" size="1.778" layer="150" align="center">RASPI GPIO #22</text>
+<text x="91.44" y="15.24" size="1.778" layer="97" align="center">RASPI GPIO #22</text>
 <text x="121.92" y="116.84" size="6.35" layer="94" rot="R180" align="bottom-center">Power on and
 programming
 push button</text>
-<text x="116.84" y="83.82" size="1.778" layer="150" align="center">test circuit!!!
-we might reset arduino
-on powerup</text>
-<text x="195.58" y="127" size="1.27" layer="254">DIN, BCLK, LRCLK was on wrong pins (was pin# instead GPIO#). 
-Should be now: DIN=GPIO21, BLCK=GPIO18, LRCLK=GPIO19</text>
 <text x="208.28" y="93.98" size="1.27" layer="97">SD_MODE only connected to resistor. 
 Resistor defines channel: 
 1M = L+R mode, 
@@ -8243,15 +8238,18 @@ Resistor defines channel:
 0k = L only</text>
 <text x="203.2" y="20.32" size="1.27" layer="97" align="top-left">R211 = default open 
 (should be good for Raspberry)</text>
-<text x="195.58" y="154.94" size="1.4224" layer="97" rot="R90">Arduino avrdude w auto-reset:
+<text x="193.04" y="149.86" size="1.4224" layer="97" rot="R90">Arduino avrdude w auto-reset:
 https://github.com/SpellFoundry/avrdude-rpi</text>
-<text x="340.36" y="27.94" size="1.4224" layer="94">Unsere Namen hier irgendwo</text>
-<text x="172.72" y="137.16" size="1.4224" layer="254" rot="R90">All pins checked -  seems to be ok.</text>
-<text x="86.36" y="73.66" size="1.4224" layer="254">Reset on power-up does not 
-matter - all supplies held 
-by button already.</text>
-<text x="142.24" y="35.56" size="1.4224" layer="254">Add-on to detect 
+<text x="86.36" y="71.12" size="1.4224" layer="97">Hold button while programming
+AVR via Raspberry Pi otherwise
+supply of Raspberry will get
+turned off.
+
+</text>
+<text x="142.24" y="35.56" size="1.4224" layer="97">Add-on to detect 
 button press after start-up</text>
+<text x="294.64" y="27.94" size="2.1844" layer="94">FPV-Auto V1.0, https://hackffm.de/fpva
+[CC BY] David Mergers, Lutz Lisseck 2019</text>
 </plain>
 <instances>
 <instance part="U100" gate="A" x="101.6" y="165.1"/>
@@ -9160,14 +9158,12 @@ button press after start-up</text>
 <text x="307.34" y="228.6" size="6.35" layer="94" rot="R180" align="bottom-center">+5V1</text>
 <text x="73.66" y="104.14" size="6.35" layer="94" rot="R180" align="bottom-center">motor controller</text>
 <text x="309.88" y="81.28" size="6.35" layer="94" rot="R180" align="bottom-center">3V3 LDO</text>
-<text x="340.36" y="190.5" size="1.778" layer="150" rot="R90" align="top-center">5,1V -&gt; 324K
+<text x="340.36" y="185.42" size="1.778" layer="97" rot="R90" align="top-center">5,1V -&gt; 324K
 5,5V -&gt; 294K</text>
-<text x="340.36" y="121.92" size="1.778" layer="150" rot="R90" align="top-center">5,1V -&gt; 324K
+<text x="340.36" y="116.84" size="1.778" layer="97" rot="R90" align="top-center">5,1V -&gt; 324K
 5,5V -&gt; 294K</text>
 <text x="307.34" y="160.02" size="6.35" layer="94" rot="R180" align="bottom-center">+5V5</text>
 <text x="50.8" y="175.26" size="1.778" layer="150" rot="R90" align="center">R size?</text>
-<text x="119.38" y="218.44" size="1.778" layer="150" align="center">changed L
-please verify</text>
 <text x="284.48" y="215.9" size="1.778" layer="150" align="center">change L to ?
 74437356022</text>
 <text x="284.48" y="147.32" size="1.778" layer="150" align="center">change L to ?
@@ -9177,7 +9173,6 @@ please verify</text>
 <text x="172.72" y="104.14" size="6.35" layer="94" rot="R180" align="bottom-center">reverse polarity
 protection
 </text>
-<text x="167.64" y="162.56" size="1.778" layer="150" rot="R90" align="center">choose SMD NTC</text>
 <text x="289.56" y="177.8" size="1.778" layer="150" align="center">AGND</text>
 <text x="335.28" y="182.88" size="1.778" layer="150" align="center">AGND</text>
 <text x="289.56" y="109.22" size="1.778" layer="150" align="center">AGND</text>
@@ -9189,10 +9184,8 @@ protection
 <text x="152.4" y="152.4" size="1.778" layer="150" align="center">AGND</text>
 <text x="129.54" y="177.8" size="1.778" layer="150" align="center">AGND</text>
 <text x="91.44" y="119.38" size="1.778" layer="94">Max. 14V</text>
-<text x="193.04" y="215.9" size="1.778" layer="254">Poly GND für Audio
-Step-up Polygone</text>
-<text x="185.42" y="210.82" size="1.778" layer="254">Version o. Datum auf PCB</text>
-<text x="180.34" y="208.28" size="1.778" layer="254">Hackffm-Mänchen in Stop-Lack</text>
+<text x="299.72" y="27.94" size="2.1844" layer="94">FPV-Auto V1.0, https://hackffm.de/fpva
+[CC BY] David Mergers, Lutz Lisseck 2019</text>
 </plain>
 <instances>
 <instance part="FRAME2" gate="G$1" x="0" y="0"/>

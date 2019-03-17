@@ -9,27 +9,27 @@
 <grid distance="0.5" unitdist="mm" unit="mm" style="lines" multiple="1" display="no" altdistance="0.1" altunitdist="mm" altunit="mm"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
-<layer number="2" name="GND" color="3" fill="1" visible="no" active="yes"/>
+<layer number="2" name="GND" color="3" fill="1" visible="yes" active="yes"/>
 <layer number="3" name="Route3" color="4" fill="3" visible="no" active="no"/>
 <layer number="14" name="Route14" color="1" fill="6" visible="no" active="no"/>
-<layer number="15" name="Route15" color="5" fill="1" visible="no" active="yes"/>
-<layer number="16" name="Bottom" color="1" fill="1" visible="no" active="yes"/>
+<layer number="15" name="Route15" color="5" fill="1" visible="yes" active="yes"/>
+<layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
 <layer number="17" name="Pads" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="18" name="Vias" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="yes"/>
 <layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="yes"/>
 <layer number="21" name="tPlace" color="7" fill="1" visible="no" active="yes"/>
 <layer number="22" name="bPlace" color="7" fill="1" visible="no" active="yes"/>
-<layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="yes"/>
+<layer number="23" name="tOrigins" color="15" fill="1" visible="no" active="yes"/>
 <layer number="24" name="bOrigins" color="15" fill="1" visible="no" active="yes"/>
 <layer number="25" name="tNames" color="7" fill="1" visible="no" active="yes"/>
 <layer number="26" name="bNames" color="7" fill="1" visible="no" active="yes"/>
 <layer number="27" name="tValues" color="7" fill="1" visible="no" active="yes"/>
 <layer number="28" name="bValues" color="7" fill="1" visible="no" active="yes"/>
 <layer number="29" name="tStop" color="7" fill="3" visible="yes" active="yes"/>
-<layer number="30" name="bStop" color="7" fill="6" visible="no" active="yes"/>
-<layer number="31" name="tCream" color="7" fill="4" visible="no" active="yes"/>
-<layer number="32" name="bCream" color="7" fill="5" visible="no" active="yes"/>
+<layer number="30" name="bStop" color="7" fill="6" visible="yes" active="yes"/>
+<layer number="31" name="tCream" color="7" fill="4" visible="yes" active="yes"/>
+<layer number="32" name="bCream" color="7" fill="5" visible="yes" active="yes"/>
 <layer number="33" name="tFinish" color="6" fill="3" visible="no" active="yes"/>
 <layer number="34" name="bFinish" color="6" fill="6" visible="no" active="yes"/>
 <layer number="35" name="tGlue" color="7" fill="4" visible="no" active="yes"/>
@@ -178,9 +178,9 @@
 <wire x1="65.52" y1="0" x2="65.52" y2="30.68" width="0" layer="20"/>
 <wire x1="65.52" y1="30.68" x2="0" y2="30.68" width="0" layer="20"/>
 <wire x1="0" y1="30.68" x2="0" y2="0" width="0" layer="20"/>
-<text x="64.94" y="12.38" size="1.016" layer="30" font="vector" rot="MR90" align="top-center">Lutz Lisseck
+<text x="64.94" y="12.38" size="1.016" layer="30" font="vector" ratio="12" rot="MR90" align="top-center">Lutz Lisseck
 David Merges</text>
-<text x="48.5" y="30.2" size="1.016" layer="30" font="vector" rot="MR0" align="top-center">hackffm.de</text>
+<text x="47" y="30.2" size="1.016" layer="30" font="vector" ratio="10" rot="MR0" align="top-center">hackffm.de/fpva</text>
 <text x="64.02" y="22.14" size="1.016" layer="22" rot="MR270" align="top-center">Spkr</text>
 <wire x1="61.22" y1="18.04" x2="61.22" y2="17.64" width="0.2" layer="22"/>
 <wire x1="61.22" y1="15.44" x2="61.22" y2="15.04" width="0.2" layer="22"/>
@@ -188,6 +188,24 @@ David Merges</text>
 <wire x1="58.72" y1="18.04" x2="58.72" y2="17.64" width="0.2" layer="22"/>
 <wire x1="61.22" y1="9.84" x2="61.22" y2="9.44" width="0.2" layer="22"/>
 <wire x1="58.72" y1="9.84" x2="58.72" y2="9.54" width="0.2" layer="22"/>
+<text x="7" y="24" size="1.016" layer="30" font="vector" ratio="12" rot="MR180">Pin1</text>
+<text x="7.9" y="6" size="1.016" layer="30" font="vector" ratio="12" rot="MR0">+</text>
+<text x="7.6" y="0.6" size="1.016" layer="30" font="vector" ratio="12" rot="MR0">-</text>
+<text x="16.8" y="19.6" size="0.8128" layer="30" font="vector" ratio="12" rot="MR270">NTC</text>
+<text x="12.6" y="20.1" size="0.8128" layer="30" font="vector" ratio="12" rot="MR90">BTN</text>
+<text x="30" y="15.1" size="0.8128" layer="29" font="vector" ratio="12">+</text>
+<text x="32.2" y="18.3" size="0.8128" layer="29" font="vector" ratio="12">-</text>
+<text x="8.5" y="0.5" size="0.8128" layer="29" font="vector" ratio="12">-</text>
+<text x="8.5" y="6.8" size="0.8128" layer="29" font="vector" ratio="12">+</text>
+<text x="7.2" y="23.7" size="1.016" layer="29" font="vector" ratio="12">1</text>
+<text x="62.8" y="21.8" size="0.8128" layer="29" font="vector" ratio="12">SPK</text>
+<text x="62.8" y="18.9" size="0.8128" layer="29" font="vector" ratio="12">GND</text>
+<text x="62.8" y="16.3" size="0.8128" layer="29" font="vector" ratio="12">5V5</text>
+<text x="62.8" y="13.8" size="0.8128" layer="29" font="vector" ratio="12">PPM</text>
+<text x="62.8" y="10.8" size="0.8128" layer="29" font="vector" ratio="12">M1</text>
+<text x="62.8" y="8.3" size="0.8128" layer="29" font="vector" ratio="12">M2</text>
+<text x="56" y="9" size="1.016" layer="29" font="vector" ratio="12" rot="R90">FPV-Auto</text>
+<text x="57.3" y="9" size="1.016" layer="29" font="vector" ratio="12" rot="R90">V1.0</text>
 </plain>
 <libraries>
 <library name="FPV-Auto">
@@ -2131,7 +2149,7 @@ Covered vias can be set in Masks (Limit).
 <element name="R321" library="FPV-Auto" package="R0603" value="1K" x="14.21" y="21.8"/>
 <element name="D321" library="diode" package="SOT23" value="BAT54A" x="18.1" y="20.71" rot="R90"/>
 <element name="R350" library="FPV-Auto" package="R0603" value="10K" x="21.69" y="21.6"/>
-<element name="RT301" library="FPV-Auto" package="R0603" value="" x="16.5" y="18.3" rot="R270"/>
+<element name="RT301" library="FPV-Auto" package="R0603" value="NTCS0603E3103FLT" x="16.5" y="18.3" rot="R270"/>
 <element name="U140" library="FPV-Auto" package="DSS(WSON-12)" value="DRV8835" x="52.91" y="4.3" rot="MR0"/>
 <element name="R140" library="FPV-Auto" package="R0603" value="1K" x="49.61" y="6.6" rot="MR270"/>
 <element name="C100" library="FPV-Auto" package="C0603" value="100nF" x="23.01" y="15.3" rot="MR0"/>
@@ -2191,7 +2209,7 @@ Covered vias can be set in Masks (Limit).
 <attribute name="CODE" value="E5" x="3.9" y="12" size="1.778" layer="28" font="vector" rot="MR90" display="off"/>
 </element>
 <element name="U$3" library="FPV-Auto" package="HACKFFM_LOGO_STOP" value="" x="54.5" y="1"/>
-<element name="U$9" library="FPV-Auto" package="DATE" value="" x="36" y="30.2" rot="MR180"/>
+<element name="U$9" library="FPV-Auto" package="DATE" value="" x="33" y="30.2" rot="MR180"/>
 </elements>
 <signals>
 <signal name="GND">
