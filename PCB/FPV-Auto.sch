@@ -3831,7 +3831,7 @@ bq25892 I2C	Controlled Single Cell 5-A Fast Charger with MaxChargeTM Technology 
 <gate name="P" symbol="POWER" x="0" y="-50.8" addlevel="request"/>
 </gates>
 <devices>
-<device name="-AU" package="PBS(S-PQFP-G32)">
+<device name="-MU" package="PBS(S-PQFP-G32)">
 <connects>
 <connect gate="A" pin="ADC6" pad="19"/>
 <connect gate="A" pin="ADC7" pad="22"/>
@@ -8040,7 +8040,7 @@ Source: www.kingbright.com</description>
 </classes>
 <parts>
 <part name="U300" library="FPV-Auto" deviceset="BQ25892" device=""/>
-<part name="U100" library="FPV-Auto" deviceset="ATMEGA328P" device="-AU"/>
+<part name="U100" library="FPV-Auto" deviceset="ATMEGA328P" device="-MU"/>
 <part name="U350" library="FPV-Auto" deviceset="LP5907MFX-3.3/NOPB" device=""/>
 <part name="U200" library="FPV-Auto" deviceset="RASPBERRY_PI_ZERO_W_V1.1_GPIO" device="_DUAL" value="RASPBERRY_PI_ZERO_W_V1.1_GPIO_DUAL"/>
 <part name="U330" library="FPV-Auto" deviceset="TPS61236P" device=""/>
@@ -8096,7 +8096,7 @@ Source: www.kingbright.com</description>
 <part name="GND12" library="supply1" deviceset="GND" device=""/>
 <part name="C302" library="FPV-Auto" deviceset="C" device="0603" value="4,7µF"/>
 <part name="TP300" library="testpad" deviceset="TP" device="B1,27"/>
-<part name="R301" library="FPV-Auto" deviceset="R" device="" value="?"/>
+<part name="R301" library="FPV-Auto" deviceset="R" device="" value="330R"/>
 <part name="R302" library="FPV-Auto" deviceset="R" device="" value="10K"/>
 <part name="C304" library="FPV-Auto" deviceset="C" device="0805" value="10µF"/>
 <part name="C305" library="FPV-Auto" deviceset="C" device="0805" value="10µF"/>
