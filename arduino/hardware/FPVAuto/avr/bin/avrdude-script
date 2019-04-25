@@ -1,2 +1,3 @@
 #!/bin/sh
+echo "Broken pipe warnings can be ignored..."
 sudo strace -o "|avrdude-gpio-autoreset" -eioctl $@
