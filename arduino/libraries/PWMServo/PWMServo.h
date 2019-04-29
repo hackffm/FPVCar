@@ -26,7 +26,7 @@
 
 #include <inttypes.h>
 
-#if defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__) // Arduino
+#if defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__) || defined(__AVR_ATmega328__) // Arduino
   #define SERVO_PIN_A 9
   #define SERVO_PIN_B 10
 #elif defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__) // Arduino Mega

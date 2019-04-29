@@ -54,8 +54,8 @@ void setup() {
   
   myservo1.attach(SERVO_PIN_A);  
   myservo2.attach(SERVO_PIN_B); 
-  myservo1.write(1800-400);           
-  myservo2.write(1800-1000);  
+  myservo1.write(90);           
+  myservo2.write(90);  
   delay(100);
   
   pinMode(EN_5V5, OUTPUT);
@@ -70,7 +70,7 @@ void loop() {
   serialParser();
   if(((uint16_t)millis() - driveTimeout) > DTIMEOUT) {
     driveTimeout = millis();
-    drive(0,0,0);    
+    //drive(0,0,0);    
   }
 
 }
@@ -88,7 +88,6 @@ void drive(short x, short y, short rotate) {
   // later: add acceleration here
   act_x = constrain(x,-255,255);
   act_y = constrain(y,-255,255);
-  
   act_rotate = constrain((rotate*3),-255,255);
   
   updateWheels();
@@ -99,14 +98,21 @@ void drive(short x, short y, short rotate) {
  * APHASE = Set direction
  * AENBL  = H enable H-bridge
  *
- *
+ * left positive = left motors forward
+ * right positive = right motors forward
  */
 void fahr(int left, int right) {
+  //Serial.print("Fahr ");
+  //Serial.print(left);
+  //Serial.print(", ");
+  //Serial.println(right);
+  
   if((right == 0) && (left == 0)) {
     // digitalWrite(EN_5V5, LOW); // Motors off
   } else {
     // digitalWrite(EN_5V5, HIGH); // Motors on
   }
+  
   if(right == 0) {
     digitalWrite(DRV_AENBL, LOW);
   } else if(right < 0) {
@@ -116,6 +122,7 @@ void fahr(int left, int right) {
     digitalWrite(DRV_APHASE, LOW);
     analogWrite(DRV_AENBL, right);
   }
+  
   if(left == 0) {
     digitalWrite(DRV_BENBL, LOW);
   } else if(left < 0) {
@@ -170,35 +177,37 @@ void serialParser() {
 
           case ' ': // stop
             fahr(0,0);
+            Serial.print("ADC: ");
+            Serial.println(analogRead(BUTTON_SENSE));
             break;
             
           case 'a': // left
-            fahr(-speed3,-speed2);
+            fahr(speed3,speed2);
             driveTimeout = millis();
             break;
             
           case 'd': // right
-            fahr(-speed2,-speed3);
+            fahr(speed2,speed3);
             driveTimeout = millis();
             break; 
     
           case 's': // backward
-            fahr(speed0,speed0);
+            fahr(-speed0,-speed0);
             driveTimeout = millis();
             break;  
    
           case 'w': // forward 
-            fahr(-speed0,-speed0);
+            fahr(speed0,speed0);
             driveTimeout = millis();
             break;  
 
           case 'q': // rotate left
-            fahr(speed1,-speed1);
+            fahr(-speed1,speed1);
             driveTimeout = millis();
             break;
    
           case 'e': // rotate right
-            fahr(-speed1,speed1);
+            fahr(speed1,-speed1);
             driveTimeout = millis();
             break;      
       
@@ -230,6 +239,21 @@ void serialParser() {
             }
             break;          
 
+          case 'f':
+          case 'F':
+            if(charCount>=2) {
+              short ll; 
+              short rr;
+              r = sscanf_P(&cmd[1],PSTR("%d %d"),&ll,&rr);
+              if(r>=2) {
+                if(cmd[0] == 'f') { 
+                  fahr(ll,rr); 
+                  driveTimeout = millis();                  
+                }
+              }
+            }
+            break; 
+
           case 'n':
           case 'N':
             if(charCount>=2) {
@@ -238,8 +262,8 @@ void serialParser() {
               r = sscanf_P(&cmd[1],PSTR("%i %i"),&rl,&ou);
               if(r==2) {
                 if(cmd[0] == 'N') {
-                  myservo2.write(1800-rl);
-                  myservo1.write(1800-ou);
+                  myservo2.write(rl);
+                  myservo1.write(ou);
                   driveTimeout = millis(); 
                 } else {
                   Serial.print("N ");
@@ -305,7 +329,7 @@ void serialParser() {
                   r = sscanf_P(&cmd[2],PSTR("%i"),&posi);
                   if(r==1) {
                     Serial.println(posi);
-                    myservo1.write(1800-posi); 
+                    myservo1.write(posi); 
                   } else {
                     Serial.println("?");
                   }
@@ -316,7 +340,7 @@ void serialParser() {
                   r = sscanf_P(&cmd[2],PSTR("%i"),&posi);
                   if(r==1) {
                     Serial.println(posi);
-                    myservo2.write(1800-posi); 
+                    myservo2.write(posi); 
                   } else {
                     Serial.println("?");
                   }
