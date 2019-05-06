@@ -2,6 +2,7 @@
  Servo on 9, 10
  */
 #include <PWMServo.h>
+#include <Wire.h>
 
 PWMServo myservo1, myservo2;
  
@@ -18,8 +19,10 @@ PWMServo myservo1, myservo2;
 #define DRV_BPHASE     5
 #define BUTTON_SENSE  A7
 
-int speed0 = 60;  // forward/backward
-int speed1 = 75;  // turn on same position
+#define CHARGER_ADR   0x6B
+
+int speed0 = 100;  // forward/backward
+int speed1 = 80;  // turn on same position
 int speed2 = 80;
 int speed3 = 20;
 
@@ -35,11 +38,36 @@ int loopCnt = 0;
 #define DTIMEOUT 2000
 uint16_t driveTimeout = 0;
 
+int chgRegWrite(uint8_t reg, uint8_t data) {
+  int ret = 0;
+  
+  Wire.beginTransmission(CHARGER_ADR);
+  Wire.write(reg);
+  Wire.write(data);
+  ret = Wire.endTransmission(true);   
+  return(ret);
+}
 
+int chgRegRead(uint8_t reg) {
+  int ret = 0;
+  
+  Wire.beginTransmission(CHARGER_ADR);
+  Wire.write(reg);
+  ret = Wire.endTransmission(false);  
+  if(ret == 0) {
+    Wire.requestFrom(CHARGER_ADR, 1, true);
+    ret = Wire.read();
+    Wire.endTransmission();
+  } else {
+    ret = -ret;
+  }
+  return(ret);
+}  
 
 // the setup routine runs once when you press reset:
 void setup() {     
   Serial.begin(38400);
+  Wire.begin();
   
   pinMode(EN_3V3, OUTPUT);
   digitalWrite(EN_3V3, HIGH); 
@@ -216,6 +244,33 @@ void serialParser() {
               Serial.println(millivolt);
             }
             break;       
+            
+          case 'i':
+            if(charCount>=2) {
+              short reg;
+              short dat;
+              r = sscanf_P(&cmd[1],PSTR("%x %x"),&reg,&dat);
+              if(r == 1) {
+                Serial.print("R ");
+                Serial.print(reg, HEX);
+                Serial.print(":0x");
+                Serial.println(chgRegRead(reg), HEX);
+              } else if(r == 2) {
+                Serial.print("W ");
+                Serial.print(reg, HEX);
+                Serial.print(":0x");
+                Serial.print(dat, HEX);
+                Serial.print(" Res:");
+                Serial.println(chgRegWrite(reg, dat)); 
+              }
+            } else {
+              for(int i=0; i<0x14; i++) {
+                Serial.print(i, HEX);
+                Serial.print(":0x");
+                Serial.println(chgRegRead(i), HEX);
+              }
+            }
+            break;
 
           case 'm':
           case 'M':
