@@ -22,9 +22,9 @@ PWMServo myservo1, myservo2;
 #define CHARGER_ADR   0x6B
 
 int speed0 = 100;  // forward/backward
-int speed1 = 80;  // turn on same position
-int speed2 = 80;
-int speed3 = 20;
+int speed1 = 200;  // turn on same position
+int speed2 = 120;
+int speed3 = 60;
 
 long ll, rr;
 long act_x = 0;
@@ -57,12 +57,27 @@ int chgRegRead(uint8_t reg) {
   if(ret == 0) {
     Wire.requestFrom(CHARGER_ADR, 1, true);
     ret = Wire.read();
-    Wire.endTransmission();
   } else {
     ret = -ret;
   }
   return(ret);
 }  
+
+int chgVbat() {
+  chgRegWrite(0x02, 0x8d); // enable ADC in charger
+  delay(100);
+  int v = chgRegRead(0x0e);
+  if(v<0) return(v);
+  int volt = 2304;
+  if(v & 1) volt += 20;
+  if(v & 2) volt += 40;
+  if(v & 4) volt += 80;
+  if(v & 8) volt += 160;
+  if(v & 16) volt += 320;
+  if(v & 32) volt += 640;
+  if(v & 64) volt += 1280;
+  return(volt);
+}
 
 // the setup routine runs once when you press reset:
 void setup() {     
@@ -88,6 +103,7 @@ void setup() {
   
   pinMode(EN_5V5, OUTPUT);
   digitalWrite(EN_5V5, HIGH);
+
   
   delay(100);
 }
@@ -98,18 +114,9 @@ void loop() {
   serialParser();
   if(((uint16_t)millis() - driveTimeout) > DTIMEOUT) {
     driveTimeout = millis();
-    //drive(0,0,0);    
+    drive(0,0,0);    
   }
 
-}
-
-void updateWheels() {
-  // calculate wheel speed
-  //if(act_y < 0) act_x = -act_x;
-  ll = -(act_x/2) - act_y - act_rotate;
-  rr = +(act_x/2) - act_y + act_rotate;
-  
-  fahr(constrain(ll,-255,255), constrain(rr,-255,255));  
 }
 
 void drive(short x, short y, short rotate) {  
@@ -118,7 +125,12 @@ void drive(short x, short y, short rotate) {
   act_y = constrain(y,-255,255);
   act_rotate = constrain((rotate*3),-255,255);
   
-  updateWheels();
+  // calculate wheel speed
+  //if(act_y < 0) act_x = -act_x;
+  ll = -(act_x/2) - act_y - act_rotate;
+  rr = +(act_x/2) - act_y + act_rotate;
+  
+  fahr(ll, rr); 
 }
 
 /**
@@ -130,6 +142,8 @@ void drive(short x, short y, short rotate) {
  * right positive = right motors forward
  */
 void fahr(int left, int right) {
+  left = constrain(left, -255, 255);
+  right = constrain(right, -255, 255);
   //Serial.print("Fahr ");
   //Serial.print(left);
   //Serial.print(", ");
@@ -241,7 +255,7 @@ void serialParser() {
       
           case 'v':
             {
-              Serial.println(millivolt);
+              Serial.println(chgVbat());
             }
             break;       
             

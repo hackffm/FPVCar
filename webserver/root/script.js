@@ -4,7 +4,7 @@ Number.prototype.map = function(in_min, in_max, out_min, out_max) {
 }
 
 window.onload = function() {
-  ws = new WebSocket("ws://raspberrypi:9090/websocket");
+  ws = new WebSocket("ws://oros-fpvcar:9090/websocket");
 
   ws.onmessage = function(e) {
     //alert(e.data);
@@ -84,9 +84,13 @@ window.onload = function() {
   function printPos(pos) {
     document.getElementById("xy").innerHTML = "x:" + pos.x + "  y:" + pos.y;
     document.getElementById("cxcy").innerHTML = "cx:" + pos.cx + "  cy:" + pos.cy;
+	if(pos.left > 255) pos.left = 255;
+	if(pos.left < -255) pos.left = -255;
+	if(pos.right > 255) pos.right = 255;
+	if(pos.right < -255) pos.right = -255;
     document.getElementById("lr").innerHTML = "l:" + pos.left + "  r:" + pos.right;
-    ws.send("l" + pos.left + "\r");
-    ws.send("r" + pos.right + "\r");
+    ws.send("f" + pos.left + " " + pos.right + "\r");
+    //ws.send("r" + pos.right + "\r");
   }
 
   function drawHandle(pos) {
@@ -102,7 +106,7 @@ window.onload = function() {
 }
 
 function sendMsg() {
-  ws.send(document.getElementById('msg').value);
+  ws.send(document.getElementById('msg').value  + "\r");
 }
 
 function echo() {
