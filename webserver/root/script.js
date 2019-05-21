@@ -4,7 +4,7 @@ Number.prototype.map = function(in_min, in_max, out_min, out_max) {
 }
 
 window.onload = function() {
-  ws = new WebSocket("ws://oros-fpvcar:9090/websocket");
+  ws = new WebSocket("ws://"+hostname+":9090/websocket");
 
   ws.onmessage = function(e) {
     //alert(e.data);
