@@ -4,14 +4,14 @@ import tornado.httpserver
 import tornado.ioloop
 import serial
 import _thread
-#import pygame
+import pygame
 import socket
 
 ser = serial.Serial('/dev/ttyS0', 38400)
 print(ser.name)
 hostname = socket.gethostname()
 print(hostname)
-#pygame.mixer.init(44100, -16, 1, 1024)
+pygame.mixer.init(44100, -16, 1, 1024)
 
 
 def readSerial():
@@ -34,9 +34,9 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
 		print ('from WebSocket: ', message)
 		if(message[0] == 'x'):
 			print('x')
-			#pygame.mixer.music.load("samples/321967__n-audioman__sheep-bleat.wav")
+			pygame.mixer.music.load("sound/chicken.wav")
 			#pygame.mixer.music.load("/home/pi/Music/cow.wav")
-			#pygame.mixer.music.play()
+			pygame.mixer.music.play()
 		else:
 			ser.write(message.encode());	# received from WebSocket writen to arduino
 
