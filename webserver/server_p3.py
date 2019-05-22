@@ -3,7 +3,7 @@ import tornado.websocket
 import tornado.httpserver
 import tornado.ioloop
 import serial
-import thread
+import _thread
 #import pygame
 import socket
 
@@ -66,7 +66,7 @@ class Application(tornado.web.Application):
 
 if __name__ == '__main__':
     ser.flushInput()
-    thread.start_new_thread(readSerial, ())
+    _thread.start_new_thread(readSerial, ())
     ws_app = Application()
     server = tornado.httpserver.HTTPServer(ws_app)
     server.listen(9090)
