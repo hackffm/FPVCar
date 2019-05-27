@@ -2,8 +2,9 @@
 <html>
 
 <head>
-  <title>SpaceREx</title>
+  <title>FPVCar</title>
   <link rel="stylesheet" href="style.css">
+  <script>var hostname = '{{hostname}}';</script>
   <script src="script.js"></script>
 </head>
 
@@ -12,7 +13,7 @@
     <div id="container">
       <canvas id="myCanvas" width=640 height=480 style="border:1px solid #000000;"></canvas>
       <div id="video">
-        <img src="http://raspberrypi:8080/stream/video.mjpeg">
+        <img src='http://{{hostname}}:8080/?action=stream'>
       </div>
     </div>
     <div class="coordinates">
