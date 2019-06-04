@@ -79,6 +79,22 @@ int chgVbat() {
   return(volt);
 }
 
+int chgVbus() {
+  chgRegWrite(0x02, 0x8d);
+  delay(100);
+  int v = chgRegRead(0x11);
+
+  int volt = 2600;
+  if(v & 1) volt += 100;
+  if(v & 2) volt += 200;
+  if(v & 4) volt += 400;
+  if(v & 8) volt += 800;
+  if(v & 16) volt += 1600;
+  if(v & 32) volt += 3200;
+  if(v & 64) volt += 6400;
+  return(volt);
+}
+
 // the setup routine runs once when you press reset:
 void setup() {     
   Serial.begin(38400);
@@ -257,7 +273,12 @@ void serialParser() {
             {
               Serial.println(chgVbat());
             }
-            break;       
+            break;  
+          case 'V':
+            {
+              Serial.println(chgVbus());
+            }
+            break;
             
           case 'i':
             if(charCount>=2) {
