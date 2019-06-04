@@ -16,7 +16,8 @@ print(hostname)
 
 def readSerial():
 	while True:
-		data = ser.read();
+		data = ser.read()
+		print('type: ', type(data))
 		print('from Arduino: ', data)
 		# received from Arduino written to all WebSocket clients
 		[con.write_message(data) for con in WebSocketHandler.connections]

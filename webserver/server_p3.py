@@ -15,8 +15,13 @@ pygame.mixer.init(44100, -16, 1, 1024)
 
 
 def readSerial():
-	while True:
-		data = ser.read();
+	try:
+		data = ser.read(ser.inWaiting())
+	except:
+		print("Error reading serial")
+		return
+	
+	if len(data):
 		print('from Arduino: ', data)
 		# received from Arduino written to all WebSocket clients
 		[con.write_message(data) for con in WebSocketHandler.connections]
@@ -70,4 +75,7 @@ if __name__ == '__main__':
     ws_app = Application()
     server = tornado.httpserver.HTTPServer(ws_app)
     server.listen(9090)
-    tornado.ioloop.IOLoop.instance().start()
+    loop = tornado.ioloop.IOLoop.instance()
+    serial_loop = tornado.ioloop.PeriodicCallback(readSerial, 20)
+    serial_loop.start()    
+    loop.start()
