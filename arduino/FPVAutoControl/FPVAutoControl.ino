@@ -271,11 +271,13 @@ void serialParser() {
       
           case 'v':
             {
+              Serial.print("v:");
               Serial.println(chgVbat());
             }
             break;  
           case 'V':
             {
+              Serial.print("V:");
               Serial.println(chgVbus());
             }
             break;
@@ -472,7 +474,7 @@ void serialParser() {
         }
       }
       charCount = 0;
-      Serial.print(">");
+      //Serial.print(">");
     }
   }
 }
