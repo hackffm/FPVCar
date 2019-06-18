@@ -28,7 +28,6 @@ def readSerial():
 				data = b''
 			else:
 				data += b
-				print(data)
 
 class WebSocketHandler(tornado.websocket.WebSocketHandler):
 	connections = set()

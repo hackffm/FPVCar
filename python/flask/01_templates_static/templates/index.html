@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Flask with templates and statics</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/test.css') }}">
+  </head>
+  <body>
+    <h1> Flask </h1>
+    <p> Test of an template </p>
+    <p> And a div filled with a linear-gradient from css in /static/css </p>
+    <div id='linear-gradient'></div>
+  </body>
+</html>
