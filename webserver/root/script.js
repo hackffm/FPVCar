@@ -1,4 +1,5 @@
 var ws;
+var msgbuf = "";
 Number.prototype.map = function(in_min, in_max, out_min, out_max) {
   return (this - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
@@ -7,8 +8,7 @@ window.onload = function() {
   ws = new WebSocket("ws://"+hostname+":9090/websocket");
 
   ws.onmessage = function(e) {
-    //alert(e.data);
-    document.getElementById('out').value += e.data;
+    dispatchMsg(e.data);
   };
   var canvas = document.getElementById("myCanvas");
   var ctx = canvas.getContext("2d");
@@ -115,4 +115,24 @@ function echo() {
 
 function soundSheep() {
     ws.send("s1\r");
+}
+
+function fetchStats() {
+    ws.send("V\r");
+    ws.send("v\r");
+}
+
+function dispatchMsg(msg) {
+    var tokens = msg.split(':');
+    if(msg.startsWith('V')) {
+        document.getElementById('vbus').innerHTML = tokens[1];
+    } else
+    if(msg.startsWith('v')) {
+        document.getElementById('vbat').innerHTML = tokens[1];
+    } else {
+        document.getElementById('out').value += msg;
+    }
+}
+function updateStats(msg) {
+    console.log(msg);
 }
