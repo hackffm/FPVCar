@@ -45,7 +45,7 @@ input[type="text"]
 }
 #labelResult{
 	position: absolute;
-	top: 22em;
+	bottom: 1em;
 	left: 1em;
 }
 #moveResult {
@@ -67,8 +67,14 @@ input[type="text"]
 #tableBaseDirections {
 	position: absolute;
 	top: 2em;
-	left: 23em;
+	right: 2em;
 }
 #cnvsJoy {
   border:1px #000000;
+}
+/*--toggle_controls----------------*/
+#btm_toggle_controls {
+	position: absolute;
+	bottom: 0.5em;
+	right: 0.5em;
 }

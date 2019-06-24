@@ -13,21 +13,17 @@
 <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
 </head>
 <body>
+   <div id="camera_position">
+       <div id="labelCurrentSetCamera">
+           <label>Control:Camera position:</label>
+    	   <input type="text" id="labelPositionPitch" readonly />
+    	   <input type="text" id="positionPitch" readonly	/>
+        </div>
+        <div id="slider-position-pitch"></div>
+        <div id="slider-position-yaw"></div>
+    </div>
 
-	<div id="labelCurrentSetCamera">
-		<label>Control:Camera position:</label>
-		<input type="text" id="labelPositionPitch" readonly />
-		<input type="text" id="positionPitch" readonly	/>
-	</div>
-
-	<div id="slider-position-pitch"></div>
-	<div id="slider-position-yaw"></div>
-
-	<div id='labelResult'>
-		<label>Result:</label>
-		<input type='text' id='moveResult' readonly />
-	</div>
-	<!-- base directions ---------------------------------------------------------------->
+	<!-- base directions ------------------------------------------------------>
 	<div id="tableBaseDirections">
 		<table>
 			<tr>
@@ -62,12 +58,16 @@
 			</tr>
 		</table>
 	</div>
-
 	<!-- Shutdown Button -------------------------------------------------------->
 	<div id="iconShutdown">
 		<a href="/robota/api/doShutdown" class="ui-icon ui-icon-power">icon</a>
 	</div>
-
+    <button onclick="toggle_controls()" id="btm_toggle_controls">toggle controls</button>
+    <!-- move result----------------------------------------------------------->
+    <div id='labelResult'>
+        <label>Result:</label>
+        <input type='text' id='moveResult' readonly />
+    </div>
   <!-- Scripts ----------------------------------------------------------------->
 	<script>
 		//TODO in zentrale Konfig auslagern und auch in app laden
@@ -78,6 +78,21 @@
 		var textPitch = 'pitch';
 		var url = '/' + appNameShort + '/api';
 
+        function toggle_controls() {
+          var cp = document.getElementById("camera_position");
+          var tbd = document.getElementById("tableBaseDirections");
+          if (cp.style.display === "none") {
+            cp.style.display = "block";
+          } else {
+            cp.style.display = "none";
+          }
+          if (tbd.style.display === "none") {
+            tbd.style.display = "block";
+          } else {
+            tbd.style.display = "none";
+          }
+
+        }
 		//--init-------------------------------------------------
 		$(function() {
 			/*set default screen text values*/
