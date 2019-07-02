@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>FPVCar</title>
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script>var hostname = '{{hostname}}';</script>
+  <script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</head>
+
+<body>
+  <div id="content">
+    <div id="container">
+      <canvas id="myCanvas" width=640 height=480 style="border:1px solid #000000;"></canvas>
+      <div id="video">
+        <img src='http://{{hostname}}:8080/?action=stream'>
+      </div>
+    </div>
+    <div class="coordinates">
+      <div id="xy" class="fixed">x y</div>
+      <div id="cxcy" class="fixed">cx cy</div>
+      <div id="lr" class="fixed">left right</div>
+    </div>
+
+    <br><br> Send:
+    <input type="text" id="msg" maxlength="25" size="30" /> &nbsp;
+    <input type="button" onclick="sendMsg();" value="Send" />
+    <br> Received:
+    <br>
+    <textarea id="out" rows="4" cols="50"></textarea>
+    <br>
+    <input type="button" onclick="echo()" value="echo" />
+    <br>
+    <input type="button" onclick="fetchStats()" value="fetch stats" />
+    <br>
+    Vbat:<span id="vbat">0</span><br>
+    Vbus:<span id="vbus">0</span>
+    
+  </div>
+
+</body>
+
+</html>
