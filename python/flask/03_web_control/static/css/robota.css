@@ -1,14 +1,14 @@
 @CHARSET "UTF-8";
 
 /*--default------------------------*/
-.ui-icon {
+.oi {
 	color: #f6931f;
 	display:block;
 	font-size: 2.0em;
 	margin: 0 auto;
 	opacity: 0.5;
 }
-.ui-icon:active{
+.oi:active{
   opacity: 1.0;
 }
 input[type="text"]
