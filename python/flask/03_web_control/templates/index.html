@@ -11,6 +11,14 @@
 <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
 </head>
 <body>
+	<!-- Shutdown Button ------------------------------------------------------>
+	<div id="iconShutdown">
+		<a href="/robota/api/doShutdown"><span class="oi oi-power-standby" title="oi-power-standby" aria-hidden="true"></span></a>
+	</div>
+	<!-- Menu toggle ---------------------------------------------------------->
+    <button id="btm_toggle_controls" onclick="toggle_controls()">
+		<span class="oi oi-menu" title="oi-menu" aria-hidden="true"></span>
+	</button>
 	<!-- base directions ------------------------------------------------------>
 	<div id="tableBaseDirections">
 		<table>
@@ -46,11 +54,11 @@
 			</tr>
 		</table>
 	</div>
-	<!-- Shutdown Button -------------------------------------------------------->
-	<div id="iconShutdown">
-		<a href="/robota/api/doShutdown"><span class="oi oi-power-standby" title="oi-power-standby" aria-hidden="true"></span></a>
-	</div>
-    <button onclick="toggle_controls()" id="btm_toggle_controls">toggle controls</button>
+    <!-- input message--------------------------------------------------------->
+    <div id='labelInput'>
+        <label>Message:</label>
+        <input type='text' id='inputMessage' onkeydown="message_send(this)" />
+    </div>
     <!-- move result----------------------------------------------------------->
     <div id='labelResult'>
         <label>Result:</label>
@@ -65,13 +73,10 @@
 		var textYaw = 'yaw';
 		var textPitch = 'pitch';
 		var url = '/' + appNameShort + '/api';
-
 		//--init-------------------------------------------------
+		var lbl_labelInput = document.getElementById("labelInput");
+		var tbd = document.getElementById("tableBaseDirections");
 		$(function() {
-			/*set default screen text values*/
-			$("#moveResult").val(" [ not yet ]");
-			$("#labelPositionPitch").val(textYaw + " " + left.posYaw);
-			$("#positionPitch").val(textPitch + " " + left.posPitch);
 			/*set arrow functions*/
 			document.getElementById("moveLeft").addEventListener("click", function () {
 				base.move = 'left';
@@ -103,15 +108,18 @@
 			});
 		});
 
-        function toggle_controls() {
-          var tbd = document.getElementById("tableBaseDirections");
-          if (tbd.style.display === "none") {
-            tbd.style.display = "block";
-          } else {
-            tbd.style.display = "none";
-          }
-
-        }
+		//-- functions -------------------------------------------------------->
+		function doMove(dm){
+			$.post(url + '/move', dm).done( function(result) {
+			showMoveResult(result);	});
+		};
+		function message_send(ms) {
+			if (event.key == 'Enter') {
+				_message = {'message': ms.value };
+				$.post(url + '/message', _message).done( function(result) {
+				showMoveResult(result);	});
+			}
+		}
 
 		function move_base(base){
 			data = JSON.stringify(base);
@@ -136,18 +144,30 @@
 			}
 			showMoveResult(positions);
 		};
-
-		function doMove(m){
-			$.post(url + '/move', m).done( function(result) {
-			showMoveResult(result);	});
-		};
-
 		function showMoveResult(result){
 			$("#moveResult").val(result);
 		};
-
+        function toggle_controls() {
+		  if (lbl_labelInput.style.display === "none") {
+			  lbl_labelInput.style.display = "block";
+		  } else {
+			  lbl_labelInput.style.display = "none";
+		  }
+          if (tbd.style.display === "none") {
+            tbd.style.display = "block";
+          } else {
+            tbd.style.display = "none";
+          }
+        }
+		document.addEventListener("DOMContentLoaded", function(){
+			/*set default screen text values*/
+			$("#moveResult").val(" [ not yet ]");
+			$("#labelPositionPitch").val(textYaw + " " + left.posYaw);
+			$("#positionPitch").val(textPitch + " " + left.posPitch);
+			lbl_labelInput.style.display = "none";
+			tbd.style.display = "none"
+		});
 	</script>
     <script src="{{ url_for('static', filename='js/canvasJoystick.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/gamepad.js') }}"></script>
 </body>
 </html>

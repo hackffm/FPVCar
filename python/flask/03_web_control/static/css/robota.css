@@ -13,36 +13,23 @@
 }
 input[type="text"]
 {
+	color: #f6931f;
 	width: 50px;
 	border: 0;
-	color: #f6931f;
-	font-weight: bold;
 }
-/*--slider-------------------------*/
-#labelCurrentSetCamera {
+/*--input -------------------------*/
+#labelInput{
 	position: absolute;
-	top: 1em;
-	left: 2em;
-}
-#slider-position-yaw {
-	position: absolute;
-	top: 18em;
-	left: 2em;
-	height: 10px;
-	width: 300px;
-}
-#slider-position-pitch{
-	position: absolute;
-	top:  3em;
+	bottom: 3em;
 	left: 1em;
-	height: 250px;
-	width: 10px;
 }
-#positionPitch{
-	border: 0;
-	color: #f6931f;
+#inputMessage {
+	border: 1px;
+	border-style: solid;
 	font-weight: bold;
+	width: 200px;
 }
+/*--infos -------------------------*/
 #labelResult{
 	position: absolute;
 	bottom: 1em;
@@ -54,20 +41,20 @@ input[type="text"]
 /*---Power Button-----------------*/
 #iconShutdown {
 	position: absolute;
-	top: 2em;
-	right: 1em;;
+	top: 0.5em;
+	right: 0.5em;;
 }
-.ui-icon-power{
+.oi-power-standby{
 	color: #ff0000;
 }
-.ui-icon-power:active{
+.oi-power-standby:active{
 	font-size: 2.5em;
 }
 /*----directions------------------*/
 #tableBaseDirections {
 	position: absolute;
-	top: 2em;
-	right: 2em;
+	top: 3em;
+	left: 1em;
 }
 #cnvsJoy {
   border:1px #000000;
@@ -75,6 +62,9 @@ input[type="text"]
 /*--toggle_controls----------------*/
 #btm_toggle_controls {
 	position: absolute;
-	bottom: 0.5em;
-	right: 0.5em;
+	top: 0.5em;
+	left: 0.5em;
+}
+.oi-menu {
+	color: #cccccc;
 }
