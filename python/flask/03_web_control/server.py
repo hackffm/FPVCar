@@ -2,7 +2,6 @@
 from flask import Flask, render_template
 from flask import request, jsonify
 from flask_socketio import SocketIO, emit
-import json
 
 from fpvcar import Base
 
@@ -40,7 +39,7 @@ def move_eye():
 def message_send():
     # message muss {'message': 'value'} sein
     message = request.form['message']
-    result = 'Send to server:' + message;
+    result = 'Send to server:' + message
     return result
 
 
