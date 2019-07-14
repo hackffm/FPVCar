@@ -68,7 +68,7 @@
 	<script>
 		//TODO in zentrale Konfig auslagern und auch in app laden
 		var appNameShort = 'robota';
-		var base = { move: 'stop' };
+		var base = { 'module': 'base', move: 'stop' };
 		var left = { posYaw : 37, posPitch : 37 };
 		var textYaw = 'yaw';
 		var textPitch = 'pitch';
@@ -110,6 +110,7 @@
 
 		//-- functions -------------------------------------------------------->
 		function doMove(dm){
+			console.log(dm);
 			$.post(url + '/move', dm).done( function(result) {
 			showMoveResult(result);	});
 		};
