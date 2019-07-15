@@ -9,7 +9,8 @@ window.onload = function() {
   ws = io();
   
   ws.on('connect', function() {
-        ws.emit('my event', {data: 'I\'m connected!'});
+        console.log('websocket connected');
+        ws.emit({data: 'I\'m connected!'});
     });
     ws.on('my response', function(msg) {
         console.log(msg);
@@ -99,7 +100,7 @@ window.onload = function() {
 	if(pos.right > 255) pos.right = 255;
 	if(pos.right < -255) pos.right = -255;
     document.getElementById("lr").innerHTML = "l:" + pos.left + "  r:" + pos.right;
-    ws.send("f" + pos.left + " " + pos.right + "\r");
+    ws.send("{ \"module\": \"base\", \"left\": " + pos.left + ", \"right\": " + pos.right + " }\r");
     //ws.send("r" + pos.right + "\r");
   }
 

@@ -4,13 +4,21 @@ import serial
 import threading
 import time
 import socket
+import json
+from base_rl import *
 
 data = b''
 app = Flask(__name__)
 socketio = SocketIO(app)
 ser = serial.Serial('/dev/ttyS0', 38400)
+#base = Base(ser)
 hostname = socket.gethostname()
 print(hostname)
+
+components = {
+    "base": Base(ser)
+}
+
 
 def handle_data(data):
     print(data)
@@ -43,7 +51,11 @@ def helloworld():
 
 @socketio.on('message')
 def handle_message(message):
-	print('received message: ' + message)
+    print('received message: ' + message)
+    m = json.loads(message)
+    #print(m["right"])
+    component = components[m["module"]]
+    component.handleMessage(m)
 
 @socketio.on('my event')
 def handle_my_custom_event(json):
