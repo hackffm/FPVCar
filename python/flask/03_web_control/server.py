@@ -3,7 +3,7 @@ from flask import Flask, render_template
 from flask import request, jsonify
 from flask_socketio import SocketIO, emit
 
-from fpvcar import Base
+from modules import Base
 
 base = Base()
 
@@ -45,8 +45,8 @@ def message_send():
 
 @app.route("/robota/api/move", methods=['POST'])
 def move_base_command():
-    module = request.form['module']
-    if base.is_base_module(module):
+    component = request.form['component']
+    if base.is_component(component):
         move = request.form['move']
         result = base.do_move(move)
         if debug:
