@@ -7,13 +7,13 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
 <link href="{{ url_for('static', filename='open-iconic/font/css/open-iconic-bootstrap.css') }}" rel="stylesheet">
-<link href="{{ url_for('static', filename='css/robota.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/fpvc.css') }}" rel="stylesheet">
 <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
 </head>
 <body>
 	<!-- Shutdown Button ------------------------------------------------------>
 	<div id="iconShutdown">
-		<a href="/robota/api/doShutdown"><span class="oi oi-power-standby" title="oi-power-standby" aria-hidden="true"></span></a>
+		<a href="/fpvc/api/doShutdown"><span class="oi oi-power-standby" title="oi-power-standby" aria-hidden="true"></span></a>
 	</div>
 	<!-- Menu toggle ---------------------------------------------------------->
     <button id="btm_toggle_controls" onclick="toggle_controls()">
@@ -67,8 +67,11 @@
   <!-- Scripts ----------------------------------------------------------------->
 	<script>
 		//TODO in zentrale Konfig auslagern und auch in app laden
-		var appNameShort = 'robota';
-		var base = { 'module': 'base', move: 'stop' };
+        var angle = 90;
+		var appNameShort = 'fpvc';
+		var base = { 'component': 'base', message: 'stop' };
+        var debug = false;
+        var distance = 10;
 		var left = { posYaw : 37, posPitch : 37 };
 		var textYaw = 'yaw';
 		var textPitch = 'pitch';
@@ -79,38 +82,39 @@
 		$(function() {
 			/*set arrow functions*/
 			document.getElementById("moveLeft").addEventListener("click", function () {
-				base.move = 'left';
+				base.message = {'left': angle } ;
 				doMove(base)
 			});
 			document.getElementById("moveForward").addEventListener("click", function () {
-				base.move = 'forward';
+				base.message = {'forward' : distance } ;
 				doMove(base)
 			});
 			document.getElementById("moveRight").addEventListener("click", function () {
-				base.move = 'right';
+				base.message = {'right' : angle};
 				doMove(base)
 			});
 			document.getElementById("moveBackward").addEventListener("click", function () {
-				base.move = 'backward';
+				base.message = {'backward': angle};
 				doMove(base)
 			});
 			document.getElementById("turnLeft").addEventListener("click", function () {
-				base.move = 'turnLeft';
+				base.message = {'turnLeft': 180 };
 				doMove(base)
 			});
 			document.getElementById("turnRight").addEventListener("click", function () {
-				base.move = 'turnRight';
+				base.message = {'turnRight': 180};
 				doMove(base)
 			});
 			document.getElementById("stand").addEventListener("click", function () {
-				base.move = 'stand';
+				base.message = 'stand';
 				doMove(base)
 			});
 		});
 
 		//-- functions -------------------------------------------------------->
 		function doMove(dm){
-			console.log(dm);
+			if (debug){console.log(dm);}
+            dm = JSON.stringify(dm);
 			$.post(url + '/move', dm).done( function(result) {
 			showMoveResult(result);	});
 		};
