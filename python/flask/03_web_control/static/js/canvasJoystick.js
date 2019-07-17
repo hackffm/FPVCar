@@ -85,7 +85,7 @@ function moveCenter(){
 }
 function printPos() {
   $("#lblVel").val(" " + vel.linearX + "," + vel.linearY);
-  move_base(vel);    //here we talk to the robot
+  move_base_linear(vel);    //requiered api call
 }
 function drawJoyHandle() {
   ctxJoy.clearRect(0, 0, rectJoy.width, rectJoy.height);

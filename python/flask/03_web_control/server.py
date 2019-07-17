@@ -31,12 +31,6 @@ def shutdown():
     return "shutting down!"
 
 
-@app.route("/fpvc/api/eye/left", methods=['POST'])
-def move_eye():
-    move = request.get_json(force=True)
-    return jsonify(move)
-
-
 @app.route("/fpvc/api/message", methods=['POST'])
 def message_send():
     # message muss {'message': 'value'} sein
@@ -45,8 +39,8 @@ def message_send():
     return result
 
 
-@app.route("/fpvc/api/move", methods=['POST'])
-def move_base_command():
+@app.route("/fpvc/api/component", methods=['POST'])
+def messaage_component():
     result = 'I can not do that !'
     try:
         requested = request.get_json(force=True)
