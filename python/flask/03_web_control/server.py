@@ -22,6 +22,7 @@ def home():
 
 @app.route("/fpvc/api/base", methods=['POST'])
 def move_base_to_postion():
+    # requiered by CancasJoystik
     move = request.get_json(force=True)
     return jsonify(move)
 
