@@ -16,7 +16,8 @@ hostname = socket.gethostname()
 print(hostname)
 
 components = {
-    "base": Base(ser)
+    "base": Base(ser),
+    "sound": Sound(ser)
 }
 
 

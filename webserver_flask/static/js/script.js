@@ -147,3 +147,6 @@ function dispatchMsg(msg) {
 function updateStats(msg) {
     console.log(msg);
 }
+function playSound(name) {
+    ws.send("{ \"module\": \"sound\", \"sound\": \"" + name + "\" }\r");
+}
