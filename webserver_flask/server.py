@@ -54,7 +54,6 @@ def helloworld():
 def handle_message(message):
     print('received message: ' + message)
     m = json.loads(message)
-    #print(m["right"])
     component = components[m["module"]]
     component.handleMessage(m)
 
