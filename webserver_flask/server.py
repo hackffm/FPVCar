@@ -54,13 +54,13 @@ def helloworld():
 def handle_message(message):
     print('received message: ' + message)
     m = json.loads(message)
-    component = components[m["module"]]
+    component = components[m["component"]]
     component.handleMessage(m)
 
-@socketio.on('my event')
-def handle_my_custom_event(json):
-	print('received json: ' + str(json))
-	emit('my response', 'echo: '+str(json))
+#@socketio.on('my event')
+#def handle_my_custom_event(json):
+#	print('received json: ' + str(json))
+#	emit('my response', 'echo: '+str(json))
 
 if __name__ == "__main__":
 	socketio.run(app, debug=True, port=8080, host='0.0.0.0')
