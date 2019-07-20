@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
-import json
-
 from flask import Flask, render_template
 from flask import request, jsonify
 from flask_socketio import SocketIO, emit
 
-from components import Base
+from .components import Base
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -14,6 +12,7 @@ debug = True
 components = {
     "base": Base()
 }
+
 
 @app.route("/")
 def home():
@@ -45,7 +44,7 @@ def messaage_component():
     result = 'I can not do that !'
     try:
         requested = request.get_json(force=True)
-        if not 'component' in requested:
+        if 'component' not in requested:
             return result
         if requested['component'] in components:
             message = requested['message']
@@ -64,8 +63,8 @@ def handle_message(message):
 
 
 @socketio.on('my event')
-def handle_my_custom_event(json):
-    print('received json: ' + str(json))
+def handle_my_custom_event(_json):
+    print('received json: ' + str(_json))
     emit('my response', 'response')
 
 
