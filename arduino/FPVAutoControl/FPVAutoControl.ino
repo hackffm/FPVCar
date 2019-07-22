@@ -217,7 +217,7 @@ void serialParser() {
 
   int r,x,y,phi;
 
-  if(Serial.available()) {
+  while(Serial.available()) {
     // if any char in serial buffer available then do the parsing
 
     char c;
