@@ -6,12 +6,19 @@ import serial
 import _thread
 import pygame
 import socket
+import json
+from base_rl import *
 
 ser = serial.Serial('/dev/ttyS0', 38400)
 print(ser.name)
 hostname = socket.gethostname()
 print(hostname)
 pygame.mixer.init(44100, -16, 1, 1024)
+
+components = {
+    "base": Base(ser),
+    "sound": Sound(ser)
+}
 
 def readSerial():
 	global data
@@ -30,27 +37,23 @@ def readSerial():
 				data += b
 
 class WebSocketHandler(tornado.websocket.WebSocketHandler):
-	connections = set()
+    connections = set()
 
-	def open(self):
-		self.connections.add(self)
-		print('new connection was opened')
-		pass
+    def open(self):
+        self.connections.add(self)
+        print('new connection was opened')
+        pass
 
-	def on_message(self, message):
-		print ('from WebSocket: ', message)
-		if(message[0] == 'x'):
-			print('x')
-			pygame.mixer.music.load("sound/chicken.wav")
-			#pygame.mixer.music.load("/home/pi/Music/cow.wav")
-			pygame.mixer.music.play()
-		else:
-			ser.write(message.encode());	# received from WebSocket writen to arduino
+    def on_message(self, message):
+        print ('from WebSocket: ', message)
+        m = json.loads(message)
+        component = components[m["component"]]
+        component.handleMessage(m)
 
-	def on_close(self):
-		self.connections.remove(self)
-		print('connection closed')
-		pass
+    def on_close(self):
+        self.connections.remove(self)
+        print('connection closed')
+        pass
 
 class IndexPageHandler(tornado.web.RequestHandler):
     def get(self):
@@ -62,7 +65,7 @@ class Application(tornado.web.Application):
         handlers = [
             (r'/', IndexPageHandler),
             (r'/websocket', WebSocketHandler),
-	    (r'/(.*)', tornado.web.StaticFileHandler, {'path': './root'})
+        (r'/(.*)', tornado.web.StaticFileHandler, {'path': './root'})
         ]
 
         settings = {

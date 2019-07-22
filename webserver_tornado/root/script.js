@@ -89,7 +89,8 @@ window.onload = function() {
 	if(pos.right > 255) pos.right = 255;
 	if(pos.right < -255) pos.right = -255;
     document.getElementById("lr").innerHTML = "l:" + pos.left + "  r:" + pos.right;
-    ws.send("f" + pos.left + " " + pos.right + "\r");
+    ws.send("{ \"component\": \"base\", \"left\": " + pos.left + ", \"right\": " + pos.right + " }\r");
+    //ws.send("f" + pos.left + " " + pos.right + "\r");
     //ws.send("r" + pos.right + "\r");
   }
 
@@ -135,4 +136,7 @@ function dispatchMsg(msg) {
 }
 function updateStats(msg) {
     console.log(msg);
+}
+function playSound(name) {
+    ws.send("{ \"component\": \"sound\", \"sound\": \"" + name + "\" }\r");
 }
