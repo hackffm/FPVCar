@@ -40,7 +40,7 @@
 				<td><a id="moveRight"><span class="oi oi-arrow-thick-right" title="oi-arrow-thick-right" aria-hidden="true"></span></a></td>
 			</tr>
 			<tr>
-                <td><a id="stand"><span class="oi oi-x" title="oi-x" aria-hidden="true"></span></a></td>
+                <td><a id="stop"><span class="oi oi-x" title="oi-x" aria-hidden="true"></span></a></td>
 				<td><a id="moveBackward"><span class="oi oi-arrow-thick-bottom" title="oi-arrow-thick-bottom" aria-hidden="true"></span></a></td>
 				<td></td>
 			</tr>
@@ -69,8 +69,8 @@
 		//TODO in zentrale Konfig auslagern und auch in app laden
         var angle = 90;
 		var appNameShort = 'fpvc';
-		var base = { 'component': 'base', message: 'stop' };
-        var debug = false;
+		var base = {'component': 'base', 'stop': 0 };
+        var debug = true;
         var distance = 10;
 		var url = '/' + appNameShort + '/api';
 		//--init-------------------------------------------------
@@ -79,38 +79,38 @@
 		$(function() {
 			/*set arrow functions*/
 			document.getElementById("moveLeft").addEventListener("click", function () {
-				base.message = {'left': angle } ;
+				base = {'component': 'base', 'left': angle } ;
 				send_component_message(base)
 			});
 			document.getElementById("moveForward").addEventListener("click", function () {
-				base.message = {'forward' : distance } ;
+				base = {'component': 'base', 'forward' : distance } ;
 				send_component_message(base)
 			});
 			document.getElementById("moveRight").addEventListener("click", function () {
-				base.message = {'right' : angle};
+				base = {'component': 'base', 'right' : angle};
 				send_component_message(base)
 			});
 			document.getElementById("moveBackward").addEventListener("click", function () {
-				base.message = {'backward': angle};
+				base = {'component': 'base','backward': angle};
 				send_component_message(base)
 			});
 			document.getElementById("turnLeft").addEventListener("click", function () {
-				base.message = {'turnLeft': 180 };
+				base = {'component': 'base','turnLeft': 180 };
 				send_component_message(base)
 			});
 			document.getElementById("turnRight").addEventListener("click", function () {
-				base.message = {'turnRight': 180};
+				base = {'component': 'base','turnRight': 180};
 				send_component_message(base)
 			});
-			document.getElementById("stand").addEventListener("click", function () {
-				base.message = 'stand';
+			document.getElementById("stop").addEventListener("click", function () {
+				base = {'component': 'base', 'stop': 0 };
 				send_component_message(base)
 			});
 		});
 
 		//-- functions -------------------------------------------------------->
         function move_base_linear(base){
-            # requiered by CancasJoystik
+            // requiered by CancasJoystik
 			data = JSON.stringify(base);
 			$.ajax({
 			  url:url + '/base',
@@ -126,15 +126,15 @@
 			})
 		};
 		function send_text_message(ms) {
-			if (event.key == 'Enter') {
+			if (event.key === 'Enter') {
 				_message = {'message': ms.value };
 				$.post(url + '/message', _message).done( function(result) {
 				showMoveResult(result);	});
 			}
 		}
         function send_component_message(component){
-            if (debug){console.log(component);}
             component = JSON.stringify(component);
+            if (debug){console.log('send_component_message:' + component);}
             $.post(url + '/component', component).done( function(result) {
                 showMoveResult(result);	});
             };
