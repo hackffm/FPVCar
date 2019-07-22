@@ -110,7 +110,7 @@
 
 		//-- functions -------------------------------------------------------->
         function move_base_linear(base){
-            # requiered by CancasJoystik
+            // requiered by CancasJoystik
 			data = JSON.stringify(base);
 			$.ajax({
 			  url:url + '/base',
@@ -126,7 +126,7 @@
 			})
 		};
 		function send_text_message(ms) {
-			if (event.key == 'Enter') {
+			if (event.key === 'Enter') {
 				_message = {'message': ms.value };
 				$.post(url + '/message', _message).done( function(result) {
 				showMoveResult(result);	});

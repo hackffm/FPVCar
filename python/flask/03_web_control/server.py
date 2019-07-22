@@ -3,14 +3,15 @@ from flask import Flask, render_template
 from flask import request, jsonify
 from flask_socketio import SocketIO, emit
 
-from .components import Base
+from components import Base
+from handlers import handler_default
 
 app = Flask(__name__)
 socketio = SocketIO(app)
 
 debug = True
 components = {
-    "base": Base()
+    "base": Base(handler_default)
 }
 
 
@@ -21,7 +22,7 @@ def home():
 
 @app.route("/fpvc/api/base", methods=['POST'])
 def move_base_to_postion():
-    # requiered by CancasJoystik
+    # required by CanvasJoystik
     move = request.get_json(force=True)
     return jsonify(move)
 
@@ -40,7 +41,7 @@ def message_send():
 
 
 @app.route("/fpvc/api/component", methods=['POST'])
-def messaage_component():
+def message_component():
     result = 'I can not do that !'
     try:
         requested = request.get_json(force=True)
@@ -49,9 +50,9 @@ def messaage_component():
         if requested['component'] in components:
             message = requested['message']
             component = components[requested['component']]
-            result = component.handleMessage(message)
+            result = component.handle_message(message)
         if debug:
-            print('[move_base_command]result:' + str(result))
+            print('[message_component]result:' + str(result))
     except Exception as e:
         return e
     return result
