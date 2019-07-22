@@ -102,6 +102,7 @@ window.onload = function() {
     document.getElementById("lr").innerHTML = "l:" + pos.left + "  r:" + pos.right;
     ws.send("{ \"component\": \"base\", \"left\": " + pos.left + ", \"right\": " + pos.right + " }\r");
     //ws.send("r" + pos.right + "\r");
+    //ws.send("f"+pos.left+" "+pos.right);
   }
 
   function drawHandle(pos) {
