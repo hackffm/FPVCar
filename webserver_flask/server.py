@@ -63,6 +63,6 @@ def handle_message(message):
 #	emit('my response', 'echo: '+str(json))
 
 if __name__ == "__main__":
-	socketio.run(app, debug=True, port=8080, host='0.0.0.0')
+	socketio.run(app, debug=True, port=9090, host='0.0.0.0')
 	
 
