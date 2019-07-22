@@ -45,12 +45,13 @@ def message_component():
     result = 'I can not do that !'
     try:
         requested = request.get_json(force=True)
+        if debug:
+            print('message_component received:' + str(requested))
         if 'component' not in requested:
             return result
         if requested['component'] in components:
-            message = requested['message']
             component = components[requested['component']]
-            result = component.handle_message(message)
+            result = component.handle_message(requested)
         if debug:
             print('[message_component]result:' + str(result))
     except Exception as e:
