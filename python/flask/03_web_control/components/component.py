@@ -11,9 +11,3 @@ class Component(object):
         result = self.message_handler.send(message)
         return result
 
-# -- Helper -----------------------
-    def is_type(self, _type):
-        if self.type == _type:
-            return True
-        else:
-            return False
