@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Roboter test application</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<link href="/fpvc/open-iconic/font/css/open-iconic-bootstrap.css" rel="stylesheet"/>
+<link href="/fpvc/css/fpvcar.css" rel="stylesheet"/>
+<link rel="shortcut icon" type="image/x-icon" href="/fpvc/images/favicon.ico">
+</head>
+<body>
+	<!-- Shutdown Button ------------------------------------------------------>
+	<div id="iconShutdown">
+		<a href="/shutdown"><span class="oi oi-power-standby" title="oi-power-standby" aria-hidden="true"></span></a>
+	</div>
+	<!-- Menu toggle ---------------------------------------------------------->
+    <button id="btm_toggle_controls" onclick="toggle_controls()">
+		<span class="oi oi-menu" title="oi-menu" aria-hidden="true"></span>
+	</button>
+	<!-- base directions ------------------------------------------------------>
+	<div id="tableBaseDirections">
+		<table>
+			<tr>
+				<td colspan="3">Control:Base Move</td>
+			</tr>
+			<tr>
+				<td><a id="turnLeft"><span class="oi oi-action-undo" title="oi-action-undo" aria-hidden="true"></span></a></td>
+				<td><a id="moveForward"><span class="oi oi-arrow-thick-top" title="oi-arrow-thick-top" aria-hidden="true"></span></a></td>
+				<td><a id="turnRight"><span class="oi oi-action-redo" title="oi-action-redo" aria-hidden="true"></span></a></td>
+			</tr>
+			<tr>
+				<td><a id="moveLeft"><span class="oi oi-arrow-thick-left" title="oi-arrow-thick-left" aria-hidden="true"></span></a></td>
+				<td>
+					<div id="steercontainter">
+						<canvas id="cnvsJoy" width="100px" height="100px"></canvas>
+					</div>
+				</td>
+				<td><a id="moveRight"><span class="oi oi-arrow-thick-right" title="oi-arrow-thick-right" aria-hidden="true"></span></a></td>
+			</tr>
+			<tr>
+                <td><a id="stop"><span class="oi oi-x" title="oi-x" aria-hidden="true"></span></a></td>
+				<td><a id="moveBackward"><span class="oi oi-arrow-thick-bottom" title="oi-arrow-thick-bottom" aria-hidden="true"></span></a></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<div id="lblBaseVel">
+						<label>Base velocity:</label>
+						<input type="text" id="lblVel" readonly />
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+    <!-- input message--------------------------------------------------------->
+    <div id='labelInput'>
+        <label>Message:</label>
+        <input type='text' id='inputMessage' onkeydown="send_text_message(this)" />
+    </div>
+    <!-- move result----------------------------------------------------------->
+    <div id='labelResult'>
+        <label>Result:</label>
+        <input type='text' id='moveResult' readonly />
+    </div>
+  <!-- Scripts ----------------------------------------------------------------->
+	<script>
+		//TODO in zentrale Konfig auslagern und auch in app laden
+        var angle = 90;
+		var appNameShort = 'fpvc';
+		var base = {'component': 'base', 'stop': 0 };
+        var debug = true;
+        var distance = 10;
+		var url = '/' + appNameShort + '/api';
+		//--init-------------------------------------------------
+		var lbl_labelInput = document.getElementById("labelInput");
+		var tbd = document.getElementById("tableBaseDirections");
+		$(function() {
+			/*set arrow functions*/
+			document.getElementById("moveLeft").addEventListener("click", function () {
+				base = {'component': 'base', 'left': angle } ;
+				send_component_message(base)
+			});
+			document.getElementById("moveForward").addEventListener("click", function () {
+				base = {'component': 'base', 'forward' : distance } ;
+				send_component_message(base)
+			});
+			document.getElementById("moveRight").addEventListener("click", function () {
+				base = {'component': 'base', 'right' : angle};
+				send_component_message(base)
+			});
+			document.getElementById("moveBackward").addEventListener("click", function () {
+				base = {'component': 'base','backward': angle};
+				send_component_message(base)
+			});
+			document.getElementById("turnLeft").addEventListener("click", function () {
+				base = {'component': 'base','turnLeft': 180 };
+				send_component_message(base)
+			});
+			document.getElementById("turnRight").addEventListener("click", function () {
+				base = {'component': 'base','turnRight': 180};
+				send_component_message(base)
+			});
+			document.getElementById("stop").addEventListener("click", function () {
+				base = {'component': 'base', 'stop': 0 };
+				send_component_message(base)
+			});
+		});
+
+		//-- functions -------------------------------------------------------->
+        function move_base_linear(base){
+            // requiered by CancasJoystik
+			data = JSON.stringify(base);
+			$.ajax({
+			  url:url + '/base',
+			  type:"POST",
+			  data:data,
+			  contentType:"application/json; charset=utf-8",
+			  dataType:"json",
+			  success: function(baseMove){
+			  	console.log(baseMove);
+			  	newMove = 'BaseMove: linearX:' + baseMove.linearX + ' linearY:'+ baseMove.linearY;
+				showMoveResult(newMove);
+			  }
+			})
+		};
+		function send_text_message(ms) {
+			if (event.key === 'Enter') {
+				_message = {'message': ms.value };
+				$.post(url + '/message', _message).done( function(result) {
+				showMoveResult(result);	});
+			}
+		}
+        function send_component_message(component){
+            component = JSON.stringify(component);
+            if (debug){console.log('send_component_message:' + component);}
+            $.post(url + '/component', component).done( function(result) {
+                showMoveResult(result);	});
+            };
+		function showMoveResult(result){
+			$("#moveResult").val(result);
+		};
+        function toggle_controls() {
+		  if (lbl_labelInput.style.display === "none") {
+			  lbl_labelInput.style.display = "block";
+		  } else {
+			  lbl_labelInput.style.display = "none";
+		  }
+          if (tbd.style.display === "none") {
+            tbd.style.display = "block";
+          } else {
+            tbd.style.display = "none";
+          }
+        }
+		document.addEventListener("DOMContentLoaded", function(){
+			/*set default screen text values*/
+			$("#moveResult").val(" [ not yet ]");
+			lbl_labelInput.style.display = "none";
+			tbd.style.display = "none"
+		});
+	</script>
+    <script src="/fpvc/js/canvasJoystick.js"></script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+@CHARSET "UTF-8";
+
+/*--default------------------------*/
+.oi {
+	color: #f6931f;
+	display:block;
+	font-size: 2.0em;
+	margin: 0 auto;
+	opacity: 0.5;
+}
+.oi:active{
+  opacity: 1.0;
+}
+input[type="text"]
+{
+	color: #f6931f;
+	width: 50px;
+	border: 0;
+}
+/*--input -------------------------*/
+#labelInput{
+	position: absolute;
+	bottom: 3em;
+	left: 1em;
+}
+#inputMessage {
+	border: 1px;
+	border-style: solid;
+	font-weight: bold;
+	width: 200px;
+}
+/*--infos -------------------------*/
+#labelResult{
+	position: absolute;
+	bottom: 1em;
+	left: 1em;
+}
+#moveResult {
+	width: 200px;
+}
+/*---Power Button-----------------*/
+#iconShutdown {
+	position: absolute;
+	top: 0.5em;
+	right: 0.5em;;
+}
+.oi-power-standby{
+	color: #ff0000;
+}
+.oi-power-standby:active{
+	font-size: 2.5em;
+}
+/*----directions------------------*/
+#tableBaseDirections {
+	position: absolute;
+	top: 3em;
+	left: 1em;
+}
+#cnvsJoy {
+  border:1px #000000;
+}
+/*--toggle_controls----------------*/
+#btm_toggle_controls {
+	position: absolute;
+	top: 0.5em;
+	left: 0.5em;
+}
+.oi-menu {
+	color: #cccccc;
+}
