@@ -61,10 +61,14 @@ input[type="text"]
 }
 /*--toggle_controls----------------*/
 #btm_toggle_controls {
+    display: inline-block;
+    left: 0.5em;
+    margin: 0;
+    padding: 0;
 	position: absolute;
 	top: 0.5em;
-	left: 0.5em;
 }
-.oi-menu {
-	color: #cccccc;
+#btm_toggle_controls_img{
+    height: 50px;
+    width: 40px;
 }

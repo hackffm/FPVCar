@@ -17,7 +17,7 @@
 	</div>
 	<!-- Menu toggle ---------------------------------------------------------->
     <button id="btm_toggle_controls" onclick="toggle_controls()">
-		<span class="oi oi-menu" title="oi-menu" aria-hidden="true"></span>
+		<img id="btm_toggle_controls_img" src="/fpvc/images/hackffm_logo.png">
 	</button>
 	<!-- base directions ------------------------------------------------------>
 	<div id="tableBaseDirections">
@@ -75,6 +75,7 @@
 		var url = '/' + appNameShort + '/api';
 		//--init-------------------------------------------------
 		var lbl_labelInput = document.getElementById("labelInput");
+        var lbl_labelResult = document.getElementById("labelResult");
 		var tbd = document.getElementById("tableBaseDirections");
 		$(function() {
 			/*set arrow functions*/
@@ -147,6 +148,11 @@
 		  } else {
 			  lbl_labelInput.style.display = "none";
 		  }
+          if (lbl_labelResult.style.display === "none") {
+              lbl_labelResult.style.display = "block";
+          } else {
+              lbl_labelResult.style.display = "none";
+          }
           if (tbd.style.display === "none") {
             tbd.style.display = "block";
           } else {
@@ -157,6 +163,7 @@
 			/*set default screen text values*/
 			$("#moveResult").val(" [ not yet ]");
 			lbl_labelInput.style.display = "none";
+            lbl_labelResult.style.display = "none";
 			tbd.style.display = "none"
 		});
 	</script>
