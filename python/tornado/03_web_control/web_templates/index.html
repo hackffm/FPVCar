@@ -20,10 +20,10 @@
 		<img id="btm_toggle_controls_img" src="/fpvc/images/hackffm_logo.png">
 	</div>
 	<!-- base directions ------------------------------------------------------>
-	<div id="tableBaseDirections">
-		<table>
+	<div id="baseDirection">
+		<table id="tableBaseDirections">
 			<tr>
-				<td colspan="3">Control:Base Move</td>
+				<td colspan="3">Base</td>
 			</tr>
 			<tr>
 				<td><a id="turnLeft"><span class="oi oi-action-undo" title="oi-action-undo" aria-hidden="true"></span></a></td>
@@ -34,7 +34,8 @@
 				<td><a id="moveLeft"><span class="oi oi-arrow-thick-left" title="oi-arrow-thick-left" aria-hidden="true"></span></a></td>
 				<td>
 					<div id="steercontainter">
-						<canvas id="cnvsJoy" width="100px" height="100px"></canvas>
+						<!-- find out why css is not working -->
+						<canvas id="cnvsJoy" width="100" height="100"></canvas>
 					</div>
 				</td>
 				<td><a id="moveRight"><span class="oi oi-arrow-thick-right" title="oi-arrow-thick-right" aria-hidden="true"></span></a></td>
@@ -76,7 +77,7 @@
 		//--init-------------------------------------------------
 		var lbl_labelInput = document.getElementById("labelInput");
         var lbl_labelResult = document.getElementById("labelResult");
-		var tbd = document.getElementById("tableBaseDirections");
+		var tbd = document.getElementById("baseDirection");
 		$(function() {
 			/*set arrow functions*/
 			document.getElementById("moveLeft").addEventListener("click", function () {

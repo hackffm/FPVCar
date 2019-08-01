@@ -51,13 +51,16 @@ input[type="text"]
 	font-size: 2.5em;
 }
 /*----directions------------------*/
-#tableBaseDirections {
+#baseDirection {
+	left: 1em;
 	position: absolute;
 	top: 3em;
-	left: 1em;
 }
 #cnvsJoy {
-  border:1px #000000;
+	border: 1px #000000;
+}
+#tableBaseDirections{
+	text-align: center;
 }
 /*--toggle_controls----------------*/
 #btm_toggle_controls {
