@@ -20,8 +20,8 @@ input[type="text"]
 /*--input -------------------------*/
 #labelInput{
 	position: absolute;
-	bottom: 3em;
-	left: 1em;
+	bottom: 1em;
+	right: 1em;
 }
 #inputMessage {
 	border: 1px;

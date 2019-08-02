@@ -19,6 +19,8 @@ class WebApplication(tornado.web.Application):
         ]
 
         settings = {
+            'autoreload': debug,
+            'debug': debug,
             'static_path': web_resources,
             'template_path': 'web_templates'
         }
