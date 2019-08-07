@@ -7,7 +7,7 @@ import _thread
 import pygame
 import socket
 import json
-from base_rl import *
+from components import *
 
 ser = serial.Serial('/dev/ttyS0', 38400)
 print(ser.name)
