@@ -17,7 +17,8 @@ pygame.mixer.init(44100, -16, 1, 1024)
 
 components = {
     "base": Base(ser),
-    "sound": Sound(ser)
+    "sound": Sound(ser),
+    "cam": Cam(ser)
 }
 
 def readSerial():

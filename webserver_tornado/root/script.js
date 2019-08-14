@@ -140,3 +140,6 @@ function updateStats(msg) {
 function playSound(name) {
     ws.send("{ \"component\": \"sound\", \"sound\": \"" + name + "\" }\r");
 }
+function startCam() {
+    ws.send("{ \"component\": \"cam\", \"action\": \"start\" }\r");
+}
