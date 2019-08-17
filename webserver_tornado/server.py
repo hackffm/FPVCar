@@ -7,7 +7,7 @@ import _thread
 import pygame
 import socket
 import json
-from base_rl import *
+from components import *
 
 ser = serial.Serial('/dev/ttyS0', 38400)
 print(ser.name)
@@ -17,7 +17,8 @@ pygame.mixer.init(44100, -16, 1, 1024)
 
 components = {
     "base": Base(ser),
-    "sound": Sound(ser)
+    "sound": Sound(ser),
+    "cam": Cam(ser)
 }
 
 def readSerial():

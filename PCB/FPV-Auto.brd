@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="7.7.0">
+<eagle version="6.5.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.5" unitdist="mm" unit="mm" style="lines" multiple="1" display="no" altdistance="0.1" altunitdist="mm" altunit="mm"/>
+<grid distance="0.1" unitdist="mm" unit="mm" style="lines" multiple="1" display="no" altdistance="0.1" altunitdist="mm" altunit="mm"/>
 <layers>
-<layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
+<layer number="1" name="Top" color="4" fill="1" visible="no" active="yes"/>
 <layer number="2" name="GND" color="3" fill="1" visible="no" active="yes"/>
 <layer number="3" name="Route3" color="4" fill="3" visible="no" active="no"/>
 <layer number="14" name="Route14" color="1" fill="6" visible="no" active="no"/>
 <layer number="15" name="Route15" color="5" fill="1" visible="no" active="yes"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="no" active="yes"/>
-<layer number="17" name="Pads" color="2" fill="1" visible="yes" active="yes"/>
-<layer number="18" name="Vias" color="2" fill="1" visible="yes" active="yes"/>
+<layer number="17" name="Pads" color="2" fill="1" visible="no" active="yes"/>
+<layer number="18" name="Vias" color="2" fill="1" visible="no" active="yes"/>
 <layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="yes"/>
 <layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="yes"/>
 <layer number="21" name="tPlace" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="22" name="bPlace" color="7" fill="1" visible="no" active="yes"/>
-<layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="yes"/>
+<layer number="23" name="tOrigins" color="15" fill="1" visible="no" active="yes"/>
 <layer number="24" name="bOrigins" color="15" fill="1" visible="no" active="yes"/>
 <layer number="25" name="tNames" color="7" fill="1" visible="no" active="yes"/>
 <layer number="26" name="bNames" color="7" fill="1" visible="no" active="yes"/>
-<layer number="27" name="tValues" color="7" fill="1" visible="no" active="yes"/>
+<layer number="27" name="tValues" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="28" name="bValues" color="7" fill="1" visible="no" active="yes"/>
 <layer number="29" name="tStop" color="7" fill="3" visible="no" active="yes"/>
 <layer number="30" name="bStop" color="7" fill="6" visible="no" active="yes"/>
@@ -42,7 +42,7 @@
 <layer number="42" name="bRestrict" color="1" fill="10" visible="no" active="yes"/>
 <layer number="43" name="vRestrict" color="2" fill="10" visible="no" active="yes"/>
 <layer number="44" name="Drills" color="7" fill="1" visible="no" active="yes"/>
-<layer number="45" name="Holes" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="45" name="Holes" color="7" fill="1" visible="no" active="yes"/>
 <layer number="46" name="Milling" color="3" fill="1" visible="no" active="yes"/>
 <layer number="47" name="Measures" color="7" fill="1" visible="no" active="yes"/>
 <layer number="48" name="Document" color="7" fill="1" visible="no" active="yes"/>
@@ -181,7 +181,7 @@
 <text x="64.94" y="12.38" size="1.016" layer="30" font="vector" ratio="12" rot="MR90" align="top-center">Lutz Lisseck
 David Merges</text>
 <text x="47" y="30.2" size="1.016" layer="30" font="vector" ratio="10" rot="MR0" align="top-center">hackffm.de/fpva</text>
-<text x="64.02" y="22.14" size="1.016" layer="22" rot="MR270" align="top-center">Spkr</text>
+<text x="63.52" y="12.34" size="1.016" layer="22" rot="MR270" align="top-center">Spkr</text>
 <wire x1="61.22" y1="18.04" x2="61.22" y2="17.64" width="0.2" layer="22"/>
 <wire x1="61.22" y1="15.44" x2="61.22" y2="15.04" width="0.2" layer="22"/>
 <wire x1="58.72" y1="15.44" x2="58.72" y2="15.04" width="0.2" layer="22"/>
@@ -1984,11 +1984,8 @@ Covered vias can be set in Masks (Limit).
 <autorouter>
 <pass name="Default">
 <param name="RoutingGrid" value="50mil"/>
-<param name="AutoGrid" value="1"/>
-<param name="Efforts" value="0"/>
-<param name="TopRouterVariant" value="1"/>
 <param name="tpViaShape" value="round"/>
-<param name="PrefDir.1" value="a"/>
+<param name="PrefDir.1" value="|"/>
 <param name="PrefDir.2" value="0"/>
 <param name="PrefDir.3" value="0"/>
 <param name="PrefDir.4" value="0"/>
@@ -2003,7 +2000,7 @@ Covered vias can be set in Masks (Limit).
 <param name="PrefDir.13" value="0"/>
 <param name="PrefDir.14" value="0"/>
 <param name="PrefDir.15" value="0"/>
-<param name="PrefDir.16" value="a"/>
+<param name="PrefDir.16" value="-"/>
 <param name="cfVia" value="8"/>
 <param name="cfNonPref" value="5"/>
 <param name="cfChangeDir" value="2"/>
@@ -2078,137 +2075,419 @@ Covered vias can be set in Masks (Limit).
 </pass>
 </autorouter>
 <elements>
-<element name="U300" library="FPV-Auto" package="RTW(S-PWQFN-N24)_LONG" value="BQ25892" x="25.61" y="9.5" rot="R90"/>
-<element name="U100" library="FPV-Auto" package="PBS(S-PQFP-G32)" value="ATMEGA328P-MU" x="26.11" y="10" rot="MR270">
-<attribute name="OC_MOUSER" value="556-ATMEGA328P-AU" x="26.11" y="10" size="1.778" layer="28" rot="MR270" display="off"/>
+<element name="U300" library="FPV-Auto" package="RTW(S-PWQFN-N24)_LONG" value="BQ25892" x="25.61" y="9.5" smashed="yes" rot="R90">
+<attribute name="NAME" x="22.51" y="9.5" size="0.8128" layer="25" rot="R90" align="bottom-center"/>
+<attribute name="VALUE" x="25.31" y="8.9" size="0.8128" layer="27" rot="R90" align="top-center"/>
 </element>
-<element name="U350" library="FPV-Auto" package="DBV(R-PDSO-G5)" value="LP5907MFX-3.3/NOPB" x="25.39" y="20.8" rot="R180"/>
-<element name="U200" library="FPV-Auto" package="RASPBERRY_PI_ZERO_W_V1.1_GPIO_DUAL" value="RASPBERRY_PI_ZERO_W_V1.1_GPIO_DUAL" x="8.9" y="25.3"/>
-<element name="U330" library="FPV-Auto" package="RWL(S-PQFP-N9)_LONG" value="TPS61236P" x="40.21" y="16.2" rot="R180"/>
-<element name="U110" library="FPV-Auto" package="NRF24L01+_MINI" value="NRF24L01+_MINI" x="1.48" y="13.47" rot="R90"/>
-<element name="L330" library="FPV-Auto" package="XAL7030" value="1.0µH" x="47.91" y="17.9" rot="R270">
+<element name="U100" library="FPV-Auto" package="PBS(S-PQFP-G32)" value="ATMEGA328P-MU" x="26.11" y="10" smashed="yes" rot="MR270">
+<attribute name="OC_MOUSER" value="556-ATMEGA328P-AU" x="26.11" y="10" size="1.778" layer="28" rot="MR270" display="off"/>
+<attribute name="NAME" x="21.87" y="10" size="0.8128" layer="26" font="vector" rot="MR270" align="bottom-center"/>
+<attribute name="VALUE" x="26.5" y="6.25" size="0.8128" layer="28" font="vector" rot="MR0" align="top-center"/>
+</element>
+<element name="U350" library="FPV-Auto" package="DBV(R-PDSO-G5)" value="LP5907MFX-3.3/NOPB" x="25.39" y="20.8" smashed="yes" rot="R180">
+<attribute name="NAME" x="25.39" y="19" size="0.8128" layer="25" font="vector" rot="R180" align="bottom-center"/>
+<attribute name="VALUE" x="27.59" y="22.5" size="0.8128" layer="27" font="vector" rot="R180" align="top-center"/>
+</element>
+<element name="U200" library="FPV-Auto" package="RASPBERRY_PI_ZERO_W_V1.1_GPIO_DUAL" value="RASPBERRY_PI_ZERO_W_V1.1_GPIO_DUAL" x="8.9" y="25.3" smashed="yes">
+<attribute name="NAME" x="33.06" y="31.8" size="0.8128" layer="25" font="vector" align="bottom-center"/>
+<attribute name="VALUE" x="32.16" y="27.95" size="0.8128" layer="27" font="vector" rot="R180" align="top-center"/>
+</element>
+<element name="U330" library="FPV-Auto" package="RWL(S-PQFP-N9)_LONG" value="TPS61236P" x="40.21" y="16.2" smashed="yes" rot="R180">
+<attribute name="NAME" x="40.21" y="14.4" size="0.8128" layer="25" font="vector" rot="R180" align="bottom-center"/>
+<attribute name="VALUE" x="38.11" y="15.05" size="0.8128" layer="27" font="vector" rot="R180" align="top-center"/>
+</element>
+<element name="U110" library="FPV-Auto" package="NRF24L01+_MINI" value="NRF24L01+_MINI" x="1.48" y="13.47" smashed="yes" rot="R90">
+<attribute name="NAME" x="6.93" y="7.17" size="0.8128" layer="25" font="vector" rot="R180" align="bottom-center"/>
+<attribute name="VALUE" x="-1.62" y="13.47" size="0.8128" layer="27" font="vector" rot="R90" align="center"/>
+</element>
+<element name="L330" library="FPV-Auto" package="XAL7030" value="1.0µH" x="47.91" y="17.9" smashed="yes" rot="R270">
 <attribute name="OC_MOUSER" value="994-XAL7030-102ME" x="47.91" y="17.9" size="1.778" layer="27" font="vector" rot="R270" display="off"/>
 <attribute name="TOL" value="20%" x="47.91" y="17.9" size="1.778" layer="27" font="vector" rot="R270" display="off"/>
+<attribute name="NAME" x="51.91" y="17.9" size="0.8128" layer="25" font="vector" rot="R270" align="bottom-center"/>
+<attribute name="VALUE" x="49.2" y="17.71" size="0.8128" layer="27" font="vector" align="top-center"/>
 </element>
-<element name="R331" library="FPV-Auto" package="R0603" value="1M" x="37.41" y="18.3" rot="R270"/>
-<element name="R332" library="FPV-Auto" package="R0603" value="324K" x="37.41" y="21.2" rot="R270"/>
-<element name="R330" library="FPV-Auto" package="R0603" value="1M" x="39.11" y="20.4" rot="R270"/>
-<element name="C331" library="FPV-Auto" package="C0603" value="1µF" x="41.71" y="19.9" rot="R180"/>
-<element name="C330" library="FPV-Auto" package="C0603" value="10µF" x="41.61" y="21.9" rot="R180"/>
-<element name="C332" library="FPV-Auto" package="C0805" value="22µF" x="40.21" y="13"/>
-<element name="C333" library="FPV-Auto" package="C0805" value="22µF" x="36.81" y="11.3" rot="R90"/>
-<element name="C334" library="FPV-Auto" package="C0805" value="22µF" x="40.21" y="10.7"/>
-<element name="U340" library="FPV-Auto" package="RWL(S-PQFP-N9)_LONG" value="TPS61236P" x="47.11" y="6.5"/>
-<element name="L340" library="FPV-Auto" package="XAL7030" value="1.0µH" x="39.41" y="4.8" rot="R90">
+<element name="R331" library="FPV-Auto" package="R0603" value="1M" x="37.41" y="18.3" smashed="yes" rot="R270">
+<attribute name="NAME" x="38.21" y="18.3" size="0.8128" layer="25" font="vector" rot="R270" align="bottom-center"/>
+<attribute name="VALUE" x="37.1" y="16.49" size="0.8128" layer="27" font="vector" rot="R180" align="top-center"/>
+</element>
+<element name="R332" library="FPV-Auto" package="R0603" value="324K" x="37.41" y="21.2" smashed="yes" rot="R270">
+<attribute name="NAME" x="38.21" y="21.2" size="0.8128" layer="25" font="vector" rot="R270" align="bottom-center"/>
+<attribute name="VALUE" x="38.1" y="22.91" size="0.8128" layer="27" font="vector" align="top-center"/>
+</element>
+<element name="R330" library="FPV-Auto" package="R0603" value="1M" x="39.11" y="20.4" smashed="yes" rot="R270">
+<attribute name="NAME" x="39.91" y="20.4" size="0.8128" layer="25" font="vector" rot="R270" align="bottom-center"/>
+<attribute name="VALUE" x="39.2" y="19.31" size="0.8128" layer="27" font="vector" align="top-center"/>
+</element>
+<element name="C331" library="FPV-Auto" package="C0603" value="1µF" x="41.71" y="19.9" smashed="yes" rot="R180">
+<attribute name="NAME" x="41.71" y="19.1" size="0.8128" layer="25" font="vector" rot="R180" align="bottom-center"/>
+<attribute name="VALUE" x="41.01" y="20.5" size="0.8128" layer="27" font="vector" rot="R180" align="top-center"/>
+</element>
+<element name="C330" library="FPV-Auto" package="C0603" value="10µF" x="41.61" y="21.9" smashed="yes" rot="R180">
+<attribute name="NAME" x="41.61" y="21.1" size="0.8128" layer="25" font="vector" rot="R180" align="bottom-center"/>
+<attribute name="VALUE" x="41.61" y="22.7" size="0.8128" layer="27" font="vector" rot="R180" align="top-center"/>
+</element>
+<element name="C332" library="FPV-Auto" package="C0805" value="22µF" x="40.21" y="13" smashed="yes">
+<attribute name="NAME" x="40.21" y="14.1" size="0.8128" layer="25" font="vector" align="bottom-center"/>
+<attribute name="VALUE" x="42.91" y="13.3" size="0.8128" layer="27" font="vector" align="top-center"/>
+</element>
+<element name="C333" library="FPV-Auto" package="C0805" value="22µF" x="36.81" y="11.3" smashed="yes" rot="R90">
+<attribute name="NAME" x="35.71" y="11.3" size="0.8128" layer="25" font="vector" rot="R90" align="bottom-center"/>
+<attribute name="VALUE" x="35.9" y="12.61" size="0.8128" layer="27" font="vector" rot="R180" align="top-center"/>
+</element>
+<element name="C334" library="FPV-Auto" package="C0805" value="22µF" x="40.21" y="10.7" smashed="yes">
+<attribute name="NAME" x="40.21" y="11.8" size="0.8128" layer="25" font="vector" align="bottom-center"/>
+<attribute name="VALUE" x="42.91" y="11.2" size="0.8128" layer="27" font="vector" align="top-center"/>
+</element>
+<element name="U340" library="FPV-Auto" package="RWL(S-PQFP-N9)_LONG" value="TPS61236P" x="47.11" y="6.5" smashed="yes">
+<attribute name="NAME" x="47.11" y="8.3" size="0.8128" layer="25" font="vector" align="bottom-center"/>
+<attribute name="VALUE" x="47.01" y="5.05" size="0.8128" layer="27" font="vector" align="top-center"/>
+</element>
+<element name="L340" library="FPV-Auto" package="XAL7030" value="1.0µH" x="39.41" y="4.8" smashed="yes" rot="R90">
 <attribute name="TOL" value="20%" x="26.71" y="-4.09" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="OC_MOUSER" value="994-XAL7030-102ME" x="26.71" y="-4.09" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="NAME" x="35.41" y="4.8" size="0.8128" layer="25" font="vector" rot="R90" align="bottom-center"/>
+<attribute name="VALUE" x="40.5" y="4.01" size="0.8128" layer="27" font="vector" rot="R180" align="top-center"/>
 </element>
-<element name="R341" library="FPV-Auto" package="R0603" value="1M" x="50.61" y="6.5" rot="R90"/>
-<element name="R342" library="FPV-Auto" package="R0603" value="294K" x="50.61" y="2.9" rot="R90"/>
-<element name="R340" library="FPV-Auto" package="R0603" value="1M" x="48.91" y="2.9" rot="R90"/>
-<element name="C341" library="FPV-Auto" package="C0603" value="1µF" x="45.61" y="2.7"/>
-<element name="C340" library="FPV-Auto" package="C0603" value="10µF" x="45.61" y="0.9"/>
-<element name="C342" library="FPV-Auto" package="C0805" value="22µF" x="47.11" y="9.8" rot="R180"/>
-<element name="C343" library="FPV-Auto" package="C0805" value="22µF" x="47.11" y="12.2" rot="R180"/>
-<element name="C344" library="FPV-Auto" package="C0805" value="22µF" x="50.41" y="11" rot="R270"/>
+<element name="R341" library="FPV-Auto" package="R0603" value="1M" x="50.61" y="6.5" smashed="yes" rot="R90">
+<attribute name="NAME" x="49.81" y="6.5" size="0.8128" layer="25" font="vector" rot="R90" align="bottom-center"/>
+<attribute name="VALUE" x="50.6" y="7.51" size="0.8128" layer="27" font="vector" rot="R180" align="top-center"/>
+</element>
+<element name="R342" library="FPV-Auto" package="R0603" value="294K" x="50.61" y="2.9" smashed="yes" rot="R90">
+<attribute name="NAME" x="49.81" y="2.9" size="0.8128" layer="25" font="vector" rot="R90" align="bottom-center"/>
+<attribute name="VALUE" x="51.99" y="2.9" size="0.8128" layer="27" font="vector" rot="R270" align="top-center"/>
+</element>
+<element name="R340" library="FPV-Auto" package="R0603" value="1M" x="48.91" y="2.9" smashed="yes" rot="R90">
+<attribute name="NAME" x="48.11" y="2.9" size="0.8128" layer="25" font="vector" rot="R90" align="bottom-center"/>
+<attribute name="VALUE" x="49" y="0.31" size="0.8128" layer="27" font="vector" rot="R180" align="top-center"/>
+</element>
+<element name="C341" library="FPV-Auto" package="C0603" value="1µF" x="45.61" y="2.7" smashed="yes">
+<attribute name="NAME" x="45.61" y="3.5" size="0.8128" layer="25" font="vector" align="bottom-center"/>
+<attribute name="VALUE" x="44.51" y="4.1" size="0.8128" layer="27" font="vector" align="top-center"/>
+</element>
+<element name="C340" library="FPV-Auto" package="C0603" value="10µF" x="45.61" y="0.9" smashed="yes">
+<attribute name="NAME" x="45.61" y="1.7" size="0.8128" layer="25" font="vector" align="bottom-center"/>
+<attribute name="VALUE" x="43.81" y="0.9" size="0.8128" layer="27" font="vector" align="top-center"/>
+</element>
+<element name="C342" library="FPV-Auto" package="C0805" value="22µF" x="47.11" y="9.8" smashed="yes" rot="R180">
+<attribute name="NAME" x="47.11" y="8.7" size="0.8128" layer="25" font="vector" rot="R180" align="bottom-center"/>
+<attribute name="VALUE" x="44.81" y="9.3" size="0.8128" layer="27" font="vector" rot="R180" align="top-center"/>
+</element>
+<element name="C343" library="FPV-Auto" package="C0805" value="22µF" x="47.11" y="12.2" smashed="yes" rot="R180">
+<attribute name="NAME" x="47.11" y="11.1" size="0.8128" layer="25" font="vector" rot="R180" align="bottom-center"/>
+<attribute name="VALUE" x="44.81" y="11.7" size="0.8128" layer="27" font="vector" rot="R180" align="top-center"/>
+</element>
+<element name="C344" library="FPV-Auto" package="C0805" value="22µF" x="50.41" y="11" smashed="yes" rot="R270">
+<attribute name="NAME" x="51.51" y="11" size="0.8128" layer="25" font="vector" rot="R270" align="bottom-center"/>
+<attribute name="VALUE" x="50.5" y="12.91" size="0.8128" layer="27" font="vector" align="top-center"/>
+</element>
 <element name="C350" library="FPV-Auto" package="C0603" value="1µF" x="28.79" y="20.3" smashed="yes" rot="R90">
 <attribute name="NAME" x="27.99" y="20.3" size="0.6096" layer="25" font="vector" rot="R90" align="bottom-center"/>
-<attribute name="VALUE" x="29.59" y="20.3" size="0.6096" layer="27" font="vector" rot="R90" align="top-center"/>
+<attribute name="VALUE" x="28.9" y="21.29" size="0.6096" layer="27" font="vector" rot="R180" align="top-center"/>
 </element>
-<element name="C351" library="FPV-Auto" package="C0603" value="1µF" x="21.79" y="19.4" rot="R180"/>
-<element name="Y100" library="FPV-Auto" package="CSTNE" value="8Mhz" x="29.67" y="14.7" rot="MR225">
+<element name="C351" library="FPV-Auto" package="C0603" value="1µF" x="21.79" y="19.4" smashed="yes" rot="R180">
+<attribute name="NAME" x="21.79" y="18.6" size="0.8128" layer="25" font="vector" rot="R180" align="bottom-center"/>
+<attribute name="VALUE" x="22.11" y="18.8" size="0.8128" layer="27" font="vector" align="top-center"/>
+</element>
+<element name="Y100" library="FPV-Auto" package="CSTNE" value="8Mhz" x="29.67" y="14.7" smashed="yes" rot="MR225">
 <attribute name="OC_MOUSER" value="81-CSTNE8M00GH5C000R" x="29.67" y="14.7" size="1.778" layer="28" font="vector" rot="MR225" display="off"/>
 <attribute name="LOAD_CAPACITY" value="33pF" x="29.67" y="14.7" size="1.778" layer="28" font="vector" rot="MR225" display="off"/>
+<attribute name="NAME" x="28.800259375" y="13.83025625" size="0.8128" layer="26" rot="MR225" align="bottom-center"/>
+<attribute name="VALUE" x="30.53974375" y="15.569740625" size="0.8128" layer="28" rot="MR225" align="top-center"/>
 </element>
-<element name="R101" library="FPV-Auto" package="R0603" value="10K" x="18.99" y="11.4" rot="MR45"/>
-<element name="C104" library="FPV-Auto" package="C0603" value="100nF" x="5.81" y="20.8" rot="MR0"/>
-<element name="R304" library="FPV-Auto" package="R0603" value="30K1" x="14.9" y="6.21" rot="R90"/>
-<element name="RT300" library="FPV-Auto" package="AT-2" value="103AT-2" x="14.9" y="18.3" rot="MR270"/>
-<element name="R303" library="FPV-Auto" package="R0603" value="5K23" x="15.71" y="8.8"/>
-<element name="C303" library="FPV-Auto" package="C0805" value="10µF" x="28.21" y="15.1" rot="R90"/>
-<element name="C302" library="FPV-Auto" package="C0603" value="4,7µF" x="16.6" y="6.21" rot="R270"/>
-<element name="TP300" library="testpad" package="B1,27" value="TPB1,27" x="28.91" y="11.9" rot="R90">
-<attribute name="TP_SIGNAL_NAME" value="" x="28.91" y="11.9" size="1.778" layer="27" font="vector" rot="R90" display="off"/>
+<element name="R101" library="FPV-Auto" package="R0603" value="10K" x="18.99" y="11.4" smashed="yes" rot="MR45">
+<attribute name="NAME" x="19.5556875" y="11.965684375" size="0.8128" layer="26" font="vector" rot="MR45" align="bottom-center"/>
+<attribute name="VALUE" x="18.424315625" y="10.8343125" size="0.8128" layer="28" font="vector" rot="MR45" align="top-center"/>
 </element>
-<element name="R301" library="FPV-Auto" package="R0603" value="330R" x="31.1" y="10.3" rot="R180"/>
-<element name="R302" library="FPV-Auto" package="R0603" value="10K" x="31.1" y="8.7" rot="R180"/>
-<element name="C304" library="FPV-Auto" package="C0805" value="10µF" x="24.21" y="14.5" rot="R270"/>
-<element name="C305" library="FPV-Auto" package="C0805" value="10µF" x="22.21" y="14.5" rot="R270"/>
-<element name="C301" library="FPV-Auto" package="C0402" value="47nF" x="21.71" y="10.6" rot="R270"/>
-<element name="L300" library="FPV-Auto" package="4030" value="1µH" x="18.81" y="12.5" rot="R90"/>
-<element name="Q310" library="FPV-Auto" package="Q3A" value="CSD25402Q3A" x="7.89" y="9.6" rot="MR180"/>
-<element name="R310" library="FPV-Auto" package="R0603" value="10K" x="5.7" y="12.7" rot="MR270"/>
-<element name="C311" library="FPV-Auto" package="C0805" value="1µF" x="8.71" y="12.5" rot="MR180"/>
-<element name="C300" library="FPV-Auto" package="C0805" value="10µF" x="20.01" y="8" rot="R180"/>
-<element name="R300" library="FPV-Auto" package="R0603" value="5K23" x="11.11" y="4.9" rot="MR90"/>
-<element name="R333" library="FPV-Auto" package="R0603" value="100K" x="35.1" y="20.51"/>
-<element name="R334" library="FPV-Auto" package="R0603" value="10K" x="35.1" y="21.99"/>
-<element name="R351" library="FPV-Auto" package="R0603" value="10K" x="22.09" y="18.1" rot="MR180"/>
-<element name="R320" library="FPV-Auto" package="R0603" value="100K" x="8.8" y="18.19" rot="MR0"/>
-<element name="D320" library="diode" package="SOT23" value="BAT54A" x="8.79" y="15.4" rot="MR180"/>
-<element name="R321" library="FPV-Auto" package="R0603" value="1K" x="14.21" y="21.8"/>
-<element name="D321" library="diode" package="SOT23" value="BAT54A" x="18.1" y="20.71" rot="R90"/>
-<element name="R350" library="FPV-Auto" package="R0603" value="10K" x="21.69" y="21.6"/>
-<element name="RT301" library="FPV-Auto" package="R0603" value="NTCS0603E3103FLT" x="16.5" y="18.3" rot="R270"/>
-<element name="U140" library="FPV-Auto" package="DSS(WSON-12)" value="DRV8835" x="52.91" y="4.3" rot="MR0"/>
-<element name="R140" library="FPV-Auto" package="R0603" value="1K" x="49.61" y="6.6" rot="MR270"/>
-<element name="C100" library="FPV-Auto" package="C0603" value="100nF" x="23.01" y="15.3" rot="MR0"/>
-<element name="C103" library="FPV-Auto" package="C0603" value="100nF" x="26.4" y="3.44" rot="MR270"/>
-<element name="C101" library="FPV-Auto" package="C0603" value="100nF" x="26.11" y="16.2" rot="MR0"/>
-<element name="C102" library="FPV-Auto" package="C0603" value="100nF" x="27.8" y="3.44" rot="MR270"/>
-<element name="R100" library="FPV-Auto" package="R0603" value="10R" x="27.8" y="3.44" rot="R270"/>
-<element name="X100" library="FPV-Auto" package="ISP-M_TP" value="ISP-M_TP" x="30.6" y="1.2" rot="MR180"/>
-<element name="C141" library="FPV-Auto" package="C0603" value="100nF" x="52.01" y="7.7" rot="MR90"/>
+<element name="C104" library="FPV-Auto" package="C0603" value="100nF" x="5.81" y="20.8" smashed="yes" rot="MR0">
+<attribute name="NAME" x="5.81" y="21.6" size="0.8128" layer="26" font="vector" rot="MR0" align="bottom-center"/>
+<attribute name="VALUE" x="5.21" y="22.3" size="0.8128" layer="28" font="vector" rot="MR0" align="top-center"/>
+</element>
+<element name="R304" library="FPV-Auto" package="R0603" value="30K1" x="14.9" y="6.21" smashed="yes" rot="R90">
+<attribute name="NAME" x="14.1" y="6.21" size="0.8128" layer="25" font="vector" rot="R90" align="bottom-center"/>
+<attribute name="VALUE" x="13.6" y="6.51" size="0.8128" layer="27" font="vector" rot="R90" align="top-center"/>
+</element>
+<element name="RT300" library="FPV-Auto" package="AT-2" value="103AT-2" x="14.9" y="18.3" smashed="yes" rot="MR270">
+<attribute name="NAME" x="13.5" y="18.3" size="0.8128" layer="26" font="vector" rot="MR270" align="bottom-center"/>
+<attribute name="VALUE" x="15.1" y="20.4" size="0.8128" layer="28" font="vector" rot="MR180" align="top-center"/>
+</element>
+<element name="R303" library="FPV-Auto" package="R0603" value="5K23" x="15.71" y="8.8" smashed="yes">
+<attribute name="NAME" x="15.71" y="9.6" size="0.8128" layer="25" font="vector" align="bottom-center"/>
+<attribute name="VALUE" x="14.91" y="10.1" size="0.8128" layer="27" font="vector" align="top-center"/>
+</element>
+<element name="C303" library="FPV-Auto" package="C0805" value="10µF" x="28.21" y="15.1" smashed="yes" rot="R90">
+<attribute name="NAME" x="27.11" y="15.1" size="0.8128" layer="25" font="vector" rot="R90" align="bottom-center"/>
+<attribute name="VALUE" x="28.7" y="13.01" size="0.8128" layer="27" font="vector" rot="R180" align="top-center"/>
+</element>
+<element name="C302" library="FPV-Auto" package="C0603" value="4,7µF" x="16.6" y="6.21" smashed="yes" rot="R270">
+<attribute name="NAME" x="17.4" y="6.21" size="0.8128" layer="25" font="vector" rot="R270" align="bottom-center"/>
+<attribute name="VALUE" x="18" y="5.61" size="0.8128" layer="27" font="vector" rot="R270" align="top-center"/>
+</element>
+<element name="TP300" library="testpad" package="B1,27" value="TPB1,27" x="28.91" y="11.9" smashed="yes" rot="R90">
+<attribute name="TP_SIGNAL_NAME" value="" x="30.815" y="11.265" size="1" layer="37" rot="R90"/>
+<attribute name="NAME" x="27.894" y="11.265" size="1.27" layer="25" ratio="10" rot="R90"/>
+<attribute name="VALUE" x="29.672" y="11.265" size="0.0254" layer="27" rot="R90"/>
+</element>
+<element name="R301" library="FPV-Auto" package="R0603" value="330R" x="31.1" y="10.3" smashed="yes" rot="R180">
+<attribute name="NAME" x="31.1" y="9.5" size="0.8128" layer="25" font="vector" rot="R180" align="bottom-center"/>
+<attribute name="VALUE" x="31.1" y="11" size="0.8128" layer="27" font="vector" rot="R180" align="top-center"/>
+</element>
+<element name="R302" library="FPV-Auto" package="R0603" value="10K" x="31.1" y="8.7" smashed="yes" rot="R180">
+<attribute name="NAME" x="31.1" y="7.9" size="0.8128" layer="25" font="vector" rot="R180" align="bottom-center"/>
+<attribute name="VALUE" x="31.2" y="7.2" size="0.8128" layer="27" font="vector" rot="R180" align="top-center"/>
+</element>
+<element name="C304" library="FPV-Auto" package="C0805" value="10µF" x="24.21" y="14.5" smashed="yes" rot="R270">
+<attribute name="NAME" x="25.31" y="14.5" size="0.8128" layer="25" font="vector" rot="R270" align="bottom-center"/>
+<attribute name="VALUE" x="25" y="13.11" size="0.8128" layer="27" font="vector" align="top-center"/>
+</element>
+<element name="C305" library="FPV-Auto" package="C0805" value="10µF" x="22.21" y="14.5" smashed="yes" rot="R270">
+<attribute name="NAME" x="23.31" y="14.5" size="0.8128" layer="25" font="vector" rot="R270" align="bottom-center"/>
+<attribute name="VALUE" x="21.9" y="16.61" size="0.8128" layer="27" font="vector" align="top-center"/>
+</element>
+<element name="C301" library="FPV-Auto" package="C0402" value="47nF" x="21.71" y="10.6" smashed="yes" rot="R270">
+<attribute name="NAME" x="22.41" y="10.6" size="0.8128" layer="25" font="vector" rot="R270" align="bottom-center"/>
+<attribute name="VALUE" x="22.91" y="10.1" size="0.8128" layer="27" font="vector" rot="R270" align="top-center"/>
+</element>
+<element name="L300" library="FPV-Auto" package="4030" value="1µH" x="18.81" y="12.5" smashed="yes" rot="R90">
+<attribute name="NAME" x="16.51" y="12.5" size="0.8128" layer="25" rot="R90" align="bottom-center"/>
+<attribute name="VALUE" x="18.51" y="12.3" size="0.8128" layer="27" rot="R90" align="top-center"/>
+</element>
+<element name="Q310" library="FPV-Auto" package="Q3A" value="CSD25402Q3A" x="7.89" y="9.6" smashed="yes" rot="MR180">
+<attribute name="NAME" x="9.99" y="9.6" size="0.8128" layer="26" font="vector" rot="MR90" align="bottom-center"/>
+<attribute name="VALUE" x="9.5" y="9.99" size="0.8128" layer="28" font="vector" rot="MR0" align="top-center"/>
+</element>
+<element name="R310" library="FPV-Auto" package="R0603" value="10K" x="5.7" y="12.7" smashed="yes" rot="MR270">
+<attribute name="NAME" x="4.9" y="12.7" size="0.8128" layer="26" font="vector" rot="MR270" align="bottom-center"/>
+<attribute name="VALUE" x="5.7" y="13.7" size="0.8128" layer="28" font="vector" rot="MR180" align="top-center"/>
+</element>
+<element name="C311" library="FPV-Auto" package="C0805" value="1µF" x="8.71" y="12.5" smashed="yes" rot="MR180">
+<attribute name="NAME" x="8.71" y="11.4" size="0.8128" layer="26" font="vector" rot="MR180" align="bottom-center"/>
+<attribute name="VALUE" x="10.81" y="12" size="0.8128" layer="28" font="vector" rot="MR180" align="top-center"/>
+</element>
+<element name="C300" library="FPV-Auto" package="C0805" value="10µF" x="20.01" y="8" smashed="yes" rot="R180">
+<attribute name="NAME" x="20.01" y="6.9" size="0.8128" layer="25" font="vector" rot="R180" align="bottom-center"/>
+<attribute name="VALUE" x="19.91" y="8.9" size="0.8128" layer="27" font="vector" rot="R180" align="top-center"/>
+</element>
+<element name="R300" library="FPV-Auto" package="R0603" value="5K23" x="11.11" y="4.9" smashed="yes" rot="MR90">
+<attribute name="NAME" x="11.91" y="4.9" size="0.8128" layer="26" font="vector" rot="MR90" align="bottom-center"/>
+<attribute name="VALUE" x="10.31" y="4.9" size="0.8128" layer="28" font="vector" rot="MR90" align="top-center"/>
+</element>
+<element name="R333" library="FPV-Auto" package="R0603" value="100K" x="35.1" y="20.51" smashed="yes">
+<attribute name="NAME" x="35.1" y="21.31" size="0.8128" layer="25" font="vector" align="bottom-center"/>
+<attribute name="VALUE" x="34.9" y="19.91" size="0.8128" layer="27" font="vector" align="top-center"/>
+</element>
+<element name="R334" library="FPV-Auto" package="R0603" value="10K" x="35.1" y="21.99" smashed="yes">
+<attribute name="NAME" x="35.1" y="22.79" size="0.8128" layer="25" font="vector" align="bottom-center"/>
+<attribute name="VALUE" x="35.6" y="23.29" size="0.8128" layer="27" font="vector" align="top-center"/>
+</element>
+<element name="R351" library="FPV-Auto" package="R0603" value="10K" x="22.09" y="18.1" smashed="yes" rot="MR180">
+<attribute name="NAME" x="22.09" y="17.3" size="0.8128" layer="26" font="vector" rot="MR180" align="bottom-center"/>
+<attribute name="VALUE" x="22.09" y="18.9" size="0.8128" layer="28" font="vector" rot="MR180" align="top-center"/>
+</element>
+<element name="R320" library="FPV-Auto" package="R0603" value="100K" x="8.8" y="18.19" smashed="yes" rot="MR0">
+<attribute name="NAME" x="8.8" y="18.99" size="0.8128" layer="26" font="vector" rot="MR0" align="bottom-center"/>
+<attribute name="VALUE" x="11.2" y="18.69" size="0.8128" layer="28" font="vector" rot="MR0" align="top-center"/>
+</element>
+<element name="D320" library="diode" package="SOT23" value="BAT54A" x="8.79" y="15.4" smashed="yes" rot="MR180">
+<attribute name="NAME" x="6.885" y="13.495" size="1.27" layer="26" rot="MR180"/>
+<attribute name="VALUE" x="9.285" y="15.175" size="1.27" layer="28" rot="MR180"/>
+</element>
+<element name="R321" library="FPV-Auto" package="R0603" value="1K" x="14.21" y="21.8" smashed="yes">
+<attribute name="NAME" x="14.21" y="22.6" size="0.8128" layer="25" font="vector" align="bottom-center"/>
+<attribute name="VALUE" x="14.11" y="21.2" size="0.8128" layer="27" font="vector" align="top-center"/>
+</element>
+<element name="D321" library="diode" package="SOT23" value="BAT54A" x="18.1" y="20.71" smashed="yes" rot="R90">
+<attribute name="NAME" x="16.195" y="18.805" size="1.27" layer="25" rot="R90"/>
+<attribute name="VALUE" x="20.175" y="16.005" size="1.27" layer="27" rot="R90"/>
+</element>
+<element name="R350" library="FPV-Auto" package="R0603" value="10K" x="21.69" y="21.6" smashed="yes">
+<attribute name="NAME" x="21.69" y="22.4" size="0.8128" layer="25" font="vector" align="bottom-center"/>
+<attribute name="VALUE" x="21.89" y="21.1" size="0.8128" layer="27" font="vector" align="top-center"/>
+</element>
+<element name="RT301" library="FPV-Auto" package="R0603" value="NTCS0603E3103FLT" x="16.5" y="18.3" smashed="yes" rot="R270">
+<attribute name="NAME" x="17.3" y="18.3" size="0.8128" layer="25" font="vector" rot="R270" align="bottom-center"/>
+<attribute name="VALUE" x="15.9" y="18.1" size="0.8128" layer="27" font="vector" rot="R270" align="top-center"/>
+</element>
+<element name="U140" library="FPV-Auto" package="DSS(WSON-12)" value="DRV8835" x="52.91" y="4.3" smashed="yes" rot="MR0">
+<attribute name="NAME" x="52.91" y="6.1" size="0.8128" layer="26" font="vector" rot="MR0" align="bottom-center"/>
+<attribute name="VALUE" x="52.71" y="2.4" size="0.8128" layer="28" font="vector" rot="MR0" align="top-center"/>
+</element>
+<element name="R140" library="FPV-Auto" package="R0603" value="1K" x="49.61" y="6.6" smashed="yes" rot="MR270">
+<attribute name="NAME" x="48.81" y="6.6" size="0.8128" layer="26" font="vector" rot="MR270" align="bottom-center"/>
+<attribute name="VALUE" x="48.21" y="6.5" size="0.8128" layer="28" font="vector" rot="MR270" align="top-center"/>
+</element>
+<element name="C100" library="FPV-Auto" package="C0603" value="100nF" x="23.01" y="15.3" smashed="yes" rot="MR0">
+<attribute name="NAME" x="23.01" y="16.1" size="0.8128" layer="26" font="vector" rot="MR0" align="bottom-center"/>
+<attribute name="VALUE" x="22.81" y="16.7" size="0.8128" layer="28" font="vector" rot="MR0" align="top-center"/>
+</element>
+<element name="C103" library="FPV-Auto" package="C0603" value="100nF" x="26.4" y="3.44" smashed="yes" rot="MR270">
+<attribute name="NAME" x="25.6" y="3.44" size="0.8128" layer="26" font="vector" rot="MR270" align="bottom-center"/>
+<attribute name="VALUE" x="24.7" y="3.44" size="0.8128" layer="28" font="vector" rot="MR270" align="top-center"/>
+</element>
+<element name="C101" library="FPV-Auto" package="C0603" value="100nF" x="26.11" y="16.2" smashed="yes" rot="MR0">
+<attribute name="NAME" x="26.11" y="17" size="0.8128" layer="26" font="vector" rot="MR0" align="bottom-center"/>
+<attribute name="VALUE" x="26.11" y="17.7" size="0.8128" layer="28" font="vector" rot="MR0" align="top-center"/>
+</element>
+<element name="C102" library="FPV-Auto" package="C0603" value="100nF" x="27.8" y="3.44" smashed="yes" rot="MR270">
+<attribute name="NAME" x="27" y="3.44" size="0.8128" layer="26" font="vector" rot="MR270" align="bottom-center"/>
+<attribute name="VALUE" x="28.6" y="3.44" size="0.8128" layer="28" font="vector" rot="MR270" align="top-center"/>
+</element>
+<element name="R100" library="FPV-Auto" package="R0603" value="10R" x="27.8" y="3.44" smashed="yes" rot="R270">
+<attribute name="NAME" x="28.6" y="3.44" size="0.8128" layer="25" font="vector" rot="R270" align="bottom-center"/>
+<attribute name="VALUE" x="27.96" y="2.4" size="0.8128" layer="27" font="vector" align="top-center"/>
+</element>
+<element name="X100" library="FPV-Auto" package="ISP-M_TP" value="ISP-M_TP" x="30.6" y="1.2" smashed="yes" rot="MR180">
+<attribute name="NAME" x="31.87" y="-0.324" size="0.8128" layer="26" font="vector" rot="MR180" align="bottom-center"/>
+<attribute name="VALUE" x="32.37" y="0.804" size="0.8128" layer="28" font="vector" rot="MR180" align="top-center"/>
+</element>
+<element name="C141" library="FPV-Auto" package="C0603" value="100nF" x="52.01" y="7.7" smashed="yes" rot="MR90">
+<attribute name="NAME" x="52.81" y="7.7" size="0.8128" layer="26" font="vector" rot="MR90" align="bottom-center"/>
+<attribute name="VALUE" x="51.41" y="7.9" size="0.8128" layer="28" font="vector" rot="MR90" align="top-center"/>
+</element>
 <element name="C140" library="FPV-Auto" package="C0603" value="100nF" x="54.01" y="7.7" smashed="yes" rot="MR90">
 <attribute name="NAME" x="54.81" y="7.7" size="0.6096" layer="26" font="vector" rot="MR90" align="bottom-center"/>
-<attribute name="VALUE" x="53.21" y="7.7" size="0.6096" layer="28" font="vector" rot="MR90" align="top-center"/>
+<attribute name="VALUE" x="55.31" y="8" size="0.6096" layer="28" font="vector" rot="MR90" align="top-center"/>
 </element>
-<element name="C210" library="FPV-Auto" package="C0603" value="10µF" x="48.5" y="21.11" rot="MR90"/>
-<element name="C211" library="FPV-Auto" package="C0603" value="100nF" x="50" y="21.11" rot="MR90"/>
-<element name="R210" library="FPV-Auto" package="R0603" value="1M" x="48.92" y="17.39" rot="MR90"/>
-<element name="R200" library="FPV-Auto" package="R0603" value="1K" x="17.71" y="16.3" rot="MR270"/>
-<element name="R201" library="FPV-Auto" package="R0603" value="1K" x="19.31" y="16.3" rot="MR270"/>
-<element name="C212" library="FPV-Auto" package="C0603" value="220pF" x="63.8" y="20.71" rot="MR180"/>
-<element name="C213" library="FPV-Auto" package="C0603" value="220pF" x="63.8" y="22.49" rot="MR180"/>
-<element name="R211" library="FPV-Auto" package="R0603_SWITCH_2_WAY" value="R_SWITCH_2_WAY_0603" x="46.86" y="15" rot="MR180"/>
-<element name="FB210" library="FPV-Auto" package="0603" value="BLM18SG331TN1" x="55.91" y="22.9" rot="MR180">
+<element name="C210" library="FPV-Auto" package="C0603" value="10µF" x="48.5" y="21.11" smashed="yes" rot="MR90">
+<attribute name="NAME" x="49.3" y="21.11" size="0.8128" layer="26" font="vector" rot="MR90" align="bottom-center"/>
+<attribute name="VALUE" x="47.8" y="20.91" size="0.8128" layer="28" font="vector" rot="MR90" align="top-center"/>
+</element>
+<element name="C211" library="FPV-Auto" package="C0603" value="100nF" x="50" y="21.11" smashed="yes" rot="MR90">
+<attribute name="NAME" x="50.8" y="21.11" size="0.8128" layer="26" font="vector" rot="MR90" align="bottom-center"/>
+<attribute name="VALUE" x="50.3" y="24.01" size="0.8128" layer="28" font="vector" rot="MR90" align="top-center"/>
+</element>
+<element name="R210" library="FPV-Auto" package="R0603" value="1M" x="48.92" y="17.39" smashed="yes" rot="MR90">
+<attribute name="NAME" x="49.72" y="17.39" size="0.8128" layer="26" font="vector" rot="MR90" align="bottom-center"/>
+<attribute name="VALUE" x="48.12" y="17.39" size="0.8128" layer="28" font="vector" rot="MR90" align="top-center"/>
+</element>
+<element name="R200" library="FPV-Auto" package="R0603" value="1K" x="17.71" y="16.3" smashed="yes" rot="MR270">
+<attribute name="NAME" x="16.91" y="16.3" size="0.8128" layer="26" font="vector" rot="MR270" align="bottom-center"/>
+<attribute name="VALUE" x="17.41" y="14.5" size="0.8128" layer="28" font="vector" rot="MR270" align="top-center"/>
+</element>
+<element name="R201" library="FPV-Auto" package="R0603" value="1K" x="19.31" y="16.3" smashed="yes" rot="MR270">
+<attribute name="NAME" x="18.51" y="16.3" size="0.8128" layer="26" font="vector" rot="MR270" align="bottom-center"/>
+<attribute name="VALUE" x="18.91" y="14.5" size="0.8128" layer="28" font="vector" rot="MR270" align="top-center"/>
+</element>
+<element name="C212" library="FPV-Auto" package="C0603" value="220pF" x="63.8" y="20.71" smashed="yes" rot="MR180">
+<attribute name="NAME" x="63.8" y="19.91" size="0.8128" layer="26" font="vector" rot="MR180" align="bottom-center"/>
+<attribute name="VALUE" x="63.4" y="19.31" size="0.8128" layer="28" font="vector" rot="MR180" align="top-center"/>
+</element>
+<element name="C213" library="FPV-Auto" package="C0603" value="220pF" x="63.8" y="22.49" smashed="yes" rot="MR180">
+<attribute name="NAME" x="63.8" y="21.69" size="0.8128" layer="26" font="vector" rot="MR180" align="bottom-center"/>
+<attribute name="VALUE" x="63.9" y="23.59" size="0.8128" layer="28" font="vector" rot="MR180" align="top-center"/>
+</element>
+<element name="R211" library="FPV-Auto" package="R0603_SWITCH_2_WAY" value="R_SWITCH_2_WAY_0603" x="46.86" y="15" smashed="yes" rot="MR180">
+<attribute name="NAME" x="46.86" y="12.5" size="0.8128" layer="26" font="vector" rot="MR180" align="bottom-center"/>
+<attribute name="VALUE" x="41.86" y="15.1" size="0.8128" layer="28" font="vector" rot="MR180" align="top-center"/>
+</element>
+<element name="FB210" library="FPV-Auto" package="0603" value="BLM18SG331TN1" x="55.91" y="22.9" smashed="yes" rot="MR180">
 <attribute name="RDC" value="0.070" x="55.91" y="22.9" size="1.778" layer="28" font="vector" rot="MR180" display="off"/>
 <attribute name="R100MHZ" value="330" x="55.91" y="22.9" size="1.778" layer="28" font="vector" rot="MR180" display="off"/>
 <attribute name="OC_MOUSER" value="" x="55.91" y="22.9" size="1.778" layer="28" font="vector" rot="MR180" display="off"/>
 <attribute name="I" value="1.5" x="55.91" y="22.9" size="1.778" layer="28" font="vector" rot="MR180" display="off"/>
+<attribute name="NAME" x="55.91" y="21.63" size="0.8128" layer="26" font="vector" rot="MR180" align="bottom-center"/>
+<attribute name="VALUE" x="55.41" y="23.57" size="0.8128" layer="28" font="vector" rot="MR180" align="top-center"/>
 </element>
-<element name="FB211" library="FPV-Auto" package="0603" value="BLM18SG331TN1" x="55.91" y="21.3" rot="MR180">
+<element name="FB211" library="FPV-Auto" package="0603" value="BLM18SG331TN1" x="55.91" y="21.3" smashed="yes" rot="MR180">
 <attribute name="RDC" value="0.070" x="55.91" y="21.3" size="1.778" layer="28" font="vector" rot="MR180" display="off"/>
 <attribute name="R100MHZ" value="330" x="55.91" y="21.3" size="1.778" layer="28" font="vector" rot="MR180" display="off"/>
 <attribute name="OC_MOUSER" value="" x="55.91" y="21.3" size="1.778" layer="28" font="vector" rot="MR180" display="off"/>
 <attribute name="I" value="1.5" x="55.91" y="21.3" size="1.778" layer="28" font="vector" rot="MR180" display="off"/>
+<attribute name="NAME" x="55.91" y="20.03" size="0.8128" layer="26" font="vector" rot="MR180" align="bottom-center"/>
+<attribute name="VALUE" x="55.61" y="19.77" size="0.8128" layer="28" font="vector" rot="MR180" align="top-center"/>
 </element>
-<element name="U210" library="FPV-Auto" package="90-0031" value="MAX98357A" x="53.2" y="18.21" rot="MR90"/>
-<element name="Q320" library="FPV-Auto" package="SOT23-3" value="BSS138" x="5.01" y="17.6" rot="MR90"/>
-<element name="X320" library="FPV-Auto" package="M2X01L" value="M02_2X01L" x="8.9" y="21.09"/>
-<element name="X120" library="FPV-Auto" package="M2X03R" value="M06_2X03R" x="58.7" y="19.096"/>
-<element name="X140" library="FPV-Auto" package="M2X02R" value="M04_2X03R" x="58.7" y="10.968"/>
-<element name="X210" library="FPV-Auto" package="M2X01L" value="M02_2X01L" x="61.24" y="22.144" rot="R180"/>
-<element name="X340" library="FPV-Auto" package="M2X01L" value="M02_2X01L" x="53.15" y="10.66" rot="R90"/>
-<element name="LED300" library="led" package="CHIP-LED0603" value="" x="14.61" y="3" rot="R180"/>
-<element name="U120" library="FPV-Auto" package="DCT(R-PDSO-G8)" value="74LVC2T45DCT" x="38.01" y="9.5" rot="MR180"/>
-<element name="C120" library="FPV-Auto" package="C0603" value="100nF" x="36.81" y="6.2" rot="MR270"/>
-<element name="C121" library="FPV-Auto" package="C0603" value="100nF" x="39.71" y="6.2" rot="MR270"/>
-<element name="PAD_BAT+" library="wirepad" package="2,15/1,0" value="WIREPAD2,15/1,0" x="31.3" y="16.8"/>
-<element name="PAD_BAT-" library="wirepad" package="2,15/1,0" value="WIREPAD2,15/1,0" x="31.3" y="19.8"/>
-<element name="PAD_IN+" library="wirepad" package="2,15/1,0" value="WIREPAD2,15/1,0" x="8.81" y="5.4"/>
-<element name="PAD_IN-" library="wirepad" package="2,15/1,0" value="WIREPAD2,15/1,0" x="8.81" y="2.6" rot="R270"/>
-<element name="LED301" library="led" package="LED3MM" value="" x="12.8" y="3" rot="R270"/>
-<element name="R103" library="FPV-Auto" package="R0603" value="10K" x="22.04" y="3.73" rot="R225"/>
-<element name="R102" library="FPV-Auto" package="R0603" value="10K" x="20.04" y="3.99" rot="R225"/>
-<element name="R322" library="FPV-Auto" package="R0603" value="100K" x="15" y="3.8" rot="MR315"/>
-<element name="R323" library="FPV-Auto" package="R0603" value="100K" x="16.1" y="2.7" rot="MR135"/>
-<element name="D310" library="FPV-Auto" package="SOD523(SC-79)" value="BZX585-B9V1" x="3.9" y="12" rot="MR90">
+<element name="U210" library="FPV-Auto" package="90-0031" value="MAX98357A" x="53.2" y="18.21" smashed="yes" rot="MR90">
+<attribute name="NAME" x="55.4" y="18.21" size="0.8128" layer="26" rot="MR90" align="bottom-center"/>
+<attribute name="VALUE" x="53.39" y="18.8" size="0.8128" layer="28" rot="MR0" align="top-center"/>
+</element>
+<element name="Q320" library="FPV-Auto" package="SOT23-3" value="BSS138" x="5.01" y="17.6" smashed="yes" rot="MR90">
+<attribute name="NAME" x="6.76" y="17.6" size="1.27" layer="26" rot="MR90" align="bottom-center"/>
+<attribute name="VALUE" x="1.6" y="19.46" size="1.27" layer="28" rot="MR0" align="top-center"/>
+</element>
+<element name="X320" library="FPV-Auto" package="M2X01L" value="M02_2X01L" x="8.9" y="21.09" smashed="yes">
+<attribute name="VALUE" x="10.44" y="22.55" size="0.8128" layer="27" align="bottom-right"/>
+<attribute name="NAME" x="12.9" y="21.09" size="0.8128" layer="25" rot="R270" align="bottom-center"/>
+<attribute name="NAME" x="12.9" y="21.09" size="0.8128" layer="26" rot="MR90" align="bottom-center"/>
+</element>
+<element name="X120" library="FPV-Auto" package="M2X03R" value="M06_2X03R" x="58.7" y="19.096" smashed="yes">
+<attribute name="NAME" x="57.24" y="19.096" size="0.8128" layer="25" rot="R90" align="bottom-center"/>
+<attribute name="VALUE" x="58.7" y="20.556" size="0.8128" layer="27" font="vector"/>
+<attribute name="NAME" x="57.24" y="19.096" size="0.8128" layer="26" rot="MR270" align="bottom-center"/>
+</element>
+<element name="X140" library="FPV-Auto" package="M2X02R" value="M04_2X03R" x="58.7" y="10.968" smashed="yes">
+<attribute name="NAME" x="57.24" y="10.968" size="0.8128" layer="25" rot="R90" align="bottom-center"/>
+<attribute name="VALUE" x="58.7" y="12.428" size="0.8128" layer="27" font="vector"/>
+<attribute name="NAME" x="57.24" y="10.968" size="0.8128" layer="26" rot="MR270" align="bottom-center"/>
+</element>
+<element name="X210" library="FPV-Auto" package="M2X01L" value="M02_2X01L" x="61.24" y="22.144" smashed="yes" rot="R180">
+<attribute name="VALUE" x="58.7" y="20.684" size="0.8128" layer="27" rot="R180" align="bottom-right"/>
+<attribute name="NAME" x="57.24" y="22.144" size="0.8128" layer="25" rot="R90" align="bottom-center"/>
+<attribute name="NAME" x="57.24" y="22.144" size="0.8128" layer="26" rot="MR270" align="bottom-center"/>
+</element>
+<element name="X340" library="FPV-Auto" package="M2X01L" value="M02_2X01L" x="53.15" y="10.66" smashed="yes" rot="R90">
+<attribute name="VALUE" x="55.39" y="14.2" size="0.8128" layer="27" rot="R90" align="bottom-right"/>
+<attribute name="NAME" x="53.15" y="14.66" size="0.8128" layer="25" align="bottom-center"/>
+<attribute name="NAME" x="53.15" y="14.66" size="0.8128" layer="26" rot="MR0" align="bottom-center"/>
+</element>
+<element name="LED300" library="led" package="CHIP-LED0603" value="" x="14.61" y="3" smashed="yes" rot="R180">
+<attribute name="NAME" x="15.245" y="3.635" size="1.27" layer="25" rot="R270"/>
+<attribute name="VALUE" x="12.705" y="3.635" size="1.27" layer="27" rot="R270"/>
+</element>
+<element name="U120" library="FPV-Auto" package="DCT(R-PDSO-G8)" value="74LVC2T45DCT" x="38.01" y="9.5" smashed="yes" rot="MR180">
+<attribute name="NAME" x="38.01" y="7.7" size="0.8128" layer="26" font="vector" rot="MR180" align="bottom-center"/>
+<attribute name="VALUE" x="37.91" y="11.5" size="0.8128" layer="28" font="vector" rot="MR180" align="top-center"/>
+</element>
+<element name="C120" library="FPV-Auto" package="C0603" value="100nF" x="36.81" y="6.2" smashed="yes" rot="MR270">
+<attribute name="NAME" x="36.01" y="6.2" size="0.8128" layer="26" font="vector" rot="MR270" align="bottom-center"/>
+<attribute name="VALUE" x="35.31" y="5.4" size="0.8128" layer="28" font="vector" rot="MR270" align="top-center"/>
+</element>
+<element name="C121" library="FPV-Auto" package="C0603" value="100nF" x="39.71" y="6.2" smashed="yes" rot="MR270">
+<attribute name="NAME" x="38.91" y="6.2" size="0.8128" layer="26" font="vector" rot="MR270" align="bottom-center"/>
+<attribute name="VALUE" x="40.51" y="6.2" size="0.8128" layer="28" font="vector" rot="MR270" align="top-center"/>
+</element>
+<element name="PAD_BAT+" library="wirepad" package="2,15/1,0" value="WIREPAD2,15/1,0" x="31.3" y="16.8" smashed="yes">
+<attribute name="NAME" x="30.157" y="18.197" size="1.27" layer="25" ratio="10"/>
+<attribute name="VALUE" x="31.3" y="17.8" size="0.0254" layer="27"/>
+</element>
+<element name="PAD_BAT-" library="wirepad" package="2,15/1,0" value="WIREPAD2,15/1,0" x="31.3" y="19.8" smashed="yes">
+<attribute name="NAME" x="30.157" y="21.197" size="1.27" layer="25" ratio="10"/>
+<attribute name="VALUE" x="31.3" y="20.8" size="0.0254" layer="27"/>
+</element>
+<element name="PAD_IN+" library="wirepad" package="2,15/1,0" value="WIREPAD2,15/1,0" x="8.81" y="5.4" smashed="yes">
+<attribute name="NAME" x="7.667" y="6.797" size="1.27" layer="25" ratio="10"/>
+<attribute name="VALUE" x="8.81" y="6.4" size="0.0254" layer="27"/>
+</element>
+<element name="PAD_IN-" library="wirepad" package="2,15/1,0" value="WIREPAD2,15/1,0" x="8.81" y="2.6" smashed="yes" rot="R270">
+<attribute name="NAME" x="10.207" y="3.743" size="1.27" layer="25" ratio="10" rot="R270"/>
+<attribute name="VALUE" x="9.81" y="2.6" size="0.0254" layer="27" rot="R270"/>
+</element>
+<element name="LED301" library="led" package="LED3MM" value="" x="12.8" y="3" smashed="yes" rot="R270">
+<attribute name="NAME" x="13.181" y="1.095" size="1.27" layer="25" ratio="10" rot="R270"/>
+<attribute name="VALUE" x="11.149" y="1.095" size="1.27" layer="27" ratio="10" rot="R270"/>
+</element>
+<element name="R103" library="FPV-Auto" package="R0603" value="10K" x="22.04" y="3.73" smashed="yes" rot="R225">
+<attribute name="NAME" x="22.605684375" y="3.1643125" size="0.8128" layer="25" font="vector" rot="R225" align="bottom-center"/>
+<attribute name="VALUE" x="23.1743125" y="2.795684375" size="0.8128" layer="27" font="vector" rot="R225" align="top-center"/>
+</element>
+<element name="R102" library="FPV-Auto" package="R0603" value="10K" x="20.04" y="3.99" smashed="yes" rot="R225">
+<attribute name="NAME" x="20.605684375" y="3.4243125" size="0.8128" layer="25" font="vector" rot="R225" align="bottom-center"/>
+<attribute name="VALUE" x="20.4743125" y="2.355684375" size="0.8128" layer="27" font="vector" rot="R225" align="top-center"/>
+</element>
+<element name="R322" library="FPV-Auto" package="R0603" value="100K" x="15" y="3.8" smashed="yes" rot="MR315">
+<attribute name="NAME" x="14.434315625" y="4.365684375" size="0.8128" layer="26" font="vector" rot="MR315" align="bottom-center"/>
+<attribute name="VALUE" x="13.5656875" y="4.7343125" size="0.8128" layer="28" font="vector" rot="MR315" align="top-center"/>
+</element>
+<element name="R323" library="FPV-Auto" package="R0603" value="100K" x="16.1" y="2.7" smashed="yes" rot="MR135">
+<attribute name="NAME" x="16.6656875" y="2.1343125" size="0.8128" layer="26" font="vector" rot="MR135" align="bottom-center"/>
+<attribute name="VALUE" x="17.034315625" y="1.765684375" size="0.8128" layer="28" font="vector" rot="MR135" align="top-center"/>
+</element>
+<element name="D310" library="FPV-Auto" package="SOD523(SC-79)" value="BZX585-B9V1" x="3.9" y="12" smashed="yes" rot="MR90">
 <attribute name="WORK_V_MAX" value="9.28" x="3.9" y="12" size="1.778" layer="28" font="vector" rot="MR90" display="off"/>
 <attribute name="WORK_V_MIN" value="8.92" x="3.9" y="12" size="1.778" layer="28" font="vector" rot="MR90" display="off"/>
 <attribute name="CODE" value="E5" x="3.9" y="12" size="1.778" layer="28" font="vector" rot="MR90" display="off"/>
+<attribute name="NAME" x="4.9" y="12" size="0.8128" layer="26" font="vector" rot="MR90" align="bottom-center"/>
+<attribute name="VALUE" x="2.9" y="11.8" size="0.8128" layer="28" font="vector" rot="MR90" align="top-center"/>
 </element>
-<element name="U$3" library="FPV-Auto" package="HACKFFM_LOGO_STOP" value="" x="54.5" y="1"/>
+<element name="U$3" library="FPV-Auto" package="HACKFFM_LOGO_STOP" value="" x="54.5" y="1" smashed="yes"/>
 <element name="U$9" library="FPV-Auto" package="DATE" value="" x="33" y="30.2" rot="MR180"/>
 </elements>
 <signals>
