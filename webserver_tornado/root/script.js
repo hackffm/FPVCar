@@ -143,3 +143,6 @@ function playSound(name) {
 function startCam() {
     ws.send("{ \"component\": \"cam\", \"action\": \"start\" }\r");
 }
+function stopCam() {
+    ws.send("{ \"component\": \"cam\", \"action\": \"stop\" }\r");
+}
