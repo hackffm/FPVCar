@@ -11,6 +11,6 @@ class Base(Component):
             print("no usefull command found")
     
     def moveRightLeft(self, message):
-        cmd = "f" + str(message["left"]) + " " + str(message["right"]) + "\r"
+        cmd = "f" + str(message["right"]) + " " + str(message["left"]) + "\r"
         print("moveRightLeft: " + cmd)
         self.ser.write(cmd.encode())
