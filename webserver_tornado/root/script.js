@@ -119,8 +119,9 @@ function soundSheep() {
 }
 
 function fetchStats() {
-    ws.send("V\r");
-    ws.send("v\r");
+    //ws.send("V\r");
+    //ws.send("v\r");
+    ws.send("{ \"component\": \"stats\" }\r");
 }
 
 function dispatchMsg(msg) {
