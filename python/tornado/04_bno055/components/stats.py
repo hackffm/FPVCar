@@ -6,10 +6,13 @@ class Stats(Component):
         self.ser = ser
 
     def handleMessage(self, message):
-        print("Stats.handleMessage")
+        if self.debug:
+            print("Stats.handleMessage")
         cmd = "V\r"
-        print("fetch: " + cmd)
+        if self.debug:
+            print("fetch: " + cmd)
         self.ser.write(cmd.encode())
         cmd = "v\r"
-        print("fetch: " + cmd)
+        if self.debug:
+            print("fetch: " + cmd)
         self.ser.write(cmd.encode())
