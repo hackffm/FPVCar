@@ -46,3 +46,8 @@ class Helper:
                     if self.not_local(_i):
                         ifaces.append(_i)
         return ifaces
+
+    def not_local(self, ip):
+        if ip != '127.0.0.1':
+            return True
+        return False
