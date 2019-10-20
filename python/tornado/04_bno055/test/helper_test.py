@@ -3,8 +3,7 @@ import sys
 
 file_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(file_dir)
-dir_components = os.path.join(parent_dir, 'components')
-sys.path.append(dir_components)
+sys.path.append(parent_dir)
 
 
 def config_path():

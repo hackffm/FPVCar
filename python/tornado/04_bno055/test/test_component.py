@@ -1,6 +1,6 @@
 import helper_test
 
-from bno055 import Bno055
+from components import *
 
 sensor = Bno055()
 
