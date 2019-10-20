@@ -2,7 +2,7 @@ from . import Component
 
 class Stats(Component):
 
-    def __init__(self, serg):
+    def __init__(self, ser):
         self.ser = ser
 
     def handleMessage(self, message):
