@@ -10,29 +10,49 @@ sensor = adafruit_bno055.BNO055(i2c)
 
 class Bno055(Component):
 
+    def __init__(self):
+        super(Bno055, self).__init__()
+        self.sensors = {"acceleration": self.acceleration(),
+                        "linear_acceleration": self.acceleration_linear(),
+                        "euler": self.euler(),
+                        "gravity": self.gravity(),
+                        "gyro": self.gyro(),
+                        "magnetic": self.magnetic(),
+                        "quaternion": self.quaternion(),
+                        "temperature": self.temperature()}
+
     def handleMessage(self, message):
-        result = ''
-
-        if "acceleration" in message:
-            result = self.acceleration()
-        elif "linear_acceleration" in message:
-            result = self.acceleration_linear()
-        elif "euler" in message:
-            result = self.euler()
-        elif "gravity" in message:
-            result = self.gravity()
-        elif "gyro" in message:
-            result = self.gyro()
-        elif "magnetic" in message:
-            result = self.magnetic()
-        elif "quternation" in message:
-            result = self.quternation()
-        elif "temperature" in message:
-            result = self.temperature()
+        if message in self.sensors:
+            return self.handle_sensors(message)
+        elif message == self.all:
+            result = {}
+            for s in self.sensors:
+                result[s] = self.sensors[s]
+            return result
         else:
-            result = self.failed
+            return self.failed
 
+    def handle_sensors(self, _message):
+        result = self.failed
+        if "acceleration" == _message:
+            result = self.acceleration()
+        elif "linear_acceleration" == _message:
+            result = self.acceleration_linear()
+        elif "euler" == _message:
+            result = self.euler()
+        elif "gravity" == _message:
+            result = self.gravity()
+        elif "gyro" == _message:
+            result = self.gyro()
+        elif "magnetic" == _message:
+            result = self.magnetic()
+        elif "quaternion" == _message:
+            result = self.quaternion()
+        elif "temperature" == _message:
+            result = self.temperature()
         return result
+
+# -- sensors----------------------------------
 
     def acceleration(self):
         return sensor.acceleration
@@ -52,7 +72,7 @@ class Bno055(Component):
     def magnetic(self):
         return sensor.magnetic
 
-    def quternation(self):
+    def quaternion(self):
         return sensor.quaternion
 
     def temperature(self):
