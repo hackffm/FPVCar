@@ -11,6 +11,8 @@ helper = Helper()
 
 # config
 baud = 38400
+data = b''
+debug = True
 port = 9090
 
 ser = serial.Serial('/dev/ttyS0', baud)
@@ -22,14 +24,12 @@ infos.append(port)
 
 components = {
     "sensor": Bno055(),
-    "stats": Stats(ser, True)
+    "stats": Stats(ser, debug)
 }
 
 
 def readSerial():
     global data
-    if not data:
-        data = b''
     for i in range(ser.inWaiting()):
         b = ser.read(1)
         if b != b'\r':
@@ -81,11 +81,16 @@ class Application(tornado.web.Application):
 
 
 if __name__ == '__main__':
+    ser.flushInput()
+    _thread.start_new_thread(readSerial, ())
     ws_app = Application()
     server = tornado.httpserver.HTTPServer(ws_app)
     server.listen(port)
     for info in infos:
         print(info)
 
+    print('start server')
     loop = tornado.ioloop.IOLoop.instance()
+    serial_loop = tornado.ioloop.PeriodicCallback(readSerial, 30)
+    serial_loop.start()
     loop.start()
