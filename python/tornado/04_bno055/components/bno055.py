@@ -10,8 +10,9 @@ sensor = adafruit_bno055.BNO055(i2c)
 
 class Bno055(Component):
 
-    def __init__(self):
+    def __init__(self, debug=False):
         super(Bno055, self).__init__()
+        self.debug = debug
         self.sensors = {"acceleration": self.acceleration(),
                         "linear_acceleration": self.acceleration_linear(),
                         "euler": self.euler(),
@@ -22,15 +23,20 @@ class Bno055(Component):
                         "temperature": self.temperature()}
 
     def handleMessage(self, message):
-        if message in self.sensors:
-            return self.handle_sensors(message)
-        elif message == self.all:
-            result = {}
-            for s in self.sensors:
-                result[s] = self.sensors[s]
-            return result
-        else:
-            return self.failed
+        if "sensor" in message:
+            m = message['sensor']
+            if self.debug:
+                print(str(m))
+            if m in self.sensors:
+                return self.handle_sensors(m)
+            elif m == 'all':
+                result = {}
+                for s in self.sensors:
+                    result[s] = self.sensors[s]
+                return result
+            else:
+                return self.failed
+        return self.failed
 
     def handle_sensors(self, _message):
         result = self.failed

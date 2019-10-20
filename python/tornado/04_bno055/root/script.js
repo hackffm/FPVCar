@@ -121,6 +121,11 @@ function fetchStats() {
 }
 
 function dispatchMsg(msg) {
+    msg = JSON.parse(msg);
+    if (msg.hasOwnProperty('sensor')){
+      fill_sensor_data(msg['sensor'])
+    }
+    /*
     var tokens = msg.split(':');
     if(msg.startsWith('V')) {
         document.getElementById('vbus').innerHTML = tokens[1];
@@ -130,6 +135,7 @@ function dispatchMsg(msg) {
     } else {
         document.getElementById('out').value += msg;
     }
+     */
 }
 function updateStats(msg) {
     console.log(msg);

@@ -23,8 +23,8 @@ infos = helper.infos_self()
 infos.append(port)
 
 components = {
-    "sensor": Bno055(),
-    "stats": Stats(ser, debug)
+    "sensor": Bno055(debug=debug),
+    "stats": Stats(ser, debug=debug)
 }
 
 
@@ -35,10 +35,18 @@ def readSerial():
         if b != b'\r':
             if (b == b'\n'):
                 print('msg from arduino: ', data)
-                [con.write_message(data.decode("utf-8")) for con in WebSocketHandler.connections]
+                websocket_write(data)
                 data = b''
             else:
                 data += b
+
+
+def websocket_write(message):
+    if type(message) == dict:
+        message = json.dumps(message)
+        [con.write_message(message) for con in WebSocketHandler.connections]
+    else:
+        [con.write_message(message.decode("utf-8")) for con in WebSocketHandler.connections]
 
 
 class WebSocketHandler(tornado.websocket.WebSocketHandler):
@@ -53,7 +61,12 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
         print('from WebSocket: ', message)
         m = json.loads(message)
         component = components[m["component"]]
-        component.handleMessage(m)
+        result = component.handleMessage(m)
+        if result:
+            result = {str(m["component"]): result}
+            websocket_write(result)
+            if debug:
+                print(result)
 
     def on_close(self):
         self.connections.remove(self)
@@ -67,7 +80,7 @@ class IndexPageHandler(tornado.web.RequestHandler):
 
 
 class Application(tornado.web.Application):
-    def __init__(self):
+    def __init__(self, debug):
         handlers = [
             (r'/', IndexPageHandler),
             (r'/websocket', WebSocketHandler),
@@ -75,6 +88,7 @@ class Application(tornado.web.Application):
         ]
 
         settings = {
+            'debug': debug,
             'template_path': 'templates'
         }
         tornado.web.Application.__init__(self, handlers, **settings)
@@ -83,7 +97,7 @@ class Application(tornado.web.Application):
 if __name__ == '__main__':
     ser.flushInput()
     _thread.start_new_thread(readSerial, ())
-    ws_app = Application()
+    ws_app = Application(debug=debug)
     server = tornado.httpserver.HTTPServer(ws_app)
     server.listen(port)
     for info in infos:
