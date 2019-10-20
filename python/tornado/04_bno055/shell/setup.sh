@@ -1,6 +1,7 @@
 #!/bin/bash
 if [ ! -d ~/fpvcar ]; then
   echo "create fpvcar folders"
+  	mkdir -p ~/fpvcar/logs
   	mkdir -p ~/fpvcar/venv
   echo "default config"
         cp config.json ~/fpvcar
