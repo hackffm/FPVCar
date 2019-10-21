@@ -4,7 +4,7 @@ from components import *
 
 sensor = Bno055()
 
-print(sensor.handleMessage({'sensor': 'acceleration'}))
-print(sensor.handleMessage({'sensor': 'temperature'}))
+print('quaternion:' + str(sensor.handleMessage({'sensor': 'quaternion'})))
+print('temperature:' + str(sensor.handleMessage({'sensor': 'temperature'})))
 print(sensor.handleMessage({'sensor': 'all'}))
 assert sensor.handleMessage({'sensor': 'nono'}) == 'failed', 'Failed handling unknown Sensor request'
