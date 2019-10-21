@@ -121,21 +121,27 @@ function fetchStats() {
 }
 
 function dispatchMsg(msg) {
-    msg = JSON.parse(msg);
-    if (msg.hasOwnProperty('sensor')){
-      fill_sensor_data(msg['sensor'])
-    }
-    /*
-    var tokens = msg.split(':');
     if(msg.startsWith('V')) {
-        document.getElementById('vbus').innerHTML = tokens[1];
-    } else
-    if(msg.startsWith('v')) {
-        document.getElementById('vbat').innerHTML = tokens[1];
-    } else {
-        document.getElementById('out').value += msg;
+      var tokens = msg.split(':');
+      document.getElementById('vbus').innerHTML = tokens[1];
+      return
     }
-     */
+    if(msg.startsWith('v')) {
+      var tokens = msg.split(':');
+      document.getElementById('vbat').innerHTML = tokens[1];
+      return
+    }
+
+    try {
+      msg = JSON.parse(msg);
+      if (msg.hasOwnProperty('sensor')) {
+        fill_sensor_data(msg['sensor'])
+        return
+      }
+    } catch (e) {
+      console.log(e)
+    }
+    document.getElementById('out').value += msg;
 }
 function updateStats(msg) {
     console.log(msg);

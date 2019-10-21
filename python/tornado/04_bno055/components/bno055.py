@@ -26,7 +26,7 @@ class Bno055(Component):
         if "sensor" in message:
             m = message['sensor']
             if self.debug:
-                print(str(m))
+                print('message to bno055 is ' + str(m))
             if m in self.sensors:
                 return self.handle_sensors(m)
             elif m == 'all':
