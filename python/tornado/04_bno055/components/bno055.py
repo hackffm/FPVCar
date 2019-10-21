@@ -23,20 +23,19 @@ class Bno055(Component):
                         "temperature": self.temperature()}
 
     def handleMessage(self, message):
+        result = {}
         if "sensor" in message:
             m = message['sensor']
             if self.debug:
                 print('message to bno055 is ' + str(m))
             if m in self.sensors:
-                return self.handle_sensors(m)
+                result[m] = self.handle_sensors(m)
             elif m == 'all':
-                result = {}
                 for s in self.sensors:
                     result[s] = self.sensors[s]
-                return result
             else:
-                return self.failed
-        return self.failed
+                result['sensor'] = self.failed
+        return result
 
     def handle_sensors(self, _message):
         result = self.failed
