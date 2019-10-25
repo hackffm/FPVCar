@@ -7,28 +7,29 @@ import _thread
 import json
 from components import *
 
-helper = Helper()
-
 # config
 baud = 38400
 data = b''
 debug = True
 port = 9090
-
-ser = serial.Serial('/dev/ttyS0', baud)
-ip_first = helper.interfaces_first()
+sensors = {}
 
 # run info
+helper = Helper()
 infos = helper.infos_self()
 infos.append(port)
-
+#
+bno055 = Bno055(debug=debug)
+ip_first = helper.interfaces_first()
+ser = serial.Serial('/dev/ttyS0', baud)
+# load components statically
 components = {
     "sensor": Bno055(debug=debug),
     "stats": Stats(ser, debug=debug)
 }
 
 
-def readSerial():
+def read_serial():
     global data
     for i in range(ser.inWaiting()):
         b = ser.read(1)
@@ -58,15 +59,18 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
         pass
 
     def on_message(self, message):
-        print('from WebSocket: ', message)
+        if debug:
+            print('from WebSocket: ', message)
         m = json.loads(message)
-        component = components[m["component"]]
-        result = component.handleMessage(m)
-        if result:
-            result = {str(m["component"]): result}
-            websocket_write(result)
-            if debug:
-                print(result)
+        if 'component' in m:
+            if m['component'] in components:
+                component = components[m["component"]]
+                result = component.handleMessage(m)
+                if result:
+                    result = {str(m["component"]): result}
+                    websocket_write(result)
+                    if debug:
+                        print(result)
 
     def on_close(self):
         self.connections.remove(self)
@@ -96,7 +100,7 @@ class Application(tornado.web.Application):
 
 if __name__ == '__main__':
     ser.flushInput()
-    _thread.start_new_thread(readSerial, ())
+    _thread.start_new_thread(read_serial, ())
     ws_app = Application(debug=debug)
     server = tornado.httpserver.HTTPServer(ws_app)
     server.listen(port)
@@ -105,6 +109,6 @@ if __name__ == '__main__':
 
     print('start server')
     loop = tornado.ioloop.IOLoop.instance()
-    serial_loop = tornado.ioloop.PeriodicCallback(readSerial, 30)
-    serial_loop.start()
     loop.start()
+    serial_loop = tornado.ioloop.PeriodicCallback(read_serial, 30)
+    serial_loop.start()
