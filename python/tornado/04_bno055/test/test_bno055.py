@@ -12,10 +12,11 @@ while True:
     print('Accelerometer (m/s^2): {}'.format(sensor.acceleration))
     print('Magnetometer (microteslas): {}'.format(sensor.magnetic))
     print('Gyroscope (rad/sec): {}'.format(sensor.gyro))
-    print('Euler angle: {}'.format(sensor.euler))
-    print('Quaternion: {}'.format(sensor.quaternion))
+    print('Euler heading, roll, pitch angle: {}'.format(sensor.euler))
+    print('Quaternion x, y, z, w: {}'.format(sensor.quaternion))
     print('Linear acceleration (m/s^2): {}'.format(sensor.linear_acceleration))
     print('Gravity (m/s^2): {}'.format(sensor.gravity))
+    print('Calibration status sys, gyro, accel, mag: {}'.format(sensor.calibration_status))
     print()
 
     time.sleep(1)
