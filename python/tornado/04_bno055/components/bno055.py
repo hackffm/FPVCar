@@ -14,6 +14,7 @@ class Bno055(Component):
         super(Bno055, self).__init__()
         self.debug = debug
         self.sensors = {"acceleration": self.acceleration(),
+                        "calibration_status": self.calibration_status(),
                         "linear_acceleration": self.acceleration_linear(),
                         "euler": self.euler(),
                         "gravity": self.gravity(),
@@ -41,6 +42,8 @@ class Bno055(Component):
         result = self.failed
         if "acceleration" == _message:
             result = self.acceleration()
+        elif "calibration_status" == _message:
+            result = self.calibration_status()
         elif "linear_acceleration" == _message:
             result = self.acceleration_linear()
         elif "euler" == _message:
@@ -64,6 +67,9 @@ class Bno055(Component):
 
     def acceleration_linear(self):
         return sensor.linear_acceleration
+
+    def calibration_status(self):
+        return sensor.calibration_status
 
     def euler(self):
         return sensor.euler

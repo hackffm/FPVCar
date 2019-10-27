@@ -4,7 +4,7 @@ from . import Component
 class Stats(Component):
 
     def __init__(self, ser, debug):
-        self.debug= debug
+        self.debug = debug
         self.ser = ser
 
     def handleMessage(self, message):
