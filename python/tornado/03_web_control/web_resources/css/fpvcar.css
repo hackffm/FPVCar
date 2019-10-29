@@ -20,8 +20,8 @@ input[type="text"]
 /*--input -------------------------*/
 #labelInput{
 	position: absolute;
-	bottom: 1em;
-	right: 1em;
+	bottom: 4em;
+	left: 1em;
 }
 #inputMessage {
 	border: 1px;
@@ -52,9 +52,9 @@ input[type="text"]
 }
 /*----directions------------------*/
 #baseDirection {
-	left: 1em;
+	right: 1em;
 	position: absolute;
-	top: 3em;
+	bottom: 1em;
 }
 #cnvsJoy {
 	border: 1px #000000;
