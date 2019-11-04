@@ -41,7 +41,7 @@ fpvap.bootloader.extended_fuses=0xFE
 fpvap.bootloader.file=optiboot_flash_atmega328p_UART0_38400_8000000L.hex
 
 ##############################################################
-fpvarpi.name=FPV-Auto on Raspberry 
+fpvarpi.name=FPV-Auto on Raspberry 328
 fpvarpi.upload.tool=avrdudegpioreset
 fpvarpi.upload.protocol=arduino
 fpvarpi.upload.maximum_size=32256
@@ -52,3 +52,15 @@ fpvarpi.build.f_cpu=8000000L
 fpvarpi.build.board=AVR_MINI
 fpvarpi.build.core=arduino:arduino
 fpvarpi.build.variant=arduino:eightanaloginputs
+
+fpvarpip.name=FPV-Auto on Raspberry 328p
+fpvarpip.upload.tool=avrdudegpioreset
+fpvarpip.upload.protocol=arduino
+fpvarpip.upload.maximum_size=32256
+fpvarpip.upload.maximum_data_size=2048
+fpvarpip.upload.speed=38400
+fpvarpip.build.mcu=atmega328p
+fpvarpip.build.f_cpu=8000000L
+fpvarpip.build.board=AVR_MINI
+fpvarpip.build.core=arduino:arduino
+fpvarpip.build.variant=arduino:eightanaloginputs
