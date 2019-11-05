@@ -19,6 +19,10 @@
     <div id="btm_toggle_controls" onclick="toggle_controls()">
 		<img id="btm_toggle_controls_img" src="/fpvc/images/hackffm_logo.png">
 	</div>
+    <!-- Sensors -------------------------------------------------------------->
+    <div id="compass">
+        <canvas id="cnvsCompass" width="400" height="50"></canvas>
+    </div>
 	<!-- base directions ------------------------------------------------------>
 	<div id="baseDirection">
 		<table id="tableBaseDirections">
@@ -167,6 +171,7 @@
 			tbd.style.display = "none"
 		});
 	</script>
+    <script src="/fpvc/js/canvasCompass.js"></script>
     <script src="/fpvc/js/canvasJoystick.js"></script>
 </body>
 </html>
