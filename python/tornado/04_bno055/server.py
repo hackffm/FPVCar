@@ -3,13 +3,17 @@ import tornado.websocket
 import tornado.httpserver
 import tornado.ioloop
 import serial
-import _thread
 import json
+
+from tornado import gen
+from tornado.ioloop import IOLoop
+
 from components import *
 
 # config
 baud = 38400
-data = b''
+data_sensor = {}
+data_serial = b''
 debug = True
 port = 9090
 sensors = {}
@@ -19,27 +23,45 @@ helper = Helper()
 infos = helper.infos_self()
 infos.append(port)
 #
-bno055 = Bno055(debug=debug)
 ip_first = helper.interfaces_first()
+sensor = Bno055()
 ser = serial.Serial('/dev/ttyS0', baud)
+
+
 # load components statically
 components = {
-    "sensor": Bno055(debug=debug),
+    "sensor": Bno055(),
     "stats": Stats(ser, debug=debug)
 }
 
 
-def read_serial():
-    global data
+async def read_sensor():
+    global data_sensor
+    data_sensor = sensor.handleMessage({'sensor': 'all'})
+    return data_sensor
+
+
+async def serial_read():
+    data = b''
     for i in range(ser.inWaiting()):
         b = ser.read(1)
         if b != b'\r':
-            if (b == b'\n'):
-                print('msg from arduino: ', data)
-                websocket_write(data)
-                data = b''
+            if b == b'\n':
+                return data
             else:
                 data += b
+
+
+async def websocket_loop():
+    while True:
+        data_sensor = await read_sensor()
+        websocket_write({"sensor": data_sensor})
+
+        data_serial = await serial_read()
+        if data_serial:
+            websocket_write(data_serial.decode("utf-8"))
+
+        await gen.sleep(0.3)
 
 
 def websocket_write(message):
@@ -47,7 +69,7 @@ def websocket_write(message):
         message = json.dumps(message)
         [con.write_message(message) for con in WebSocketHandler.connections]
     else:
-        [con.write_message(message.decode("utf-8")) for con in WebSocketHandler.connections]
+        [con.write_message(message) for con in WebSocketHandler.connections]
 
 
 class WebSocketHandler(tornado.websocket.WebSocketHandler):
@@ -100,15 +122,16 @@ class Application(tornado.web.Application):
 
 if __name__ == '__main__':
     ser.flushInput()
-    _thread.start_new_thread(read_serial, ())
+    cmd = "v\r"
+    ser.write(cmd.encode())
+
     ws_app = Application(debug=debug)
     server = tornado.httpserver.HTTPServer(ws_app)
     server.listen(port)
+
     for info in infos:
         print(info)
 
     print('start server')
-    loop = tornado.ioloop.IOLoop.instance()
-    loop.start()
-    serial_loop = tornado.ioloop.PeriodicCallback(read_serial, 30)
-    serial_loop.start()
+    IOLoop.current().spawn_callback(websocket_loop)
+    IOLoop.instance().start()
