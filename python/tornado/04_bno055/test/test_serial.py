@@ -1,4 +1,5 @@
 import serial
+import time
 
 ser = serial.Serial('/dev/ttyS0', 38400)
 print(ser.name)
@@ -24,9 +25,11 @@ if __name__ == '__main__':
     cmd = "V\r"
     print("fetch: " + cmd)
     ser.write(cmd.encode())
+    time.sleep(1)
     serial_read()
 
     cmd = "v\r"
     print("fetch: " + cmd)
     ser.write(cmd.encode())
+    time.sleep(1)
     serial_read()
