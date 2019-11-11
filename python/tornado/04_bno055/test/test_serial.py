@@ -25,11 +25,11 @@ if __name__ == '__main__':
     cmd = "V\r"
     print("fetch: " + cmd)
     ser.write(cmd.encode())
-    time.sleep(1)
+    time.sleep(0.3)
     serial_read()
 
     cmd = "v\r"
     print("fetch: " + cmd)
     ser.write(cmd.encode())
-    time.sleep(1)
+    time.sleep(0.3)
     serial_read()
