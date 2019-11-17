@@ -1,29 +1,169 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<title>First Person View Car</title>
-<script src="/fpvc/js/jquery-3.4.1.min.js"></script>
+    <meta charset="utf-8">
+    <title>First Person View Car</title>
 
-<link href="/fpvc/css/bootstrap/bootstrap.min.css" rel="stylesheet" >
-<link href="/fpvc/open-iconic/font/css/open-iconic-bootstrap.css" rel="stylesheet"/>
-<link href="/fpvc/css/fpvcar.css" rel="stylesheet"/>
-<link rel="shortcut icon" type="image/x-icon" href="/fpvc/images/favicon.ico">
+    <link href="/fpvcar/css/fpvcar.css" rel="stylesheet"/>
+    <link rel="shortcut icon" type="image/x-icon" href="/fpvcar/images/favicon.ico">
+    <script src="/fpvcar/js/jquery-3.4.1.min.js"></script>
+    <script>var ip_first = '{{ip_first}}';</script>
 </head>
 <body>
 	<!-- Shutdown Button ------------------------------------------------------>
-	<div id="iconShutdown">
-		<a href="/shutdown"><span class="oi oi-power-standby" title="oi-power-standby" aria-hidden="true"></span></a>
-	</div>
+    <div id="btm_icon_shutdown">
+        <img id="btm_icon_shutdown_img" src="/fpvcar/images/power-button.svg">
+    </div>
 	<!-- Menu toggle ---------------------------------------------------------->
     <div id="btm_toggle_controls" onclick="toggle_controls()">
-		<img id="btm_toggle_controls_img" src="/fpvc/images/hackffm_logo.png">
+		<img id="btm_toggle_controls_img" src="/fpvcar/images/hackffm_logo.png">
 	</div>
-    <!-- Sensors -------------------------------------------------------------->
-    <div id="compass">
-        <canvas id="cnvsCompass" width="400" height="50"></canvas>
+    <!-- gauges --------------------------------------------------------------->
+    <canvas data-type="linear-gauge" id="myCompass"
+        data-width="400"
+        data-height="100"
+        data-animation-duration="750"
+        data-animation-rule="linear"
+        data-animation-target="plate"
+        data-bar-begin-circle="false"
+        data-bar-length="95"
+        data-bar-stroke-width="0"
+        data-bar-width="5"
+        data-color-plate="#fff"
+        data-color-needle="red"
+        data-border-shadow-width="0"
+        data-borders="1"
+        data-font-numbers-size="30"
+        data-highlights='[{"from": 0, "to":0, "color": "black"}]'
+        data-max-value="360"
+        data-min-value="0"
+        data-major-ticks="0,20,40,60,80,100,120,140,160,180,200,220,240,260,280,300,320,340,360"
+        data-minor-ticks="2"
+        data-needle-side="left"
+        data-needle-type="arrow"
+        data-needle-width="3"
+        data-number-side="left"
+        data-tick-side="left"
+        data-ticks-width="50"
+        data-title="Compass"
+        data-stroke-ticks="true"
+        data-value="90"
+    ></canvas>
+
+    <div id="container">
+      <canvas id="myCanvas" width=640 height=480 style="border:1px solid #000000;"></canvas>
+      <div id="video">
+        <!-- todo handle if stream is dead -->
+      </div>
     </div>
-	<!-- base directions ------------------------------------------------------>
+
+    <canvas data-type="linear-gauge" id="myBattery"
+            data-width="100"
+            data-height="350"
+            data-animation-rule="bounce"
+            data-animation-duration="750"
+            data-border-radius="10"
+            data-borders="1"
+            data-bar-begin-circle="false"
+            data-bar-stroke-width="0"
+            data-bar-width="5"
+            data-color-plate="#fff"
+            data-font-numbers-size="30"
+            data-font-title-size="50"
+            data-font-units-size="30"
+            data-font-value-size="30"
+            data-min-value="3000"
+            data-max-value="4200"
+            data-major-ticks="3000, 3600, 4200"
+            data-needle-side="left"
+            data-needle-width="5"
+            data-number-side="left"
+            data-highlights='[
+                {"from": 4000, "to":4200, "color": "green"},
+                {"from": 3600, "to":4000, "color": "rgba(246, 147, 31, .75)"},
+                {"from": 3000, "to": 3600, "color": "red"}
+            ]'
+            data-highlights-width="20"
+            data-tick-side="right"
+            data-ticks-padding="0"
+            data-ticks-width="20"
+            data-stroke-ticks="true"
+            data-title="Battery"
+            data-units="milliamp"
+            data-value="3650"
+            data-value-box-border-radius="0"
+            data-value-text-shadow="false"
+    ></canvas>
+
+    <canvas data-type="linear-gauge" id="myTemperature"
+            data-width="100"
+            data-height="350"
+            data-animation-rule="bounce"
+            data-animation-duration="750"
+            data-border-radius="10"
+            data-borders="1"
+            data-bar-begin-circle="false"
+            data-bar-stroke-width="0"
+            data-bar-width="5"
+            data-color-plate="#fff"
+            data-font-numbers-size="30"
+            data-font-title-size="50"
+            data-font-units-size="30"
+            data-font-value-size="30"
+            data-min-value="0"
+            data-max-value="60"
+            data-major-ticks="0, 26, 60"
+            data-needle-side="left"
+            data-needle-width="5"
+            data-number-side="left"
+            data-highlights='[
+                {"from": 0, "to":20, "color": "rgba(246, 147, 31, .75)"},
+                {"from": 20, "to":40, "color": "green"},
+                {"from": 40, "to": 60, "color": "red"}
+            ]'
+            data-highlights-width="20"
+            data-tick-side="right"
+            data-ticks-padding="0"
+            data-ticks-width="20"
+            data-stroke-ticks="true"
+            data-title="Temperature"
+            data-units="celsius"
+            data-value="26"
+            data-value-box-border-radius="0"
+            data-value-text-shadow="false"
+    ></canvas>
+
+    <div id="myButtoms">
+        <table>
+            <tr>
+                <td>Send:</td>
+            </tr><tr>
+                <td><input type="text" id="msg" maxlength="25" size="30" /></td>
+                <td><input type="button" onclick="sendMsg();" value="Send" /></td>
+            </tr><tr>
+                <td><input type="button" onclick="echo()" value="echo" /></td>
+                <td><input type="button" onclick="playSound('chicken')" value="chicken" /></td>
+                <td><input type="button" onclick="playSound('sheep')" value="sheep" /></td>
+                <td><input type="button" onclick="playSound('cat')" value="cat" /></td>
+            </tr><tr>
+                <td>Received:</td>
+            </tr><tr>
+                <td colspan="4"><textarea id="out" rows="4" cols="50"></textarea></td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="control_camera">
+        <table>
+            <tr>
+                <td>Camera:</td>
+            </tr><tr>
+                <td><input type="button" onclick="startCam()" value="start cam" /></td>
+                <td><input type="button" onclick="stopCam()" value="stop cam" /></td>
+            </tr>
+        </table>
+    </div>
+    <!-- base directions ------------------------------------------------------>
 	<div id="baseDirection">
 		<table id="tableBaseDirections">
 			<tr>
@@ -59,6 +199,17 @@
 			</tr>
 		</table>
 	</div>
+    <!-- infos-->
+    <div id="myData">
+        Vbat:<span id="vbat">0</span>
+        Vbus:<span id="vbus">0</span>
+        <table id="table_sensor"></table>
+        <div class="coordinates">
+          <div id="xy" class="fixed">x y</div>
+          <div id="cxcy" class="fixed">cx cy</div>
+          <div id="lr" class="fixed">left right</div>
+        </div>
+    </div>
     <!-- input message--------------------------------------------------------->
     <div id='labelInput'>
 		<input type='text' id='inputMessage' onkeydown="send_text_message(this)" class="form-control mr-sm-2" type="search" placeholder="Message" aria-label="Message">
@@ -72,7 +223,7 @@
 	<script>
 		//TODO in zentrale Konfig auslagern und auch in app laden
         var angle = 90;
-		var appNameShort = 'fpvc';
+		var appNameShort = 'fpvcar';
 		var base = {'component': 'base', 'stop': 0 };
         var debug = true;
         var distance = 10;
@@ -171,7 +322,9 @@
 			tbd.style.display = "none"
 		});
 	</script>
-    <script src="/fpvc/js/canvasCompass.js"></script>
-    <script src="/fpvc/js/canvasJoystick.js"></script>
+	<script src="/fpvcar/js/bno055.js"></script>
+    <script src="/fpvcar/js/canvasJoystick.js"></script>
+    <script src="/fpvcar/js/gauge.js"></script>
+    <script src="/fpvcar/js/fpvcar.js"></script>	
 </body>
 </html>

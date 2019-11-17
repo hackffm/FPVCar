@@ -1,17 +1,9 @@
 import sys
 
 from time import sleep
-
-
 from multiprocessing import Process
 
-from components import Base
-from handlers import handler_default
 from webserver import WebServer
-
-components = {
-    "base": Base(handler_default)
-}
 
 if __name__ == '__main__':
 
@@ -19,7 +11,7 @@ if __name__ == '__main__':
     running = True
     try:
         # start processes
-        p1 = Process(target=WebServer, args=(components, debug))
+        p1 = Process(target=WebServer, args=([debug]))
         p1.daemon = True
         p1.start()
 

@@ -1,3 +1,4 @@
+
 def send(text):
     _name = 'handler_default'
     try:

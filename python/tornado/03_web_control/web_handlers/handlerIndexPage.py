@@ -2,8 +2,9 @@ import tornado.web
 
 
 class HandlerIndexPage(tornado.web.RequestHandler):
-    def initialize(self):
-        self.name = 'index page'
+    def initialize(self, helper):
+        self.helper = helper
 
     def get(self):
-        self.render("index.html")
+        ip_first = self.helper.interfaces_first()
+        self.render("index.html", ip_first=ip_first)

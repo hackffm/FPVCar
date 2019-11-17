@@ -1,33 +1,81 @@
 @CHARSET "UTF-8";
 
 /*--default------------------------*/
-.oi {
-	color: #f6931f;
-	display:block;
-	font-size: 2.0em;
-	margin: 0 auto;
-	opacity: 0.5;
-}
-.oi:active{
-  opacity: 1.0;
-}
 input[type="text"]
 {
 	color: #f6931f;
 	width: 50px;
 	border: 0;
 }
+/*--video------------------------*/
+#container {
+  width: 640px;
+  height: 480px;
+}
+#control_camera {
+  position: absolute;
+  right: 13em;
+  bottom: 3em;
+}
+/*-- ---------------------------*/
+#myButtoms {
+  position: absolute;
+  left: 0.5em;
+  bottom: 3em;
+}
+#myBattery {
+  position: absolute;
+  right: 0.5em;
+  top : 3em;
+}
+#myCanvas {
+  position: absolute;
+  top: 4em;
+  left: 0.3em;
+  z-index: 0;
+}
+#myCompass {
+  position: absolute;
+  left: 7em;
+  top: 0.1em;
+}
+#myData {
+  position: absolute;
+  right: 2em;
+  bottom: 3em;
+}
+#myTemperature {
+  position: absolute;
+  right: 7em;
+  top : 3em;
+}
+#video {
+  width: 640px;
+  height: 480px;
+  position: absolute;
+  top: 3.0em;
+  left: 0.5em;
+}
 /*----directions------------------*/
 #baseDirection {
-	right: 1em;
-	position: absolute;
-	bottom: 1em;
+    bottom: 1em;
+    position: absolute;
+    right: 1em;
 }
 #cnvsJoy {
 	border: 1px #000000;
 }
 #tableBaseDirections{
 	text-align: center;
+}
+.coordinates{
+  display:flex;
+  position: relative;
+  margin: 0 auto;
+  width: 640px;
+}
+.fixed{
+  width: 120px;
 }
 /*--infos -------------------------*/
 #labelResult{
@@ -51,16 +99,17 @@ input[type="text"]
 	width: 200px;
 }
 /*--Power Button-------------------*/
-#iconShutdown {
+#btm_icon_shutdown {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
 	position: absolute;
+    right: 0.5em;
 	top: 0.5em;
-	right: 0.5em;;
 }
-.oi-power-standby{
-	color: #ff0000;
-}
-.oi-power-standby:active{
-	font-size: 2.5em;
+#btm_icon_shutdown_img{
+    height: 40px;
+    width: 30px;
 }
 /*--sensors------------------------*/
 #compass {
