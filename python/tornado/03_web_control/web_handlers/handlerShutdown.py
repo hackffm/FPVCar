@@ -1,3 +1,4 @@
+import sys
 import tornado.web
 
 
@@ -8,3 +9,4 @@ class HandlerShutdown(tornado.web.RequestHandler):
     def get(self):
         infos = ['do shutdown']
         self.render("shutdown.html", title="Shutdown", items=infos)
+        sys.exit(0)

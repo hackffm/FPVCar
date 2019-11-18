@@ -38,6 +38,7 @@ components = {
     "stats": Stats(ser, debug=debug)
 }
 
+
 async def read_sensor():
     data_sensor = sensor.handleMessage({'sensor': 'all'})
     return data_sensor
@@ -45,26 +46,30 @@ async def read_sensor():
 
 async def serial_read():
     data = b''
+
     wait_bytes = ser.inWaiting();
 
     if not wait_bytes:
-        return False
+        ser.write("v\r".encode())
 
-    for i in range(wait_bytes):
+    for i in range(ser.inWaiting()):
         b = ser.read(1)
         if b != b'\r':
             if b == b'\n':
                 return data
             else:
                 data += b
+    return False
 
 
 async def websocket_loop():
     while True:
         data_sensor = await read_sensor()
+        #print(data_sensor)
         websocket_write({"sensor": data_sensor})
 
         data_serial = await serial_read()
+        #print(data_serial)
         if data_serial:
             websocket_write(data_serial.decode("utf-8"))
 
@@ -142,9 +147,7 @@ class WebServer:
         ws_app = WebApplication(components, debug)
         server = tornado.httpserver.HTTPServer(ws_app)
         server.listen(port)
-        print('Start web server at port:' + str(port))
-        IOLoop.instance().start()
-
-        print('start async callbacks')
         IOLoop.current().spawn_callback(websocket_loop)
+
+        print('Start web server at port:' + str(port))
         IOLoop.instance().start()

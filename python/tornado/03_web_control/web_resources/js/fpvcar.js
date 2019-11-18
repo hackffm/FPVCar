@@ -142,7 +142,7 @@ function dispatchMsg(msg) {
             document.gauges.get('myTemperature').value = _sensor.temperature;
         }
         if(_sensor.hasOwnProperty('magnetic')){
-            document.gauges.get('myCompass').value = _sensor.magnetic[2];
+            document.gauges.get('myCompass').value = Math.floor(_sensor.magnetic[2]);
         }
         return
       }

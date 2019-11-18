@@ -7,26 +7,10 @@ input[type="text"]
 	width: 50px;
 	border: 0;
 }
-/*--video------------------------*/
+/*--video-------------------------*/
 #container {
   width: 640px;
   height: 480px;
-}
-#control_camera {
-  position: absolute;
-  right: 13em;
-  bottom: 3em;
-}
-/*-- ---------------------------*/
-#myButtoms {
-  position: absolute;
-  left: 0.5em;
-  bottom: 3em;
-}
-#myBattery {
-  position: absolute;
-  right: 0.5em;
-  top : 3em;
 }
 #myCanvas {
   position: absolute;
@@ -34,27 +18,23 @@ input[type="text"]
   left: 0.3em;
   z-index: 0;
 }
-#myCompass {
-  position: absolute;
-  left: 7em;
-  top: 0.1em;
-}
-#myData {
-  position: absolute;
-  right: 2em;
-  bottom: 3em;
-}
-#myTemperature {
-  position: absolute;
-  right: 7em;
-  top : 3em;
-}
 #video {
   width: 640px;
   height: 480px;
   position: absolute;
   top: 3.0em;
   left: 0.5em;
+}
+/*--Buttons------------------------*/
+#control_camera {
+  position: absolute;
+  right: 13em;
+  bottom: 3em;
+}
+#myButtons {
+position: absolute;
+left: 0.5em;
+bottom: 3em;
 }
 /*----directions------------------*/
 #baseDirection {
@@ -77,7 +57,7 @@ input[type="text"]
 .fixed{
   width: 120px;
 }
-/*--infos -------------------------*/
+/*--infos--------------------------*/
 #labelResult{
 	position: absolute;
 	bottom: 1em;
@@ -86,6 +66,17 @@ input[type="text"]
 #moveResult {
 	width: 200px;
 }
+#myBattery {
+    position: absolute;
+    right: 0.5em;
+    top : 3em;
+}
+#myData {
+  position: absolute;
+  right: 2em;
+  bottom: 3em;
+}
+
 /*--input -------------------------*/
 #labelInput{
 	position: absolute;
@@ -112,8 +103,15 @@ input[type="text"]
     width: 30px;
 }
 /*--sensors------------------------*/
-#compass {
-	text-align: center;
+#myCompass {
+  position: absolute;
+  left: 7em;
+  top: 0.1em;
+}
+#myTemperature {
+  position: absolute;
+  right: 7em;
+  top : 3em;
 }
 /*--toggle_controls----------------*/
 #btm_toggle_controls {

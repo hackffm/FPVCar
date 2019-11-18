@@ -47,7 +47,7 @@
         data-ticks-width="50"
         data-title="Compass"
         data-stroke-ticks="true"
-        data-value="90"
+        data-value="0"
     ></canvas>
 
     <div id="container">
@@ -90,7 +90,7 @@
             data-stroke-ticks="true"
             data-title="Battery"
             data-units="milliamp"
-            data-value="3650"
+            data-value="3000"
             data-value-box-border-radius="0"
             data-value-text-shadow="false"
     ></canvas>
@@ -128,12 +128,12 @@
             data-stroke-ticks="true"
             data-title="Temperature"
             data-units="celsius"
-            data-value="26"
+            data-value="0"
             data-value-box-border-radius="0"
             data-value-text-shadow="false"
     ></canvas>
 
-    <div id="myButtoms">
+    <div id="myButtons">
         <table>
             <tr>
                 <td>Send:</td>
@@ -262,6 +262,10 @@
 				base = {'component': 'base', 'stop': 0 };
 				send_component_message(base)
 			});
+			/* shutdown */
+            document.getElementById("btm_icon_shutdown_img").addEventListener("click", function () {
+                window.location.href = '/shutdown';
+            })
 		});
 
 		//-- functions -------------------------------------------------------->
