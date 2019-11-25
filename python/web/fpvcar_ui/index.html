@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>First Person View Car</title>
+    <link href="fpvcar/css/fpvcar.css" rel="stylesheet"/>
+    <link href="fpvcar/css/background.css" rel="stylesheet"/>
+    <link rel="shortcut icon" type="image/x-icon" href="fpvcar/images/favicon.ico">
+    <script src="fpvcar/js/jquery-3.4.1.min.js"></script>
+    <script>var ip_first = '{{ip_first}}';</script>
+</head>
+<body>
+    <div class="bg"></div>
+	<!-- Shutdown Button ------------------------------------------------------>
+    <div id="btm_icon_shutdown">
+        <img id="btm_icon_shutdown_img" src="fpvcar/images/power-button.svg">
+    </div>
+	<!-- Menu toggle ---------------------------------------------------------->
+    <div id="btm_toggle_controls" onclick="toggle_controls()">
+		<img id="btm_toggle_controls_img" src="fpvcar/images/hackffm_logo.png">
+	</div>
+    <!-- gauges --------------------------------------------------------------->
+    <canvas data-type="linear-gauge" id="myCompass"
+        data-width="450"
+        data-height="100"
+        data-animation-duration="750"
+        data-animation-rule="linear"
+        data-animation-target="plate"
+        data-bar-begin-circle="false"
+        data-bar-length="95"
+        data-bar-stroke-width="0"
+        data-bar-width="5"
+        data-borders="0"
+        data-color-needle="rgba(246, 147, 31, 1)"
+        data-color-numbers="white"
+        data-color-plate="rgba(246, 147, 31, .1)"
+        data-color-title="white"
+        data-font-numbers-size="30"
+        data-font-numbers-style="light"
+        data-font-title-size="40"
+        data-font-title-style="bold"
+        data-highlights='[{"from": 0, "to":0, "color": "black"}]'
+        data-max-value="360"
+        data-min-value="0"
+        data-major-ticks="0,20,40,60,80,100,120,140,160,180,200,220,240,260,280,300,320,340,360"
+        data-minor-ticks="2"
+        data-needle-side="left"
+        data-needle-type="arrow"
+        data-needle-width="3"
+        data-number-side="left"
+        data-tick-side="left"
+        data-ticks-width="30"
+        data-title="Compass"
+        data-stroke-ticks="true"
+        data-value="90"
+    ></canvas>
+
+    <canvas data-type="linear-gauge" id="myTemperature"
+            data-width="100"
+            data-height="350"
+            data-animation-rule="bounce"
+            data-animation-duration="750"
+            data-borders="0"
+            data-bar-begin-circle="false"
+            data-bar-stroke-width="0"
+            data-bar-width="5"
+            data-color-needle="rgba(246, 147, 31, 1)"
+            data-color-numbers="white"
+            data-color-plate="rgba(246, 147, 31, .1)"
+            data-color-title="white"
+            data-color-units="white"
+            data-color-value-box-background="false"
+            data-color-value-text="white"
+            data-font-numbers-size="30"
+            data-font-numbers-style="bold"
+            data-font-title-size="40"
+            data-font-title-style="bold"
+            data-font-units-size="30"
+            data-font-value-size="30"
+            data-min-value="0"
+            data-max-value="60"
+            data-major-ticks="0, 26, 60"
+            data-needle-side="right"
+            data-needle-width="5"
+            data-number-side="right"
+            data-highlights='[
+                {"from": 0, "to":20, "color": "rgba(246, 147, 31, .75)"},
+                {"from": 20, "to":40, "color": "green"},
+                {"from": 40, "to": 60, "color": "red"}
+            ]'
+            data-highlights-width="20"
+            data-tick-side="right"
+            data-ticks-padding="0"
+            data-ticks-width="20"
+            data-stroke-ticks="true"
+            data-title="Temperature"
+            data-units="celsius"
+            data-value="0"
+            data-value-box-stroke="0"
+            data-value-dec="0"
+            data-value-int ="2"
+            data-value-text-shadow="false"
+    ></canvas>
+
+    <canvas data-type="linear-gauge" id="myBattery"
+            data-width="100"
+            data-height="350"
+            data-animation-rule="bounce"
+            data-animation-duration="750"
+            data-borders="0"
+            data-bar-begin-circle="false"
+            data-bar-stroke-width="0"
+            data-bar-width="5"
+            data-color-needle="rgba(246, 147, 31, 1)"
+            data-color-numbers="white"
+            data-color-plate="rgba(246, 147, 31, .1)"
+            data-color-title="white"
+            data-color-units="white"
+            data-color-value-box-background="false"
+            data-color-value-text="white"
+            data-font-numbers-size="30"
+            data-font-numbers-style="bold"
+            data-font-title-size="40"
+            data-font-title-style="bold"
+            data-font-units-size="30"
+            data-font-value-size="30"
+            data-min-value="3000"
+            data-max-value="4200"
+            data-major-ticks="3000, 3600, 4200"
+            data-needle-side="left"
+            data-needle-width="5"
+            data-number-side="left"
+            data-highlights='[
+                {"from": 4000, "to":4200, "color": "green"},
+                {"from": 3600, "to":4000, "color": "rgba(246, 147, 31, .75)"},
+                {"from": 3000, "to": 3600, "color": "red"}
+            ]'
+            data-highlights-width="20"
+            data-tick-side="left"
+            data-ticks-padding="0"
+            data-ticks-width="20"
+            data-stroke-ticks="true"
+            data-title="Battery"
+            data-units="milliamp"
+            data-value="3000"
+            data-value-box-stroke="0"
+            data-value-dec="0"
+            data-value-text-shadow="false"
+    ></canvas>
+
+    <!-- input/ output message------------------------------------------------->
+    <div id='myInputOutput'>
+        <div class="txt_recieved">
+            <input type='text' id='inputMessage' onkeydown="send_text_message(this)" type="search" placeholder="Your Message" aria-label="Message">
+            <label>Received:</label>
+            <textarea id="outputMessage"></textarea>
+        </div>
+    </div>
+    <!-- move result----------------------------------------------------------->
+    <div id='labelResult'>
+        <label>Result:</label>
+        <input type='text' id='moveResult' readonly />
+    </div>
+    <!-- buttons -------------------------------------------------------------->
+    <div id="myConfig">
+        <img id="myConfig_img" src="fpvcar/images/burger.svg">
+    </div>
+    <img id="mySounds_img" src="fpvcar/images/sounds.svg">
+    <div id="mySounds">
+        <div class="vertical_buttons">
+            <button class="button" onclick="echo()">echo</button>
+            <button class="button" onclick="playSound('chicken')">chicken</button>
+            <button class="button" onclick="playSound('sheep')">sheep</button>
+            <button class="button" onclick="playSound('cat')">cut</button>
+        </div>
+    </div>
+    <img id="myCamera_img" src="fpvcar/images/camera.svg">
+    <div id="myCamera">
+        <div class="vertical_buttons">
+            <button class="button" onclick="startCam()">start cam</button>
+            <button class="button" onclick="stopCam()">stop cam</button>
+        </div>
+    </div>
+    <!-- base directions ------------------------------------------------------>
+	<div id="baseDirection">
+		<table id="tableBaseDirections">
+			<tr>
+				<td colspan="3">Base</td>
+			</tr>
+			<tr>
+				<td><img id="turnLeft"    class="arrow" src="fpvcar/images/arrow-left.svg"></td>
+				<td><img id="moveForward" class="arrow" src="fpvcar/images/arrow-up.svg"  ></td>
+				<td><img id="turnRight"   class="arrow" src="fpvcar/images/arrow-turning-right.svg"></td>
+			</tr>
+			<tr>
+				<td><img id="moveLeft"    class="arrow" src="fpvcar/images/arrow-left.svg"></td>
+				<td>
+					<div id="steercontainter">
+						<!-- find out why css is not working -->
+						<canvas id="cnvsJoy" width="100" height="100"></canvas>
+					</div>
+				</td>
+				<td><img id="moveRight"   class="arrow" src="fpvcar/images/arrow-right.svg"></td>
+			</tr>
+			<tr>
+                <td><img id="stop"        class="arrow" src="fpvcar/images/stop.svg"></td>
+				<td><img id="moveBackward" class="arrow" src="fpvcar/images/arrow-down.svg"></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<div id="lblBaseVel">
+						<label>Base velocity:</label>
+						<input type="text" id="lblVel" readonly />
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+    <!-- infos---------------------------------------------------------------->
+    <div id="myData">
+        Vbat:<span id="vbat">0</span>
+        Vbus:<span id="vbus">0</span>
+        <table id="table_sensor"></table>
+        <div class="coordinates">
+          <div id="xy" class="fixed">x y</div>
+          <div id="cxcy" class="fixed">cx cy</div>
+          <div id="lr" class="fixed">left right</div>
+        </div>
+    </div>
+  <!-- Scripts ----------------------------------------------------------------->
+	<script>
+		//TODO in zentrale Konfig auslagern und auch in app laden
+        var angle = 90;
+		var appNameShort = 'fpvcar';
+		var base = {'component': 'base', 'stop': 0 };
+        var debug = true;
+        var distance = 10;
+        var mode_visuals = 1;
+		var url = '/' + appNameShort + '/api';
+		//--init-------------------------------------------------
+        var btm_shutdown = document.getElementById("btm_icon_shutdown");
+        var lbl_labelResult = document.getElementById("labelResult");
+        var my_camera = document.getElementById("myCamera");
+        var my_camera_img = document.getElementById("myCamera_img");
+        var my_data = document.getElementById("myData");
+        var my_in_out = document.getElementById("myInputOutput");
+        var my_sounds = document.getElementById("mySounds");
+        var my_sounds_img = document.getElementById("mySounds_img");
+		var tbd = document.getElementById("baseDirection");
+		$(function() {
+		    /* buttons */
+            my_camera_img.addEventListener("click", function() {
+            if (my_camera.style.display === "none") {
+                my_camera.style.display = "block";
+            } else {
+              my_camera.style.display = "none";
+            }
+            });
+          my_sounds_img.addEventListener("click", function() {
+            if (my_sounds.style.display === "none") {
+              my_sounds.style.display = "block";
+            } else {
+              my_sounds.style.display = "none";
+            }
+          });
+			/*set arrow functions*/
+			document.getElementById("moveLeft").addEventListener("click", function () {
+				base = {'component': 'base', 'left': angle } ;
+				send_component_message(base)
+			});
+			document.getElementById("moveForward").addEventListener("click", function () {
+				base = {'component': 'base', 'forward' : distance } ;
+				send_component_message(base)
+			});
+			document.getElementById("moveRight").addEventListener("click", function () {
+				base = {'component': 'base', 'right' : angle};
+				send_component_message(base)
+			});
+			document.getElementById("moveBackward").addEventListener("click", function () {
+				base = {'component': 'base','backward': angle};
+				send_component_message(base)
+			});
+			document.getElementById("turnLeft").addEventListener("click", function () {
+				base = {'component': 'base','turnLeft': 180 };
+				send_component_message(base)
+			});
+			document.getElementById("turnRight").addEventListener("click", function () {
+				base = {'component': 'base','turnRight': 180};
+				send_component_message(base)
+			});
+			document.getElementById("stop").addEventListener("click", function () {
+				base = {'component': 'base', 'stop': 0 };
+				send_component_message(base)
+			});
+			/* shutdown */
+            document.getElementById("btm_icon_shutdown_img").addEventListener("click", function () {
+                window.location.href = '/shutdown';
+            })
+		});
+
+		//-- functions -------------------------------------------------------->
+        // TODO move move functions to sepreate file
+        function buttom_extract(obj) {
+            obj.style.display = "block";
+        }
+        function move_base_linear(base){
+            // requiered by CancasJoystik
+			data = JSON.stringify(base);
+			$.ajax({
+			  url:url + '/base',
+			  type:"POST",
+			  data:data,
+			  contentType:"application/json; charset=utf-8",
+			  dataType:"json",
+			  success: function(baseMove){
+			  	console.log(baseMove);
+			  	newMove = 'BaseMove: linearX:' + baseMove.linearX + ' linearY:'+ baseMove.linearY;
+				showMoveResult(newMove);
+			  }
+			})
+		};
+		function send_text_message(ms) {
+			if (event.key === 'Enter') {
+				_message = {'message': ms.value };
+				$.post(url + '/message', _message).done( function(result) {
+				showMoveResult(result);	});
+			}
+		}
+        function send_component_message(component){
+            component = JSON.stringify(component);
+            if (debug){console.log('send_component_message:' + component);}
+            $.post(url + '/component', component).done( function(result) {
+                showMoveResult(result);	});
+            };
+		function showMoveResult(result){
+			$("#moveResult").val(result);
+		};
+        function toggle_controls() {
+          if (mode_visuals == 0){
+              btm_shutdown.style.display = "none";
+              lbl_labelResult.style.display = "none";
+              my_data.style.display = "none";
+              my_in_out.style.display = "none";
+              tbd.style.display = "none";
+              mode_visuals += 1;
+              return;
+          }
+          if (mode_visuals == 1){
+              btm_shutdown.style.display = "block";
+              my_in_out.style.display = "block";
+              tbd.style.display = "block";
+              mode_visuals += 1;
+              return;
+          }
+          if (mode_visuals == 2){
+            lbl_labelResult.style.display = "block";
+            my_data.style.display = "block";
+            tbd.style.display = "block";
+            mode_visuals = 0;
+            return;
+          }
+        }
+		document.addEventListener("DOMContentLoaded", function(){
+			/*set default values*/
+			$("#moveResult").val(" [ not yet ]");
+            btm_shutdown.style.display = "none";
+            lbl_labelResult.style.display = "none";
+            my_camera.style.display = "none";
+            my_data.style.display = "none";
+            my_in_out.style.display = "none";
+            my_sounds.style.display = "none";
+			tbd.style.display = "none"
+		});
+	</script>
+	<script src="fpvcar/js/bno055.js"></script>
+    <script src="fpvcar/js/canvasJoystick.js"></script>
+    <script src="fpvcar/js/gauge.js"></script>
+    <script src="fpvcar/js/fpvcar.js"></script>
+</body>
+</html>
