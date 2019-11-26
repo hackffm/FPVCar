@@ -65,8 +65,6 @@ function inputMove(e) {
   if(mdown) {
     getMousePos(e);
     getVel();
-    sendPos();
-    drawJoyHandle();
   }
   finaliseMove();
 }
@@ -138,11 +136,6 @@ function sendPos() {
   //console.log('ps3 x:' + ps3_axis_pos_x + ' ps3 y:' + ps3_axis_pos_y);
   //onsole.log('j cx:' + posJoy.cx + "j cy:" + posJoy.cy)
   console.log("v x:" + vel.linearX + ",v Y:" + vel.linearY);
-}
-
-function drawJoyField() {
-  ctxJoy.clearRect(0, 0, rectJoy.width, rectJoy.height);
-  drawJoyField();
 }
 
 function drawJoyField() {
