@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>Adafruit BNO055 Absolute Orientation Sensor</title>
+    <style>
+        body {
+            padding-top: 50px;
+            padding-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <h1 class="text-center">Adafruit BNO055 Absolute Orientation Sensor Demo</h1>
+            <h3 id="connecting">Connecting...</h3>
+            <div class="col-sm-12" id="renderer">
+            </div>
+        </div>
+    </div>
+    <div class="row" id="controls">
+        <div class="col-sm-4">
+            <h3>Orientation (degrees):</h3>
+            <h4>Heading = <span id="heading">0</span></h4>
+            <h4>Roll = <span id="roll">0</span></h4>
+            <h4>Pitch = <span id="pitch">0</span></h4>
+        </div>
+        <div class="col-sm-4">
+            <h3>Calibration:</h3>
+            <h4>(0=uncalibrated, 3=fully calibrated)</h4>
+            <h4>System = <span id="calSys">0</span></h4>
+            <h4>Gyro = <span id="calGyro">0</span></h4>
+            <h4>Accelerometer = <span id="calAccel">0</span></h4>
+            <h4>Magnetometer = <span id="calMag">0</span></h4>
+        </div>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='js/jquery-2.1.4.min.js') }}"></script>
+<script>
+    $(document).ready(function () {
+
+        // Global state.
+        var bnoData = null;
+
+        // Load calibration click handler calls the /load_calibration API.
+        $('#loadCalibration').click(function () {
+            $.post("{{ url_for('load_calibration') }}");
+        });
+        $('#loadCalibration').hide();
+
+        // Function called when a new sensor reading is received.
+        function updateSensorData(data) {
+            // Save the reading then update the UI.
+            bnoData = data;
+            $('#heading').text(data.heading);
+            $('#roll').text(data.roll);
+            $('#pitch').text(data.pitch);
+            $('#calSys').text(data.calSys);
+            $('#calGyro').text(data.calGyro);
+            $('#calAccel').text(data.calAccel);
+            $('#calMag').text(data.calMag);
+        }
+
+        // Create server sent event connection to receive BNO sensor data.
+        var server = new EventSource('/bno');
+        // Add server sent event handlers.
+        server.onmessage = function (e) {
+            updateSensorData(JSON.parse(e.data));
+        };
+        server.onopen = function (e) {
+            // Hide connecting status and show controls when connection is made.
+            $('#connecting').hide();
+            $('#controls').show();
+        };
+        server.onerror = function (e) {
+            // Hide controls and show connecting status if connection closes.
+            $('#controls').hide();
+            $('#connecting').show();
+        };
+    });
+</script>
+</body>
+</html>

@@ -10,38 +10,10 @@
 
 <body>
   <div id="content">
-    <div id="container">
-      <canvas id="myCanvas" width=640 height=480 style="border:1px solid #000000;"></canvas>
-      <div id="video">
-        <!-- todo handle if stream is dead -->
-      </div>
-    </div>
-    <div class="coordinates">
-      <div id="xy" class="fixed">x y</div>
-      <div id="cxcy" class="fixed">cx cy</div>
-      <div id="lr" class="fixed">left right</div>
-    </div>
-
-    <br><br> Send:
-    <input type="text" id="msg" maxlength="25" size="30" /> &nbsp;
-    <input type="button" onclick="sendMsg();" value="Send" />
-    <br> Received:
-    <br>
-    <textarea id="out" rows="4" cols="50"></textarea>
-    <br>
-    <input type="button" onclick="echo()" value="echo" />
-    <br>
-    <input type="button" onclick="fetchStats()" value="fetch stats" />
     <br>
     Vbat:<span id="vbat">0</span><br>
     Vbus:<span id="vbus">0</span>
     <br>
-    <input type="button" onclick="playSound('chicken')" value="chicken" />
-    <input type="button" onclick="playSound('sheep')" value="sheep" />
-    <input type="button" onclick="playSound('cat')" value="cat" />
-    <br>
-    <input type="button" onclick="startCam()" value="start cam" />
-    <input type="button" onclick="stopCam()" value="stop cam" />
     <br>
     <input type="button" id="btm_bno055" value="BNO055" />
     <table id="table_sensor"></table>
