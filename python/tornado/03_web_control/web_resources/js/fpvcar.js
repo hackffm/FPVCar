@@ -136,19 +136,18 @@ function dispatchMsg(msg) {
       msg = JSON.parse(msg);
       if (msg.hasOwnProperty('sensor')) {
         _sensor = msg.sensor;
-        fill_sensor_data(_sensor);
         if(_sensor.hasOwnProperty('temperature')){
             document.gauges.get('myTemperature').value = _sensor.temperature;
         }
-        if(_sensor.hasOwnProperty('magnetic')){
-            document.gauges.get('myCompass').value = Math.floor(_sensor.magnetic[2]);
+        if(_sensor.hasOwnProperty('heading')){
+            document.gauges.get('myCompass').value = _sensor.heading.toFixed(0);
         }
         return
       }
     } catch (e) {
       console.log(e)
     }
-    document.getElementById('out').value = msg;
+    document.getElementById('outputMessage').value = msg;
 }
 function updateStats(msg) {
     console.log(msg);

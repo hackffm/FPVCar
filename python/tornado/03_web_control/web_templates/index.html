@@ -3,13 +3,14 @@
 <head>
     <meta charset="utf-8">
     <title>First Person View Car</title>
-
     <link href="/fpvcar/css/fpvcar.css" rel="stylesheet"/>
     <link rel="shortcut icon" type="image/x-icon" href="/fpvcar/images/favicon.ico">
     <script src="/fpvcar/js/jquery-3.4.1.min.js"></script>
     <script>var ip_first = '{{ip_first}}';</script>
 </head>
 <body>
+    <!-- background image------------------------------------------------------>
+    <div class="bg"></div>
 	<!-- Shutdown Button ------------------------------------------------------>
     <div id="btm_icon_shutdown">
         <img id="btm_icon_shutdown_img" src="/fpvcar/images/power-button.svg">
@@ -20,7 +21,7 @@
 	</div>
     <!-- gauges --------------------------------------------------------------->
     <canvas data-type="linear-gauge" id="myCompass"
-        data-width="400"
+        data-width="450"
         data-height="100"
         data-animation-duration="750"
         data-animation-rule="linear"
@@ -29,11 +30,15 @@
         data-bar-length="95"
         data-bar-stroke-width="0"
         data-bar-width="5"
-        data-color-plate="#fff"
-        data-color-needle="red"
-        data-border-shadow-width="0"
-        data-borders="1"
+        data-borders="0"
+        data-color-needle="rgba(246, 147, 31, 1)"
+        data-color-numbers="white"
+        data-color-plate="rgba(246, 147, 31, .1)"
+        data-color-title="white"
         data-font-numbers-size="30"
+        data-font-numbers-style="light"
+        data-font-title-size="40"
+        data-font-title-style="bold"
         data-highlights='[{"from": 0, "to":0, "color": "black"}]'
         data-max-value="360"
         data-min-value="0"
@@ -44,10 +49,10 @@
         data-needle-width="3"
         data-number-side="left"
         data-tick-side="left"
-        data-ticks-width="50"
+        data-ticks-width="30"
         data-title="Compass"
         data-stroke-ticks="true"
-        data-value="0"
+        data-value="90"
     ></canvas>
 
     <div id="container">
@@ -57,19 +62,73 @@
       </div>
     </div>
 
+    <canvas data-type="linear-gauge" id="myTemperature"
+            data-width="100"
+            data-height="350"
+            data-animation-rule="bounce"
+            data-animation-duration="750"
+            data-borders="0"
+            data-bar-begin-circle="false"
+            data-bar-stroke-width="0"
+            data-bar-width="5"
+            data-color-needle="rgba(246, 147, 31, 1)"
+            data-color-numbers="white"
+            data-color-plate="rgba(246, 147, 31, .1)"
+            data-color-title="white"
+            data-color-units="white"
+            data-color-value-box-background="false"
+            data-color-value-text="white"
+            data-font-numbers-size="30"
+            data-font-numbers-style="bold"
+            data-font-title-size="40"
+            data-font-title-style="bold"
+            data-font-units-size="30"
+            data-font-value-size="30"
+            data-min-value="0"
+            data-max-value="60"
+            data-major-ticks="0, 26, 60"
+            data-needle-side="right"
+            data-needle-width="5"
+            data-number-side="right"
+            data-highlights='[
+                {"from": 0, "to":20, "color": "rgba(246, 147, 31, .75)"},
+                {"from": 20, "to":40, "color": "green"},
+                {"from": 40, "to": 60, "color": "red"}
+            ]'
+            data-highlights-width="20"
+            data-tick-side="right"
+            data-ticks-padding="0"
+            data-ticks-width="20"
+            data-stroke-ticks="true"
+            data-title="Temperature"
+            data-units="celsius"
+            data-value="0"
+            data-value-box-stroke="0"
+            data-value-dec="0"
+            data-value-int ="2"
+            data-value-text-shadow="false"
+    ></canvas>
+
     <canvas data-type="linear-gauge" id="myBattery"
             data-width="100"
             data-height="350"
             data-animation-rule="bounce"
             data-animation-duration="750"
-            data-border-radius="10"
-            data-borders="1"
+            data-borders="0"
             data-bar-begin-circle="false"
             data-bar-stroke-width="0"
             data-bar-width="5"
-            data-color-plate="#fff"
+            data-color-needle="rgba(246, 147, 31, 1)"
+            data-color-numbers="white"
+            data-color-plate="rgba(246, 147, 31, .1)"
+            data-color-title="white"
+            data-color-units="white"
+            data-color-value-box-background="false"
+            data-color-value-text="white"
             data-font-numbers-size="30"
-            data-font-title-size="50"
+            data-font-numbers-style="bold"
+            data-font-title-size="40"
+            data-font-title-style="bold"
             data-font-units-size="30"
             data-font-value-size="30"
             data-min-value="3000"
@@ -84,84 +143,50 @@
                 {"from": 3000, "to": 3600, "color": "red"}
             ]'
             data-highlights-width="20"
-            data-tick-side="right"
+            data-tick-side="left"
             data-ticks-padding="0"
             data-ticks-width="20"
             data-stroke-ticks="true"
             data-title="Battery"
             data-units="milliamp"
             data-value="3000"
-            data-value-box-border-radius="0"
+            data-value-box-stroke="0"
+            data-value-dec="0"
             data-value-text-shadow="false"
     ></canvas>
 
-    <canvas data-type="linear-gauge" id="myTemperature"
-            data-width="100"
-            data-height="350"
-            data-animation-rule="bounce"
-            data-animation-duration="750"
-            data-border-radius="10"
-            data-borders="1"
-            data-bar-begin-circle="false"
-            data-bar-stroke-width="0"
-            data-bar-width="5"
-            data-color-plate="#fff"
-            data-font-numbers-size="30"
-            data-font-title-size="50"
-            data-font-units-size="30"
-            data-font-value-size="30"
-            data-min-value="0"
-            data-max-value="60"
-            data-major-ticks="0, 26, 60"
-            data-needle-side="left"
-            data-needle-width="5"
-            data-number-side="left"
-            data-highlights='[
-                {"from": 0, "to":20, "color": "rgba(246, 147, 31, .75)"},
-                {"from": 20, "to":40, "color": "green"},
-                {"from": 40, "to": 60, "color": "red"}
-            ]'
-            data-highlights-width="20"
-            data-tick-side="right"
-            data-ticks-padding="0"
-            data-ticks-width="20"
-            data-stroke-ticks="true"
-            data-title="Temperature"
-            data-units="celsius"
-            data-value="0"
-            data-value-box-border-radius="0"
-            data-value-text-shadow="false"
-    ></canvas>
-
-    <div id="myButtons">
-        <table>
-            <tr>
-                <td>Send:</td>
-            </tr><tr>
-                <td><input type="text" id="msg" maxlength="25" size="30" /></td>
-                <td><input type="button" onclick="sendMsg();" value="Send" /></td>
-            </tr><tr>
-                <td><input type="button" onclick="echo()" value="echo" /></td>
-                <td><input type="button" onclick="playSound('chicken')" value="chicken" /></td>
-                <td><input type="button" onclick="playSound('sheep')" value="sheep" /></td>
-                <td><input type="button" onclick="playSound('cat')" value="cat" /></td>
-            </tr><tr>
-                <td>Received:</td>
-            </tr><tr>
-                <td colspan="4"><textarea id="out" rows="4" cols="50"></textarea></td>
-            </tr>
-        </table>
+    <!-- input/ output message------------------------------------------------->
+    <div id='myInputOutput'>
+        <div class="txt_recieved">
+            <input type='text' id='inputMessage' onkeydown="send_text_message(this)" type="search" placeholder="Your Message" aria-label="Message">
+            <label>Received:</label>
+            <textarea id="outputMessage"></textarea>
+        </div>
     </div>
-
-    <div id="control_camera">
-        <table>
-            <tr>
-                <td>Camera:</td>
-            </tr><tr>
-                <td><input type="button" onclick="startCam()" value="start cam" /></td>
-                <td><input type="button" onclick="stopCam()" value="stop cam" /></td>
-            </tr>
-        </table>
+    <!-- move result----------------------------------------------------------->
+    <div id='labelResult'>
+        <label>Result:</label>
+        <input type='text' id='moveResult' readonly />
+    </div>
+    <!-- buttons -------------------------------------------------------------->
+    <div id="myConfig">
+        <img id="myConfig_img" src="fpvcar/images/burger.svg">
+    </div>
+    <img id="mySounds_img" src="fpvcar/images/sounds.svg">
+    <div id="mySounds">
+        <div class="vertical_buttons">
+            <button class="button" onclick="echo()">echo</button>
+            <button class="button" onclick="playSound('chicken')">chicken</button>
+            <button class="button" onclick="playSound('sheep')">sheep</button>
+            <button class="button" onclick="playSound('cat')">cut</button>
+        </div>
+    </div>
+    <img id="myCamera_img" src="fpvcar/images/camera.svg">
+    <div id="myCamera">
+        <div class="vertical_buttons">
+            <button class="button" onclick="startCam()">start cam</button>
+            <button class="button" onclick="stopCam()">stop cam</button>
+        </div>
     </div>
     <!-- base directions ------------------------------------------------------>
 	<div id="baseDirection">
@@ -170,23 +195,23 @@
 				<td colspan="3">Base</td>
 			</tr>
 			<tr>
-				<td><a id="turnLeft"><span class="oi oi-action-undo" title="oi-action-undo" aria-hidden="true"></span></a></td>
-				<td><a id="moveForward"><span class="oi oi-arrow-thick-top" title="oi-arrow-thick-top" aria-hidden="true"></span></a></td>
-				<td><a id="turnRight"><span class="oi oi-action-redo" title="oi-action-redo" aria-hidden="true"></span></a></td>
+				<td><img id="turnLeft"    class="arrow" src="fpvcar/images/arrow-left.svg"></td>
+				<td><img id="moveForward" class="arrow" src="fpvcar/images/arrow-up.svg"  ></td>
+				<td><img id="turnRight"   class="arrow" src="fpvcar/images/arrow-turning-right.svg"></td>
 			</tr>
 			<tr>
-				<td><a id="moveLeft"><span class="oi oi-arrow-thick-left" title="oi-arrow-thick-left" aria-hidden="true"></span></a></td>
+				<td><img id="moveLeft"    class="arrow" src="fpvcar/images/arrow-left.svg"></td>
 				<td>
 					<div id="steercontainter">
 						<!-- find out why css is not working -->
 						<canvas id="cnvsJoy" width="100" height="100"></canvas>
 					</div>
 				</td>
-				<td><a id="moveRight"><span class="oi oi-arrow-thick-right" title="oi-arrow-thick-right" aria-hidden="true"></span></a></td>
+				<td><img id="moveRight"   class="arrow" src="fpvcar/images/arrow-right.svg"></td>
 			</tr>
 			<tr>
-                <td><a id="stop"><span class="oi oi-x" title="oi-x" aria-hidden="true"></span></a></td>
-				<td><a id="moveBackward"><span class="oi oi-arrow-thick-bottom" title="oi-arrow-thick-bottom" aria-hidden="true"></span></a></td>
+                <td><img id="stop"        class="arrow" src="fpvcar/images/stop.svg"></td>
+				<td><img id="moveBackward" class="arrow" src="fpvcar/images/arrow-down.svg"></td>
 				<td></td>
 			</tr>
 			<tr>
@@ -199,7 +224,7 @@
 			</tr>
 		</table>
 	</div>
-    <!-- infos-->
+    <!-- infos----------------------------------------------------------------->
     <div id="myData">
         Vbat:<span id="vbat">0</span>
         Vbus:<span id="vbus">0</span>
@@ -210,16 +235,7 @@
           <div id="lr" class="fixed">left right</div>
         </div>
     </div>
-    <!-- input message--------------------------------------------------------->
-    <div id='labelInput'>
-		<input type='text' id='inputMessage' onkeydown="send_text_message(this)" class="form-control mr-sm-2" type="search" placeholder="Message" aria-label="Message">
-    </div>
-    <!-- move result----------------------------------------------------------->
-    <div id='labelResult'>
-        <label>Result:</label>
-        <input type='text' id='moveResult' readonly />
-    </div>
-  <!-- Scripts ----------------------------------------------------------------->
+    <!-- Scripts -------------------------------------------------------------->
 	<script>
 		//TODO in zentrale Konfig auslagern und auch in app laden
         var angle = 90;
@@ -227,12 +243,34 @@
 		var base = {'component': 'base', 'stop': 0 };
         var debug = true;
         var distance = 10;
+        var mode_visuals = 1;
 		var url = '/' + appNameShort + '/api';
 		//--init-------------------------------------------------
-		var lbl_labelInput = document.getElementById("labelInput");
+        var btm_shutdown = document.getElementById("btm_icon_shutdown");
         var lbl_labelResult = document.getElementById("labelResult");
+        var my_camera = document.getElementById("myCamera");
+        var my_camera_img = document.getElementById("myCamera_img");
+        var my_data = document.getElementById("myData");
+        var my_in_out = document.getElementById("myInputOutput");
+        var my_sounds = document.getElementById("mySounds");
+        var my_sounds_img = document.getElementById("mySounds_img");
 		var tbd = document.getElementById("baseDirection");
 		$(function() {
+		    /* buttons */
+            my_camera_img.addEventListener("click", function() {
+            if (my_camera.style.display === "none") {
+                my_camera.style.display = "block";
+            } else {
+              my_camera.style.display = "none";
+            }
+            });
+          my_sounds_img.addEventListener("click", function() {
+            if (my_sounds.style.display === "none") {
+              my_sounds.style.display = "block";
+            } else {
+              my_sounds.style.display = "none";
+            }
+          });
 			/*set arrow functions*/
 			document.getElementById("moveLeft").addEventListener("click", function () {
 				base = {'component': 'base', 'left': angle } ;
@@ -302,33 +340,44 @@
 			$("#moveResult").val(result);
 		};
         function toggle_controls() {
-		  if (lbl_labelInput.style.display === "none") {
-			  lbl_labelInput.style.display = "block";
-		  } else {
-			  lbl_labelInput.style.display = "none";
-		  }
-          if (lbl_labelResult.style.display === "none") {
-              lbl_labelResult.style.display = "block";
-          } else {
+          if (mode_visuals == 0){
+              btm_shutdown.style.display = "none";
               lbl_labelResult.style.display = "none";
+              my_data.style.display = "none";
+              my_in_out.style.display = "none";
+              tbd.style.display = "none";
+              mode_visuals += 1;
+              return;
           }
-          if (tbd.style.display === "none") {
+          if (mode_visuals == 1){
+              btm_shutdown.style.display = "block";
+              my_in_out.style.display = "block";
+              tbd.style.display = "block";
+              mode_visuals += 1;
+              return;
+          }
+          if (mode_visuals == 2){
+            lbl_labelResult.style.display = "block";
+            my_data.style.display = "block";
             tbd.style.display = "block";
-          } else {
-            tbd.style.display = "none";
+            mode_visuals = 0;
+            return;
           }
         }
 		document.addEventListener("DOMContentLoaded", function(){
-			/*set default screen text values*/
+			/*set default values*/
 			$("#moveResult").val(" [ not yet ]");
-			lbl_labelInput.style.display = "none";
+            btm_shutdown.style.display = "none";
             lbl_labelResult.style.display = "none";
+            my_camera.style.display = "none";
+            my_data.style.display = "none";
+            my_in_out.style.display = "none";
+            my_sounds.style.display = "none";
 			tbd.style.display = "none"
 		});
 	</script>
-	<script src="/fpvcar/js/bno055.js"></script>
     <script src="/fpvcar/js/canvasJoystick.js"></script>
     <script src="/fpvcar/js/gauge.js"></script>
-    <script src="/fpvcar/js/fpvcar.js"></script>	
+    <script src="/fpvcar/js/fpvcar.js"></script>
 </body>
 </html>

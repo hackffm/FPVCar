@@ -11,7 +11,7 @@ bno = adafruit_bno055.BNO055(i2c)
 class Bno055(Component):
 
     def __init__(self, debug=False):
-        super(Bno055, self).__init__()
+        super(Bno055, self).__init__('bno055')
         self.debug = debug
         self.bnos = {"acceleration": self.acceleration(),
                      "calibration_status": self.calibration_status(),
@@ -59,9 +59,9 @@ class Bno055(Component):
     def gyro(self):
         return bno.gyro
 
-   def heading(self):
+    def heading(self):
        heading, roll, pitch = self.euler()
-       return Heading
+       return heading
 
     def magnetic(self):
         return bno.magnetic

@@ -10,6 +10,7 @@
     <script>var ip_first = '{{ip_first}}';</script>
 </head>
 <body>
+    <!-- background image------------------------------------------------------>
     <div class="bg"></div>
 	<!-- Shutdown Button ------------------------------------------------------>
     <div id="btm_icon_shutdown">
@@ -217,7 +218,7 @@
 			</tr>
 		</table>
 	</div>
-    <!-- infos---------------------------------------------------------------->
+    <!-- infos----------------------------------------------------------------->
     <div id="myData">
         Vbat:<span id="vbat">0</span>
         Vbus:<span id="vbus">0</span>
@@ -228,7 +229,7 @@
           <div id="lr" class="fixed">left right</div>
         </div>
     </div>
-  <!-- Scripts ----------------------------------------------------------------->
+    <!-- Scripts -------------------------------------------------------------->
 	<script>
 		//TODO in zentrale Konfig auslagern und auch in app laden
         var angle = 90;
@@ -301,9 +302,6 @@
 
 		//-- functions -------------------------------------------------------->
         // TODO move move functions to sepreate file
-        function buttom_extract(obj) {
-            obj.style.display = "block";
-        }
         function move_base_linear(base){
             // requiered by CancasJoystik
 			data = JSON.stringify(base);
