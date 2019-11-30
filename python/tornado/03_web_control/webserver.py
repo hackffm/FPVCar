@@ -13,35 +13,60 @@ from components import *
 from resources import *
 from web_handlers import *
 
+
+# bno055 component
+bno = Bno055()
+bno_data = {}
+bno_changed = threading.Condition()
+bno_thread = None
+
+
 # config
 baud = 38400
-data_sensor = {}
-data_serial = b''
 debug = True
 port = 9090
-sensors = {}
+
 
 # run info
 helper = Helper()
 infos = helper.infos_self()
 infos.append(port)
-#
 ip_first = helper.interfaces_first()
-sensor = Bno055()
+
 ser = serial.Serial('/dev/ttyS0', baud)
 
 
 # load components statically
 components = {
     "base": Base(ser, debug=debug),
-    "sensor": Bno055(debug=debug),
     "stats": Stats(ser, debug=debug)
 }
 
 
+def read_bno():
+    while True:
+        with bno_changed:
+            bno_data['euler'] = bno.euler()
+            bno_data['temp'] = bno.temperature()
+            bno_data['quaternion'] = bno.quaternion()
+            bno_data['calibration'] = bno.calibration_status()
+            bno_changed.notifyAll()
+        time.sleep(0.1)
+
+
 async def read_sensor():
-    data_sensor = sensor.handleMessage({'sensor': 'all'})
-    return data_sensor
+    with bno_changed:
+        bno_changed.wait()
+        heading, roll, pitch = bno_data['euler']
+        temp = bno_data['temp']
+        x, y, z, w = bno_data['quaternion']
+        sys, gyro, accel, mag = bno_data['calibration']
+    data = {'heading': heading, 'roll': roll, 'pitch': pitch, 'temp': temp,
+            'quatX': x, 'quatY': y, 'quatZ': z, 'quatW': w,
+            'calSys': sys, 'calGyro': gyro, 'calAccel': accel, 'calMag': mag }
+
+    # data_sensor = sensor.handleMessage({'sensor': 'all'})
+    return data
 
 
 async def serial_read():
@@ -65,11 +90,9 @@ async def serial_read():
 async def websocket_loop():
     while True:
         data_sensor = await read_sensor()
-        #print(data_sensor)
         websocket_write({"sensor": data_sensor})
 
         data_serial = await serial_read()
-        #print(data_serial)
         if data_serial:
             websocket_write(data_serial.decode("utf-8"))
 
@@ -143,11 +166,22 @@ class WebServer:
     def __init__(self, debug):
         self.name = 'webserver'
 
-        port = 9090
+        ser.flushInput()
+        cmd = "v\r"
+        ser.write(cmd.encode())
+
+        for info in infos:
+            print(info)
+
+        print('start bno055 read')
+        bno_thread = threading.Thread(target=read_bno)
+        bno_thread.daemon = True  # Don't let the BNO reading thread block exiting.
+        bno_thread.start()
+
         ws_app = WebApplication(components, debug)
         server = tornado.httpserver.HTTPServer(ws_app)
         server.listen(port)
-        IOLoop.current().spawn_callback(websocket_loop)
 
         print('Start web server at port:' + str(port))
+        IOLoop.current().spawn_callback(websocket_loop)
         IOLoop.instance().start()

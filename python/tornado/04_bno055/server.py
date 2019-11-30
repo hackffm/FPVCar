@@ -12,7 +12,7 @@ from tornado.ioloop import IOLoop
 
 from components import *
 
-#bno055 component
+# bno055 component
 bno = Bno055()
 bno_data = {}
 bno_changed = threading.Condition()
@@ -28,7 +28,6 @@ port = 9090
 helper = Helper()
 infos = helper.infos_self()
 infos.append(port)
-#
 ip_first = helper.interfaces_first()
 
 ser = serial.Serial('/dev/ttyS0', baud)
@@ -112,6 +111,11 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
         print('new connection was opened')
         pass
 
+    def on_close(self):
+        self.connections.remove(self)
+        print('connection closed')
+        pass
+
     def on_message(self, message):
         if debug:
             print('from WebSocket: ', message)
@@ -125,11 +129,6 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
                     websocket_write(result)
                     if debug:
                         print(result)
-
-    def on_close(self):
-        self.connections.remove(self)
-        print('connection closed')
-        pass
 
 
 class IndexPageHandler(tornado.web.RequestHandler):
@@ -157,10 +156,6 @@ if __name__ == '__main__':
     cmd = "v\r"
     ser.write(cmd.encode())
 
-    ws_app = Application(debug=debug)
-    server = tornado.httpserver.HTTPServer(ws_app)
-    server.listen(port)
-
     for info in infos:
         print(info)
 
@@ -169,6 +164,10 @@ if __name__ == '__main__':
     bno_thread.daemon = True  # Don't let the BNO reading thread block exiting.
     bno_thread.start()
 
-    print('start server')
+    ws_app = Application(debug=debug)
+    server = tornado.httpserver.HTTPServer(ws_app)
+    server.listen(port)
+
+    print('Start web server at port:' + str(port))
     IOLoop.current().spawn_callback(websocket_loop)
     IOLoop.instance().start()
