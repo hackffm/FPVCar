@@ -94,7 +94,6 @@ window.onload = function() {
 	if(pos.right > 255) pos.right = 255;
 	if(pos.right < -255) pos.right = -255;
     document.getElementById("lr").innerHTML = "l:" + pos.left + "  r:" + pos.right;
-    ws.send("{ \"component\": \"base\", \"left\": " + pos.left + ", \"right\": " + pos.right + " }\r");
   }
 
   function drawHandle(pos) {
@@ -154,7 +153,7 @@ function dispatchMsg(msg) {
     } catch (e) {
       console.log(e)
     }
-    document.getElementById('out').value += msg;
+    document.getElementById('out').value = msg;
 }
 function updateStats(msg) {
     console.log(msg);
