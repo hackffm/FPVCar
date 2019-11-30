@@ -19,6 +19,7 @@ if __name__ == '__main__':
 
         while running:
             sleep(0.5)
+            
     except KeyboardInterrupt:
         print('ending with keyboard interrupt')
         running = False
