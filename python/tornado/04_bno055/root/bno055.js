@@ -1,9 +1,5 @@
-document.getElementById("btm_bno055").addEventListener("click", function (ev) { fetchSensor() })
-var table_sensor = document.getElementById("table_sensor");
+var table_bno055 = document.getElementById("tblbno055");
 
-function fetchSensor() {
-    ws.send("{ \"component\": \"sensor\", \"sensor\": \"all\" }\r");
-}
 
 function fill_sensor_data(data) {
     var r = new Array(), j = -1;
@@ -16,5 +12,6 @@ function fill_sensor_data(data) {
             r[++j] = '</td></tr>';
         }
     }
-    table_sensor.innerHTML = (r.join(''));
+    table_bno055.innerHTML = (r.join(''));
+    document.getElementById("lblcompass").innerHTML = data.heading.toFixed(0);
 }

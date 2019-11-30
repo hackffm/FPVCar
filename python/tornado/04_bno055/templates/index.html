@@ -3,22 +3,37 @@
 
 <head>
   <title>FPVCar</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="fpvcar.css">
   <script>var ip_first = '{{ip_first}}';</script>
-  <script src="script.js"></script>
 </head>
 
 <body>
   <div id="content">
+    <div id="container">
+      <canvas id="myCanvas" width=640 height=480 style="border:1px solid #000000;"></canvas>
+    </div>
+    <div class="coordinates">
+      <div id="xy" class="fixed">x y</div>
+      <div id="cxcy" class="fixed">cx cy</div>
+      <div id="lr" class="fixed">left right</div>
+    </div>
     <br>
-    Vbat:<span id="vbat">0</span><br>
-    Vbus:<span id="vbus">0</span>
+    <div>
+        Vbat:<span id="vbat">0</span><br>
+        Vbus:<span id="vbus">0</span>
+    </div>
     <br>
     <br>
-    <input type="button" id="btm_bno055" value="BNO055" />
-    <table id="table_sensor"></table>
+    <div>
+        <table id="tblbno055"/>
+    </div>
+    <br>    
+    <div id="compass">
+        <label>Compass</label>
+        <label id="lblcompass"></label>
+    </div>
   </div>
   <script src="bno055.js"></script>
+  <script src="fpvcar.js"></script>
 </body>
-
 </html>

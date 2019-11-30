@@ -1,22 +1,28 @@
+import json
+import threading
 import tornado.web
 import tornado.websocket
 import tornado.httpserver
 import tornado.ioloop
 import serial
-import json
+import time
 
 from tornado import gen
 from tornado.ioloop import IOLoop
 
 from components import *
 
+#bno055 component
+bno = Bno055()
+bno_data = {}
+bno_changed = threading.Condition()
+bno_thread = None
+
 # config
 baud = 38400
-data_sensor = {}
 data_serial = b''
 debug = True
 port = 9090
-sensors = {}
 
 # run info
 helper = Helper()
@@ -24,25 +30,50 @@ infos = helper.infos_self()
 infos.append(port)
 #
 ip_first = helper.interfaces_first()
-sensor = Bno055()
+
 ser = serial.Serial('/dev/ttyS0', baud)
 
 
 # load components statically
 components = {
-    "sensor": Bno055(),
     "stats": Stats(ser, debug=debug)
 }
 
 
+def read_bno():
+    while True:
+        with bno_changed:
+            bno_data['euler'] = bno.euler()
+            bno_data['temp'] = bno.temperature()
+            bno_data['quaternion'] = bno.quaternion()
+            bno_data['calibration'] = bno.calibration_status()
+            bno_changed.notifyAll()
+        time.sleep(0.1)
+
+
 async def read_sensor():
-    global data_sensor
-    data_sensor = sensor.handleMessage({'sensor': 'all'})
-    return data_sensor
+    with bno_changed:
+        bno_changed.wait()
+        heading, roll, pitch = bno_data['euler']
+        temp = bno_data['temp']
+        x, y, z, w = bno_data['quaternion']
+        sys, gyro, accel, mag = bno_data['calibration']
+    data = {'heading': heading, 'roll': roll, 'pitch': pitch, 'temp': temp,
+            'quatX': x, 'quatY': y, 'quatZ': z, 'quatW': w,
+            'calSys': sys, 'calGyro': gyro, 'calAccel': accel, 'calMag': mag }
+
+    # data_sensor = sensor.handleMessage({'sensor': 'all'})
+    return data
 
 
 async def serial_read():
     data = b''
+
+    wait_bytes = ser.inWaiting();
+
+    if not wait_bytes:
+        ser.write("v\r".encode())
+
     for i in range(ser.inWaiting()):
         b = ser.read(1)
         if b != b'\r':
@@ -50,6 +81,7 @@ async def serial_read():
                 return data
             else:
                 data += b
+    return False
 
 
 async def websocket_loop():
@@ -131,6 +163,11 @@ if __name__ == '__main__':
 
     for info in infos:
         print(info)
+
+    print('start bno055 read')
+    bno_thread = threading.Thread(target=read_bno)
+    bno_thread.daemon = True  # Don't let the BNO reading thread block exiting.
+    bno_thread.start()
 
     print('start server')
     IOLoop.current().spawn_callback(websocket_loop)
