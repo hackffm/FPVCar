@@ -1,4 +1,6 @@
 /*--default------------------------*/
+body {background: grey;}
+
 .arrow {
   height: 25px;
   width: 25px;
@@ -44,9 +46,16 @@ label {
   width: 25px;
 }
 #myConfig {
-  bottom: 0.5em;
+  bottom: 3em;
   left: 15em;
   position: absolute;
+}
+#myConfig_img {
+  bottom: 0.5em;
+  height: 25px;
+  position: absolute;
+  left: 15em;
+  width: 25px
 }
 #mySounds {
   bottom: 3em;

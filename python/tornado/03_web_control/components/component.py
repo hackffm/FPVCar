@@ -5,12 +5,8 @@ class Component(object):
 
     def __init__(self, name, debug=False):
         self.debug = debug
+        self.failed = 'failed'
         self.name = name
 
     def handle_message(self, message):
         print(message)
-
-    def is_valid(self, message):
-        if self.name in message:
-            return True
-        return False

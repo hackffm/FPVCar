@@ -40,6 +40,8 @@ ser = serial.Serial('/dev/ttyS0', baud)
 # load components statically
 components = {
     "base": Base(ser, debug=debug),
+    "cam": Cam(ser, debug=debug),
+    "sound": Sound(ser, debug=debug),
     "stats": Stats(ser, debug=debug)
 }
 

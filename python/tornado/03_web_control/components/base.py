@@ -8,11 +8,14 @@ class Base(Component):
         name = 'base'
         super().__init__(name)
         self.debug = debug
-        self.name = name
         self.ser = ser
 
     def handle_message(self, message):
-        result = 'no usefull command found'
+        result = ''
+
+        if self.debug:
+            print(self.name + ' recieved ' + message)
+
         if "right" in message:
             result = self.move_right(message)
         return result

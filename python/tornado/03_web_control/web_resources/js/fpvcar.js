@@ -111,10 +111,6 @@ function echo() {
   ws.send("echo\r");
 }
 
-function soundSheep() {
-    ws.send("s1\r");
-}
-
 function fetchStats() {
     ws.send("{ \"component\": \"stats\" }\r");
 }

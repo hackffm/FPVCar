@@ -7,20 +7,18 @@ class Stats(Component):
         name = 'stats'
         super().__init__(name)
         self.debug = debug
-        self.name = name
         self.ser = ser
 
     def handleMessage(self, message):
-        result = {}
+        result = ''
 
         if self.debug:
-            print(self.name + ' recieved ' + message["action"])
-
-        if not self.is_valid(message):
-            result[self.name] = self.failed
-            return result
+            print(self.name + ' recieved ' + message)
 
         cmd = "V\r"
         self.ser.write(cmd.encode())
         cmd = "v\r"
         self.ser.write(cmd.encode())
+
+        result = 'wrote V and v to serial'
+        return result

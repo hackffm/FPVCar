@@ -14,7 +14,6 @@ class Bno055(Component):
         name = 'bno'
         super(Bno055, self).__init__(name)
         self.debug = debug
-        self.name = name
         self.bnos = {"acceleration": self.acceleration(),
                      "calibration_status": self.calibration_status(),
                      "euler": self.euler(),
@@ -30,11 +29,7 @@ class Bno055(Component):
         result = {}
 
         if self.debug:
-            print(self.name + ' recieved ' + message["action"])
-
-        if not self.is_valid(message):
-            result[self.name] = self.failed
-            return result
+            print(self.name + ' recieved ' + str(message))
 
         m = message['bno']
         if m in self.bnos:

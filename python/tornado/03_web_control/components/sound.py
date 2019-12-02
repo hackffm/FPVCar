@@ -8,7 +8,6 @@ class Sound(Component):
         name = 'sound'
         super(Sound, self).__init__(name)
         self.debug = debug
-        self.name = name
         self.ser = ser
         pygame.mixer.init(44100, -16, 1, 1024)
 
@@ -26,14 +25,12 @@ class Sound(Component):
             print("no sound found for " + name)
 
     def handleMessage(self, message):
-        result = {}
+        result = ''
 
         if self.debug:
-            print(self.name + ' recieved ' + message["action"])
-
-        if not self.is_valid(message):
-            result[self.name] = self.failed
-            return result
+            print(self.name + ' recieved ' + str(message))
 
         self.playSound(message["sound"])
-        result[self.name] = 'played'
+        result = 'played'
+
+        return result

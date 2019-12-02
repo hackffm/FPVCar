@@ -169,8 +169,9 @@
         <input type='text' id='moveResult' readonly />
     </div>
     <!-- buttons -------------------------------------------------------------->
+    <img id="myConfig_img" src="fpvcar/images/burger.svg">
     <div id="myConfig">
-        <img id="myConfig_img" src="fpvcar/images/burger.svg">
+        <p>not yet</p>
     </div>
     <img id="mySounds_img" src="fpvcar/images/sounds.svg">
     <div id="mySounds">
@@ -250,6 +251,8 @@
         var lbl_labelResult = document.getElementById("labelResult");
         var my_camera = document.getElementById("myCamera");
         var my_camera_img = document.getElementById("myCamera_img");
+        var my_config = document.getElementById("myConfig");
+        var my_config_img = document.getElementById("myConfig_img");
         var my_data = document.getElementById("myData");
         var my_in_out = document.getElementById("myInputOutput");
         var my_sounds = document.getElementById("mySounds");
@@ -264,7 +267,7 @@
               my_camera.style.display = "none";
             }
             });
-          my_sounds_img.addEventListener("click", function() {
+            my_sounds_img.addEventListener("click", function() {
             if (my_sounds.style.display === "none") {
               my_sounds.style.display = "block";
             } else {
@@ -343,15 +346,22 @@
           if (mode_visuals == 0){
               btm_shutdown.style.display = "none";
               lbl_labelResult.style.display = "none";
+              my_camera.style.display = "none";
+              my_camera_img.style.display = "none";
+              my_config_img.style.display = "none";
               my_data.style.display = "none";
               my_in_out.style.display = "none";
-              tbd.style.display = "none";
-              mode_visuals += 1;
-              return;
+              my_sounds.style.display = "none";
+              my_sounds_img.style.display = "none";
+			  tbd.style.display = "none";
+			  mode_visuals += 1;
+			 return;
           }
           if (mode_visuals == 1){
               btm_shutdown.style.display = "block";
-              my_in_out.style.display = "block";
+              my_camera_img.style.display = "block";
+              my_config_img.style.display = "block";
+              my_sounds_img.style.display = "block";
               tbd.style.display = "block";
               mode_visuals += 1;
               return;
@@ -359,6 +369,7 @@
           if (mode_visuals == 2){
             lbl_labelResult.style.display = "block";
             my_data.style.display = "block";
+            my_in_out.style.display = "block";
             tbd.style.display = "block";
             mode_visuals = 0;
             return;
@@ -370,10 +381,14 @@
             btm_shutdown.style.display = "none";
             lbl_labelResult.style.display = "none";
             my_camera.style.display = "none";
+            my_camera_img.style.display = "none";
+            my_config.style.display = "none";
+            my_config_img.style.display = "none";
             my_data.style.display = "none";
             my_in_out.style.display = "none";
             my_sounds.style.display = "none";
-			tbd.style.display = "none"
+            my_sounds_img.style.display = "none";
+			tbd.style.display = "none";
 		});
 	</script>
     <script src="/fpvcar/js/canvasJoystick.js"></script>
