@@ -11,8 +11,10 @@ bno = adafruit_bno055.BNO055(i2c)
 class Bno055(Component):
 
     def __init__(self, debug=False):
-        super(Bno055, self).__init__('bno055')
+        name = 'bno'
+        super(Bno055, self).__init__(name)
         self.debug = debug
+        self.name = name
         self.bnos = {"acceleration": self.acceleration(),
                      "calibration_status": self.calibration_status(),
                      "euler": self.euler(),
@@ -26,17 +28,21 @@ class Bno055(Component):
 
     def handleMessage(self, message):
         result = {}
-        if "bno" in message:
-            m = message['bno']
-            if self.debug:
-                print('message to bno055 is ' + str(m))
-            if m in self.bnos:
-                result[m] = self.bnos(m)
-            elif m == 'all':
-                for s in self.bnos:
-                    result[s] = self.bnos[s]
-            else:
-                result['bno'] = self.failed
+
+        if self.debug:
+            print(self.name + ' recieved ' + message["action"])
+
+        if not self.is_valid(message):
+            result[self.name] = self.failed
+            return result
+
+        m = message['bno']
+        if m in self.bnos:
+            result[m] = self.bnos(m)
+        elif m == 'all':
+            for s in self.bnos:
+                result[s] = self.bnos[s]
+
         return result
 
 # -- bnos----------------------------------

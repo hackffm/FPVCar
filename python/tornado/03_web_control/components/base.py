@@ -4,9 +4,11 @@ from . import Component
 class Base(Component):
     """control movements of base"""
 
-    def __init__(self, ser, debug):
-        super().__init__('base')
+    def __init__(self, ser, debug=False):
+        name = 'base'
+        super().__init__(name)
         self.debug = debug
+        self.name = name
         self.ser = ser
 
     def handle_message(self, message):

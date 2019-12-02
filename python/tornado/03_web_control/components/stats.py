@@ -4,18 +4,23 @@ from . import Component
 class Stats(Component):
 
     def __init__(self, ser, debug):
-        super().__init__('stats')
+        name = 'stats'
+        super().__init__(name)
         self.debug = debug
+        self.name = name
         self.ser = ser
 
     def handleMessage(self, message):
+        result = {}
+
         if self.debug:
-            print("Stats.handleMessage")
+            print(self.name + ' recieved ' + message["action"])
+
+        if not self.is_valid(message):
+            result[self.name] = self.failed
+            return result
+
         cmd = "V\r"
-        if self.debug:
-            print("fetch: " + cmd)
         self.ser.write(cmd.encode())
         cmd = "v\r"
-        if self.debug:
-            print("fetch: " + cmd)
         self.ser.write(cmd.encode())

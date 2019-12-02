@@ -9,3 +9,8 @@ class Component(object):
 
     def handle_message(self, message):
         print(message)
+
+    def is_valid(self, message):
+        if self.name in message:
+            return True
+        return False
