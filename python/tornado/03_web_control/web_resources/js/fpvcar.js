@@ -145,9 +145,6 @@ function dispatchMsg(msg) {
     }
     document.getElementById('outputMessage').value = msg;
 }
-function updateStats(msg) {
-    console.log(msg);
-}
 function playSound(name) {
     ws.send("{ \"component\": \"sound\", \"sound\": \"" + name + "\" }\r");
 }
