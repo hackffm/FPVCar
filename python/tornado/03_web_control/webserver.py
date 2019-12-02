@@ -128,17 +128,20 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
 
     def on_message(self, message):
         if debug:
-            print('from WebSocket: ', message)
-        m = json.loads(message)
-        if 'component' in m:
-            if m['component'] in components:
-                component = components[m["component"]]
-                result = component.handleMessage(m)
-                if result:
-                    result = {str(m["component"]): result}
-                    websocket_write(result)
-                    if debug:
-                        print(result)
+            print('WebSocket message: ', message)
+        try:
+            m = json.loads(message)
+            if 'component' in m:
+                if m['component'] in components:
+                    component = components[m["component"]]
+                    result = component.handleMessage(m)
+                    if result:
+                        result = {str(m["component"]): result}
+                        websocket_write(result)
+                        if debug:
+                            print(result)
+        except Exception as e:
+            print('failed handling message with :' + str(e))
 
 
 
