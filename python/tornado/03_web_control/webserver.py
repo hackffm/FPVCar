@@ -29,6 +29,7 @@ port = 9090
 
 
 # run info
+config = Config()
 helper = Helper()
 infos = helper.infos_self()
 infos.append(port)
@@ -144,7 +145,6 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
             print('failed handling message with :' + str(e))
 
 
-
 class WebApplication(tornado.web.Application):
     def __init__(self, components, debug):
         current_path = os.path.dirname(os.path.abspath(__file__))
@@ -154,6 +154,7 @@ class WebApplication(tornado.web.Application):
             (r'/', HandlerIndexPage, dict(helper=helper)),
             (r'/fpvcar/api/base', HandlerBase),
             (r'/fpvcar/api/component', HandlerComponent, dict(components=components, debug=debug)),
+            (r'/fpvcar/config', HandlerConfig, dict(configuration=config)),
             (r'/fpvcar/(.*)', tornado.web.StaticFileHandler, {'path': web_resources}),
             (r'/shutdown', HandlerShutdown),
             (r'/websocket', WebSocketHandler)
