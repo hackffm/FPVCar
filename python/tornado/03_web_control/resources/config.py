@@ -16,17 +16,24 @@ class Config:
 
         self.configuration = self.load()
 
+    def default(self):
+        _config = {'name': self.name}
+        _config['debug'] = 'False'
+        return _config
+
     def load(self):
         if os.path.exists(self.config_path):
             if self.debug:
                 print('load config from', self.config_path)
             with open(self.config_path) as json_data:
-                j_config = json.load(json_data)
-            return j_config
+                self.configuration = json.load(json_data)
         else:
             if self.debug:
                 print('new config', self.config_path)
-            return {'name': self.name}
+            self.configuration = self.default()
+
+        return self.configuration
+
 
     def save(self):
         data = json.dumps(self.configuration, indent=4)
@@ -39,4 +46,4 @@ class Config:
             outfile.write(data)
         if self.debug:
             print('new config saved in', self.config_path)
-        return
+        return True

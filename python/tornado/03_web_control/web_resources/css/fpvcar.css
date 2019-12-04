@@ -8,7 +8,6 @@ body {background: grey;}
 input[type="text"]
 {
 	color: #f6931f;
-    width: 50px;
 	border: 1px;
 }
 label {
