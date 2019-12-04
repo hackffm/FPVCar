@@ -22,12 +22,6 @@ bno_changed = threading.Condition()
 bno_thread = None
 
 
-# config
-baud = 38400
-debug = True
-port = 9090
-
-
 # run info
 config = Config()
 helper = Helper()
@@ -35,8 +29,12 @@ infos = helper.infos_self()
 infos.append(port)
 ip_first = helper.interfaces_first()
 
-ser = serial.Serial('/dev/ttyS0', baud)
+# config
+baud = config.configuration['baud']
+debug = bool(config.configuration['debug'])
+port = config.configuration['port']
 
+ser = serial.Serial('/dev/ttyS0', baud)
 
 # load components statically
 components = {
@@ -152,9 +150,6 @@ class WebApplication(tornado.web.Application):
 
         handlers = [
             (r'/', HandlerIndexPage, dict(helper=helper)),
-            (r'/fpvcar/api/base', HandlerBase),
-            (r'/fpvcar/api/component', HandlerComponent, dict(components=components, debug=debug)),
-            (r'/fpvcar/config', HandlerConfig, dict(configuration=config)),
             (r'/fpvcar/(.*)', tornado.web.StaticFileHandler, {'path': web_resources}),
             (r'/shutdown', HandlerShutdown),
             (r'/websocket', WebSocketHandler)
