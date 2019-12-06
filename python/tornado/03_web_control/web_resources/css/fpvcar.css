@@ -14,14 +14,22 @@ label {
   color: white;
 }
 /*--video-------------------------*/
+#cameraStream {
+    border: 1px solid;
+    border-radius: 4px;
+    display: block;
+    left: 20em;
+    top: 20em;
+    position: absolute;
+}
 #container {
   width: 640px;
   height: 480px;
 }
 #myCanvas {
   position: absolute;
-  top: 4em;
   left: 0.3em;
+  top: 4em;
   z-index: 0;
 }
 #video {
