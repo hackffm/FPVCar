@@ -17,11 +17,12 @@ class Config:
         self.configuration = self.load()
 
     def default(self):
-        _config = {}
-        _config['baud']     = 38400
-        _config['debug']    = 'False'
-        _config['name']     =  self.name
-        _config['port']     = 9090
+        _config = {
+            'baud': 38400,
+            'debug': 'False',
+            'name': self.name,
+            'port': 9090
+        }
         return _config
 
     def load(self):
