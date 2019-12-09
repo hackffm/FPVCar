@@ -1,3 +1,5 @@
+var configuration = {};
+var debug = false;
 var ws;
 var msgbuf = "";
 Number.prototype.map = function(in_min, in_max, out_min, out_max) {
@@ -139,6 +141,10 @@ function dispatchMsg(msg) {
             document.gauges.get('myCompass').value = _sensor.heading.toFixed(0);
         }
         return
+      }
+      if (msg.hasOwnProperty('config')){
+        configuration = msg['config'];
+        debug = configuration.debug.toLocaleLowerCase()
       }
     } catch (e) {
       console.log(e)

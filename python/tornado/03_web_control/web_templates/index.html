@@ -10,14 +10,7 @@
 </head>
 <body>
 <!-- background image------------------------------------------------------>
-<div style="position: fixed; top: 0; width: 100%; height: 100%; z-index: -1;">
-    <video id="video" controls="" preload="none" office_floor="fpvcar/images/background/office_floor.png" style="width:100%; height:100%">
-      <source id="mp4" src="fpvcar/images/background/office_floor.mp4" type="video/mp4">
-      <source id="webm" src="fpvcar/images/background/office_floor.webm" type="video/webm">
-      <source id="ogv" src="fpvcar/images/background/office_floor.ogv" type="video/ogg">
-      <p>Your user agent does not support the HTML5 Video element.</p>
-    </video>
-</div>
+<div id="cameraStream"><img src="fpvcar/images/hackffm_logo.png" name="camera"></div>
 <!-- Shutdown Button ------------------------------------------------------>
 <div id="btm_icon_shutdown">
     <img id="btm_icon_shutdown_img" src="/fpvcar/images/power-button.svg">
@@ -64,7 +57,7 @@
 
 <div id="container">
   <canvas id="myCanvas" width=640 height=480 style="border:1px solid #000000;"></canvas>
-  <div id="video">
+  <div id="oldVideo">
     <!-- todo handle if stream is dead -->
   </div>
 </div>
@@ -249,7 +242,6 @@
     var angle = 90;
     var appNameShort = 'fpvcar';
     var base = {'component': 'base', 'stop': 0 };
-    var debug = true;
     var distance = 10;
     var mode_visuals = 1;
     var url = '/' + appNameShort + '/api';
@@ -267,149 +259,153 @@
     var tbd = document.getElementById("baseDirection");
     $(function() {
         /* buttons */
-        my_camera_img.addEventListener("click", function() {
+        my_camera_img.addEventListener("click", function () {
             if (my_camera.style.display === "none") {
                 my_camera.style.display = "block";
             } else {
-              my_camera.style.display = "none";
+                my_camera.style.display = "none";
             }
         });
-        my_sounds_img.addEventListener("click", function() {
+        my_sounds_img.addEventListener("click", function () {
             if (my_sounds.style.display === "none") {
-              my_sounds.style.display = "block";
+                my_sounds.style.display = "block";
             } else {
-              my_sounds.style.display = "none";
+                my_sounds.style.display = "none";
             }
-            my_config_img.addEventListener("click", function() {
-            if (my_config.style.display === "none") {
-              my_config.style.display = "block";
-            } else {
-              my_config.style.display = "none";
+            my_config_img.addEventListener("click", function () {
+                if (my_config.style.display === "none") {
+                    my_config.style.display = "block";
+                } else {
+                    my_config.style.display = "none";
+                }
+            });
+            /*set arrow functions*/
+            document.getElementById("moveLeft").addEventListener("click", function () {
+                base = {'component': 'base', 'left': angle};
+                send_component_message(base)
+            });
+            document.getElementById("moveForward").addEventListener("click", function () {
+                base = {'component': 'base', 'forward': distance};
+                send_component_message(base)
+            });
+            document.getElementById("moveRight").addEventListener("click", function () {
+                base = {'component': 'base', 'right': angle};
+                send_component_message(base)
+            });
+            document.getElementById("moveBackward").addEventListener("click", function () {
+                base = {'component': 'base', 'backward': angle};
+                send_component_message(base)
+            });
+            document.getElementById("turnLeft").addEventListener("click", function () {
+                base = {'component': 'base', 'turnLeft': 180};
+                send_component_message(base)
+            });
+            document.getElementById("turnRight").addEventListener("click", function () {
+                base = {'component': 'base', 'turnRight': 180};
+                send_component_message(base)
+            });
+            document.getElementById("stop").addEventListener("click", function () {
+                base = {'component': 'base', 'stop': 0};
+                send_component_message(base)
+            });
+            /* shutdown */
+            document.getElementById("btm_icon_shutdown_img").addEventListener("click", function () {
+                window.location.href = '/shutdown';
+            })
+        });
+
+        //-- functions -------------------------------------------------------->
+        function move_base_linear(base) {
+            // requiered by CancasJoystik
+            data = JSON.stringify(base);
+            $.ajax({
+                url: url + '/base',
+                type: "POST",
+                data: data,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (baseMove) {
+                    console.log(baseMove);
+                    newMove = 'BaseMove: linearX:' + baseMove.linearX + ' linearY:' + baseMove.linearY;
+                    showMoveResult(newMove);
+                }
+            })
+        };
+
+        function send_component_message(component) {
+            // TODO align with component framework
+            component = JSON.stringify(component);
+            if (debug) {
+                console.log('send_component_message:' + component);
+            }
+            $.post(url + '/component', component).done(function (result) {
+                showMoveResult(result);
+            });
+        };
+
+        function send_input_message(ms) {
+            if (event.key === 'Enter') {
+                _message = '"{ \"component\": \"' + ms.id + '\", \"message\": \"' + ms.value + '\" }\r"'
+                if (debug) {
+                    console.log('send_input_message:' + _message);
+                }
+                ws.send(_message);
+            }
+        };
+
+        function showMoveResult(result) {
+            $("#moveResult").val(result);
+        };
+
+        function toggle_controls() {
+            if (mode_visuals == 0) {
+                btm_shutdown.style.display = "none";
+                lbl_labelResult.style.display = "none";
+                my_camera.style.display = "none";
+                my_camera_img.style.display = "none";
+                my_config_img.style.display = "none";
+                my_data.style.display = "none";
+                my_in_out.style.display = "none";
+                my_sounds.style.display = "none";
+                my_sounds_img.style.display = "none";
+                tbd.style.display = "none";
+                mode_visuals += 1;
+                return;
+            }
+            if (mode_visuals == 1) {
+                btm_shutdown.style.display = "block";
+                my_camera_img.style.display = "block";
+                my_config_img.style.display = "block";
+                my_sounds_img.style.display = "block";
+                tbd.style.display = "block";
+                mode_visuals += 1;
+                return;
+            }
+            if (mode_visuals == 2) {
+                lbl_labelResult.style.display = "block";
+                my_data.style.display = "block";
+                my_in_out.style.display = "block";
+                tbd.style.display = "block";
+                mode_visuals = 0;
+                return;
             }
         }
-     });
-    /*set arrow functions*/
-    document.getElementById("moveLeft").addEventListener("click", function () {
-            base = {'component': 'base', 'left': angle
-        } ;
-        send_component_message(base)
-    });
-    document.getElementById("moveForward").addEventListener("click", function () {
-            base = {'component': 'base', 'forward' : distance
-        };
-        send_component_message(base)
-    });
-    document.getElementById("moveRight").addEventListener("click", function () {
-            base = {'component': 'base', 'right' : angle
-        };
-        send_component_message(base)
-    });
-        document.getElementById("moveBackward").addEventListener("click", function () {
-            base = {'component': 'base','backward': angle
-        };
-        send_component_message(base)
-    });
-    document.getElementById("turnLeft").addEventListener("click", function () {
-            base = {'component': 'base','turnLeft': 180
-        };
-        send_component_message(base)
-    });
-    document.getElementById("turnRight").addEventListener("click", function () {
-            base = {'component': 'base','turnRight': 180
-        };
-        send_component_message(base)
-    });
-    document.getElementById("stop").addEventListener("click", function () {
-            base = {'component': 'base', 'stop': 0
-        };
-        send_component_message(base)
-    });
-    /* shutdown */
-    document.getElementById("btm_icon_shutdown_img").addEventListener("click", function () {
-            window.location.href = '/shutdown';
-        })
-    });
-    //-- functions -------------------------------------------------------->
-    function move_base_linear(base){
-    // requiered by CancasJoystik
-        data = JSON.stringify(base);
-        $.ajax({
-          url:url + '/base',
-          type:"POST",
-          data:data,
-          contentType:"application/json; charset=utf-8",
-          dataType:"json",
-          success: function(baseMove){
-          	console.log(baseMove);
-          	newMove = 'BaseMove: linearX:' + baseMove.linearX + ' linearY:'+ baseMove.linearY;
-            showMoveResult(newMove);
-          }
-        })
-    };
-    function send_component_message(component){
-        // TODO align with component framework
-        component = JSON.stringify(component);
-        if (debug){console.log('send_component_message:' + component);}
-        $.post(url + '/component', component).done( function(result) {
-            showMoveResult(result);	});
-     };
-    function send_input_message(ms) {
-        if (event.key === 'Enter') {
-            _message = '"{ \"component\": \"' + ms.id + '\", \"action\": \"' + ms.value + '\" }\r"'
-            if (debug){console.log('send_input_message:' + _message);}
-            ws.send(_message);
-        }
-    };
-    function showMoveResult(result){
-        $("#moveResult").val(result);
-    };
-    function toggle_controls() {
-      if (mode_visuals == 0){
-          btm_shutdown.style.display = "none";
-          lbl_labelResult.style.display = "none";
-          my_camera.style.display = "none";
-          my_camera_img.style.display = "none";
-          my_config_img.style.display = "none";
-          my_data.style.display = "none";
-          my_in_out.style.display = "none";
-          my_sounds.style.display = "none";
-          my_sounds_img.style.display = "none";
-          tbd.style.display = "none";
-          mode_visuals += 1;
-          return;
-      }
-      if (mode_visuals == 1){
-          btm_shutdown.style.display = "block";
-          my_camera_img.style.display = "block";
-          my_config_img.style.display = "block";
-          my_sounds_img.style.display = "block";
-          tbd.style.display = "block";
-          mode_visuals += 1;
-          return;
-      }
-      if (mode_visuals == 2){
-        lbl_labelResult.style.display = "block";
-        my_data.style.display = "block";
-        my_in_out.style.display = "block";
-        tbd.style.display = "block";
-        mode_visuals = 0;
-        return;
-      }
-    }
-    document.addEventListener("DOMContentLoaded", function(){
-    /*set default values*/
-    $("#moveResult").val(" [ not yet ]");
-        btm_shutdown.style.display = "none";
-        lbl_labelResult.style.display = "none";
-        my_camera.style.display = "none";
-        my_camera_img.style.display = "none";
-        my_config.style.display = "none";
-        my_config_img.style.display = "none";
-        my_data.style.display = "none";
-        my_in_out.style.display = "none";
-        my_sounds.style.display = "none";
-        my_sounds_img.style.display = "none";
-        tbd.style.display = "none";
+
+        document.addEventListener("DOMContentLoaded", function () {
+            /*set default values*/
+            $("#moveResult").val(" [ not yet ]");
+            btm_shutdown.style.display = "none";
+            lbl_labelResult.style.display = "none";
+            my_camera.style.display = "none";
+            my_camera_img.style.display = "none";
+            my_config.style.display = "none";
+            my_config_img.style.display = "none";
+            my_data.style.display = "none";
+            my_in_out.style.display = "none";
+            my_sounds.style.display = "none";
+            my_sounds_img.style.display = "none";
+            tbd.style.display = "none";
+        });
     });
 </script>
 <script src="/fpvcar/js/canvasJoystick.js"></script>

@@ -22,28 +22,29 @@ bno_changed = threading.Condition()
 bno_thread = None
 
 
-# run info
+# resources
 config = Config()
 helper = Helper()
-infos = helper.infos_self()
-infos.append(port)
-ip_first = helper.interfaces_first()
 
 # config
 baud = config.configuration['baud']
 debug = bool(config.configuration['debug'])
 port = config.configuration['port']
-
 ser = serial.Serial('/dev/ttyS0', baud)
 
 # load components statically
 components = {
     "base": Base(ser, debug=debug),
     "cam": Cam(ser, debug=debug),
+    "config": ComponentConfig(config, debug=debug),
     "sound": Sound(ser, debug=debug),
     "stats": Stats(ser, debug=debug)
 }
 
+# run info
+infos = helper.infos_self()
+infos.append(port)
+ip_first = helper.interfaces_first()
 
 def read_bno():
     while True:
@@ -139,6 +140,9 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
                         websocket_write(result)
                         if debug:
                             print(result)
+                else:
+                    if debug:
+                        print('unknown component')
         except Exception as e:
             print('failed handling message with :' + str(e))
 

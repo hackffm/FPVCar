@@ -35,9 +35,9 @@ class Config:
             if self.debug:
                 print('new config', self.config_path)
             self.configuration = self.default()
+            self.save()
 
         return self.configuration
-
 
     def save(self):
         data = json.dumps(self.configuration, indent=4)
