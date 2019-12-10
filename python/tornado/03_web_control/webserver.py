@@ -29,6 +29,7 @@ helper = Helper()
 cfg = config.cfg()
 ser = serial.Serial('/dev/ttyS0', cfg.baud)
 
+
 # load components statically
 components = {
     "base": Base(ser, debug=cfg.debug),
@@ -37,11 +38,6 @@ components = {
     "sound": Sound(ser, debug=cfg.debug),
     "stats": Stats(ser, debug=cfg.debug)
 }
-
-# run info
-infos = helper.infos()
-infos.append(cfg.port)
-ip_first = helper.interfaces_first()
 
 def read_bno():
     while True:
@@ -173,7 +169,8 @@ class WebServer:
         cmd = "v\r"
         ser.write(cmd.encode())
 
-        for info in infos:
+        # run info
+        for info in helper.infos():
             print(info)
 
         print('start bno055 read')

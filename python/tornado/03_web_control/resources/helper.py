@@ -15,7 +15,7 @@ class Helper:
         infos.append('PID ' + str(os.getpid()))
         ifaces = self.interfaces_self()
         for iface in ifaces:
-            infos.append(iface)
+            infos.append('Interface' + str(iface))
         return infos
 
     def interfaces_first(self):
