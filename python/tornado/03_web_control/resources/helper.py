@@ -9,7 +9,7 @@ class Helper:
     def __init__(self):
         pass
 
-    def infos_self(self):
+    def infos(self):
         infos = []
         infos.append('hostname ' + str(socket.gethostname()))
         infos.append('PID ' + str(os.getpid()))

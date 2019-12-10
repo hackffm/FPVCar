@@ -1,6 +1,18 @@
 import json
 import os
 
+class Struct(object):
+    def __init__(self, adict):
+        self.__dict__.update(adict)
+        for k, v in adict.items():
+            if isinstance(v, dict):
+                self.__dict__[k] = Struct(v)
+        for k, v in adict.items():
+            if type(v) == str:
+                if v.lower() == "true" or v.lower() == "false":
+                    v = bool(v)
+                    adict[k] = v
+
 
 class Config:
 
@@ -15,6 +27,9 @@ class Config:
         self.debug = debug
 
         self.configuration = self.load()
+
+    def cfg(self):
+        return Struct(self.configuration)
 
     def default(self):
         _config = {

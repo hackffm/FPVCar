@@ -26,24 +26,21 @@ bno_thread = None
 config = Config()
 helper = Helper()
 
-# config
-baud = config.configuration['baud']
-debug = bool(config.configuration['debug'])
-port = config.configuration['port']
-ser = serial.Serial('/dev/ttyS0', baud)
+cfg = config.cfg()
+ser = serial.Serial('/dev/ttyS0', cfg.baud)
 
 # load components statically
 components = {
-    "base": Base(ser, debug=debug),
-    "cam": Cam(ser, debug=debug),
-    "config": ComponentConfig(config, debug=debug),
-    "sound": Sound(ser, debug=debug),
-    "stats": Stats(ser, debug=debug)
+    "base": Base(ser, debug=cfg.debug),
+    "cam": Cam(ser, debug=cfg.debug),
+    "config": ComponentConfig(config, debug=cfg.debug),
+    "sound": Sound(ser, debug=cfg.debug),
+    "stats": Stats(ser, debug=cfg.debug)
 }
 
 # run info
-infos = helper.infos_self()
-infos.append(port)
+infos = helper.infos()
+infos.append(cfg.port)
 ip_first = helper.interfaces_first()
 
 def read_bno():
@@ -127,7 +124,7 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
         pass
 
     def on_message(self, message):
-        if debug:
+        if cfg.debug:
             print('WebSocket message: ', message)
         try:
             m = json.loads(message)
@@ -138,10 +135,10 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
                     if result:
                         result = {str(m["component"]): result}
                         websocket_write(result)
-                        if debug:
+                        if cfg.debug:
                             print(result)
                 else:
-                    if debug:
+                    if cfg.debug:
                         print('unknown component')
         except Exception as e:
             print('failed handling message with :' + str(e))
@@ -160,8 +157,8 @@ class WebApplication(tornado.web.Application):
         ]
 
         settings = {
-            'autoreload': debug,
-            'debug': debug,
+            'autoreload': cfg.debug,
+            'debug': cfg.debug,
             'static_path': web_resources,
             'template_path': 'web_templates'
         }
@@ -184,10 +181,10 @@ class WebServer:
         bno_thread.daemon = True  # Don't let the BNO reading thread block exiting.
         bno_thread.start()
 
-        ws_app = WebApplication(components, debug)
+        ws_app = WebApplication(components, cfg.debug)
         server = tornado.httpserver.HTTPServer(ws_app)
-        server.listen(port)
+        server.listen(cfg.port)
 
-        print('Start web server at port:' + str(port))
+        print('Start web server at port:' + str(cfg.port))
         IOLoop.current().spawn_callback(websocket_loop)
         IOLoop.instance().start()
