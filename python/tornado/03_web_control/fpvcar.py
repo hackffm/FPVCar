@@ -7,11 +7,10 @@ from webserver import WebServer
 
 if __name__ == '__main__':
 
-    debug = True
     running = True
     try:
         # start processes
-        p1 = Process(target=WebServer, args=([debug]))
+        p1 = Process(target=WebServer)
         p1.daemon = True
         p1.start()
 
@@ -19,7 +18,7 @@ if __name__ == '__main__':
 
         while running:
             sleep(0.5)
-            
+
     except KeyboardInterrupt:
         print('ending with keyboard interrupt')
         running = False

@@ -106,22 +106,31 @@ def websocket_write(message):
 class WebSocketHandler(tornado.websocket.WebSocketHandler):
     connections = set()
 
+    def initialize(self, debug=False):
+        self.debug = debug
+        self.name = 'WebSocketHandler'
+
+    def log(self, text):
+        print(self.name + ' ' + text)
+
     def check_origin(self, origin):
         return True
 
     def open(self):
         self.connections.add(self)
-        print('new connection was opened')
+        if self.debug:
+            self.log('new connection was opened')
         pass
 
     def on_close(self):
         self.connections.remove(self)
-        print('connection closed')
+        if self.debug:
+            self.log('connection closed')
         pass
 
     def on_message(self, message):
-        if cfg.debug:
-            print('WebSocket message: ', message)
+        if self.debug:
+            self.log('WebSocket message: ', message)
         try:
             m = json.loads(message)
             if 'component' in m:
@@ -131,13 +140,13 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
                     if result:
                         result = {str(m["component"]): result}
                         websocket_write(result)
-                        if cfg.debug:
-                            print(result)
+                        if self.debug:
+                            self.log(result)
                 else:
-                    if cfg.debug:
-                        print('unknown component')
+                    if self.debug:
+                       self.log('unknown component')
         except Exception as e:
-            print('failed handling message with :' + str(e))
+            self.log('failed handling message with :' + str(e))
 
 
 class WebApplication(tornado.web.Application):
@@ -149,12 +158,12 @@ class WebApplication(tornado.web.Application):
             (r'/', HandlerIndexPage, dict(helper=helper)),
             (r'/fpvcar/(.*)', tornado.web.StaticFileHandler, {'path': web_resources}),
             (r'/shutdown', HandlerShutdown),
-            (r'/websocket', WebSocketHandler)
+            (r'/websocket', WebSocketHandler, dict(debug=debug))
         ]
 
         settings = {
-            'autoreload': cfg.debug,
-            'debug': cfg.debug,
+            'autoreload': debug,
+            'debug': debug,
             'static_path': web_resources,
             'template_path': 'web_templates'
         }
@@ -162,7 +171,7 @@ class WebApplication(tornado.web.Application):
 
 
 class WebServer:
-    def __init__(self, debug):
+    def __init__(self):
         self.name = 'webserver'
 
         ser.flushInput()
