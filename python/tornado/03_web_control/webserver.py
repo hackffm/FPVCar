@@ -16,10 +16,9 @@ from web_handlers import *
 
 
 # bno055 component
-bno = Bno055()
-bno_data = {}
+#sensor_bno = Bno055()
+sensor_bno_data = {}
 bno_changed = threading.Condition()
-bno_thread = None
 
 
 # resources
@@ -35,6 +34,7 @@ components = {
     "base": Base(ser, debug=cfg.debug),
     "cam": Cam(ser, debug=cfg.debug),
     "config": ComponentConfig(config, debug=cfg.debug),
+    "sensor_bno": Bno055(debug=cfg.debug),
     "sound": Sound(ser, debug=cfg.debug),
     "stats": Stats(ser, debug=cfg.debug)
 }
@@ -42,10 +42,12 @@ components = {
 def read_bno():
     while True:
         with bno_changed:
-            bno_data['euler'] = bno.euler()
-            bno_data['temp'] = bno.temperature()
-            bno_data['quaternion'] = bno.quaternion()
-            bno_data['calibration'] = bno.calibration_status()
+            component = components[m["bno055"]]
+            sensor_bno_data = component.handleMessage({'sensor': 'all'})
+            #sensor_bno_data['euler'] = sensor_bno.euler()
+            #sensor_bno_data['temp'] = sensor_bno.temperature()
+            #sensor_bno_data['quaternion'] = sensor_bno.quaternion()
+            #sensor_bno_data['calibration'] = sensor_bno.calibration_status()
             bno_changed.notifyAll()
         time.sleep(0.1)
 
@@ -53,15 +55,13 @@ def read_bno():
 async def read_sensor():
     with bno_changed:
         bno_changed.wait()
-        heading, roll, pitch = bno_data['euler']
-        temp = bno_data['temp']
-        x, y, z, w = bno_data['quaternion']
-        sys, gyro, accel, mag = bno_data['calibration']
+        heading, roll, pitch = sensor_bno_data['euler']
+        temp = sensor_bno_data['temp']
+        x, y, z, w = sensor_bno_data['quaternion']
+        sys, gyro, accel, mag = sensor_bno_data['calibration']
     data = {'heading': heading, 'roll': roll, 'pitch': pitch, 'temp': temp,
             'quatX': x, 'quatY': y, 'quatZ': z, 'quatW': w,
             'calSys': sys, 'calGyro': gyro, 'calAccel': accel, 'calMag': mag }
-
-    # data_sensor = sensor.handleMessage({'sensor': 'all'})
     return data
 
 
@@ -83,7 +83,7 @@ async def serial_read():
     return False
 
 
-async def websocket_loop():
+async def websocket_write_loop():
     while True:
         data_sensor = await read_sensor()
         websocket_write({"sensor": data_sensor})
@@ -183,5 +183,5 @@ class WebServer:
         server.listen(cfg.port)
 
         print('Start web server at port:' + str(cfg.port))
-        IOLoop.current().spawn_callback(websocket_loop)
+        IOLoop.current().spawn_callback(websocket_write_loop)
         IOLoop.instance().start()

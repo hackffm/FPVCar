@@ -34,6 +34,11 @@ class Config:
     def default(self):
         _config = {
             'baud': 38400,
+            'camera': {
+                'orientation': 'horizontal',
+                'resolutionX': 640,
+                'resolutionY': 480
+            },
             'debug': 'False',
             'name': self.name,
             'port': 9090
