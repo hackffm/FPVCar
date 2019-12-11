@@ -34,17 +34,21 @@ components = {
     "base": Base(ser, debug=cfg.debug),
     "cam": Cam(ser, debug=cfg.debug),
     "config": ComponentConfig(config, debug=cfg.debug),
-    "sensor_bno": Bno055(debug=cfg.debug),
     "sound": Sound(ser, debug=cfg.debug),
     "stats": Stats(ser, debug=cfg.debug)
 }
 
 
+if cfg.sensors.bno055:
+    from components.bno055 import Bno055
+    components["sensor_bno"] = Bno055(debug=cfg.debug)
+
+
 def read_bno():
     while True:
         with bno_changed:
-            component = components[m["bno055"]]
-            sensor_bno_data = component.handleMessage({'sensor': 'all'})
+            component = components["sensor_bno"]
+            sensor_bno_data = component.handleMessage({'bno': 'all'})
             #sensor_bno_data['euler'] = sensor_bno.euler()
             #sensor_bno_data['temp'] = sensor_bno.temperature()
             #sensor_bno_data['quaternion'] = sensor_bno.quaternion()
@@ -86,8 +90,9 @@ async def serial_read():
 
 async def websocket_write_loop():
     while True:
-        data_sensor = await read_sensor()
-        websocket_write({"sensor": data_sensor})
+        if cfg.sensors.bno055:
+            data_sensor = await read_sensor()
+            websocket_write({"sensor": data_sensor})
 
         data_serial = await serial_read()
         if data_serial:
@@ -183,10 +188,11 @@ class WebServer:
         for info in helper.infos():
             print(info)
 
-        print('start bno055 read')
-        bno_thread = threading.Thread(target=read_bno)
-        bno_thread.daemon = True  # Don't let the BNO reading thread block exiting.
-        bno_thread.start()
+        if cfg.sensors.bno055:
+            print('start bno055 read')
+            bno_thread = threading.Thread(target=read_bno)
+            bno_thread.daemon = True  # Don't let the BNO reading thread block exiting.
+            bno_thread.start()
 
         ws_app = WebApplication(components, cfg.debug)
         server = tornado.httpserver.HTTPServer(ws_app)

@@ -42,7 +42,10 @@ class Config:
             },
             'debug': 'False',
             'name': self.name,
-            'port': 9090
+            'port': 9090,
+            'sensors': {
+                'bno055': "False"
+            }
         }
         return _config
 

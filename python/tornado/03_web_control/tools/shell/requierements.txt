@@ -1,5 +1,5 @@
 adafruit-circuitpython-bno055
 netifaces
-pillow
+pygame
 pyserial
 tornado
