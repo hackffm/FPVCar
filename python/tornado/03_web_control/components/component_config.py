@@ -14,14 +14,39 @@ class ComponentConfig(Component):
         result = self.failed
 
         if self.debug:
-            print(self.name + ' recieved ' + str(message))
+            print(self.name + ' received ' + str(message))
+
+        if "get" in message:
+            result = self.get(message["get"])
 
         if "load" in message:
-            result = self.config.load()
-            return result
+            what = message['load']
+            if "configuration" == what:
+                result = self.config.load()
+            else:
+                result = self.get(what)
+
         if "save" in message:
             self.config.configuration = message["save"]
-            result = self.config.save()
-            return result
+            result = self.save()
 
+        if "set" in message:
+            data = message['set']
+            for k in data:
+                self.config.configuration[k] = data[k]
+            result = self.save()
+
+        #
+        return result
+
+    # ---------------------------------------------------
+    def get(self, what):
+        found = ''
+        data = self.config.load()
+        if what in data:
+            found = data[what]
+        return found
+
+    def save(self):
+        result = self.config.save()
         return result

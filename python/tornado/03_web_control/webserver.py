@@ -39,6 +39,7 @@ components = {
     "stats": Stats(ser, debug=cfg.debug)
 }
 
+
 def read_bno():
     while True:
         with bno_changed:
@@ -68,7 +69,7 @@ async def read_sensor():
 async def serial_read():
     data = b''
 
-    wait_bytes = ser.inWaiting();
+    wait_bytes = ser.inWaiting()
 
     if not wait_bytes:
         ser.write("v\r".encode())
