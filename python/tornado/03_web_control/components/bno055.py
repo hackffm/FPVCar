@@ -29,14 +29,18 @@ class Bno055(Component):
         result = {}
 
         if self.debug:
-            print(self.name + ' recieved ' + str(message))
+            pass
+            #print(self.name + ' recieved ' + str(message))
 
-        m = message['bno']
-        if m in self.bnos:
-            result[m] = self.bnos(m)
-        elif m == 'all':
-            for s in self.bnos:
-                result[s] = self.bnos[s]
+        if "bno" in message:
+            m = message['bno']
+            if m in self.bnos:
+                result[m] = self.bnos[m]
+            elif m == 'all':
+                for s in self.bnos:
+                    result[s] = self.bnos[s]
+            else:
+                result = {'bno': 'failed'}
 
         return result
 
