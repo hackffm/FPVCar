@@ -196,23 +196,23 @@
 <td colspan="3">Base</td>
 </tr>
 <tr>
-<td><img id="turnLeft"    class="arrow" src="fpvcar/images/arrow-left.svg"></td>
-<td><img id="moveForward" class="arrow" src="fpvcar/images/arrow-up.svg"  ></td>
-<td><img id="turnRight"   class="arrow" src="fpvcar/images/arrow-turning-right.svg"></td>
+<td><img id="img_base_turn_left"    class="arrow" src="fpvcar/images/arrow-left.svg"></td>
+<td><img id="img_base_forward"      class="arrow" src="fpvcar/images/arrow-up.svg"  ></td>
+<td><img id="img_base_turn_right"   class="arrow" src="fpvcar/images/arrow-turning-right.svg"></td>
 </tr>
 <tr>
-<td><img id="moveLeft"    class="arrow" src="fpvcar/images/arrow-left.svg"></td>
+<td><img id="img_base_left"      class="arrow" src="fpvcar/images/arrow-left.svg"></td>
 <td>
 <div id="steercontainter">
 <!-- find out why css is not working -->
 <canvas id="cnvsJoy" width="100" height="100"></canvas>
 </div>
 </td>
-<td><img id="moveRight"   class="arrow" src="fpvcar/images/arrow-right.svg"></td>
+<td><img id="img_base_right"    class="arrow" src="fpvcar/images/arrow-right.svg"></td>
 </tr>
 <tr>
-<td><img id="stop"        class="arrow" src="fpvcar/images/stop.svg"></td>
-<td><img id="moveBackward" class="arrow" src="fpvcar/images/arrow-down.svg"></td>
+<td><img id="img_base_stop"     class="arrow" src="fpvcar/images/stop.svg"></td>
+<td><img id="img_base_backward" class="arrow" src="fpvcar/images/arrow-down.svg"></td>
 <td></td>
 </tr>
 <tr>
@@ -281,25 +281,25 @@
             }
         });
         /*set arrow functions*/
-        document.getElementById("moveLeft").addEventListener("click", function () {
+        document.getElementById("img_base_left").addEventListener("click", function () {
             send_component_action_value('base','left',10)
         });
-        document.getElementById("moveForward").addEventListener("click", function () {
+        document.getElementById("img_base_forward").addEventListener("click", function () {
             send_component_action_value('base','forward',distance)
         });
-        document.getElementById("moveRight").addEventListener("click", function () {
+        document.getElementById("img_base_right").addEventListener("click", function () {
             send_component_action_value('base','right',angle)
         });
-        document.getElementById("moveBackward").addEventListener("click", function () {
+        document.getElementById("img_base_backward").addEventListener("click", function () {
             send_component_action_value('base','backward',distance)
         });
-        document.getElementById("turnLeft").addEventListener("click", function () {
-            send_component_action_value('base','turnLeft',180)
+        document.getElementById("img_base_turn_left").addEventListener("click", function () {
+            send_component_action_value('base','img_base_turn_left',180)
         });
-        document.getElementById("turnRight").addEventListener("click", function () {
-            send_component_action_value('base','turnRight',180)
+        document.getElementById("img_base_turn_right").addEventListener("click", function () {
+            send_component_action_value('base','img_base_turn_right',180)
         });
-        document.getElementById("stop").addEventListener("click", function () {
+        document.getElementById("img_base_stop").addEventListener("click", function () {
             send_component_action_value('base','stop',0)
         });
         /* shutdown */

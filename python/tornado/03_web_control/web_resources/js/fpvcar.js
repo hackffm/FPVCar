@@ -162,12 +162,3 @@ function send_component_action(c_name, c_action, ){
 function send_component_action_value(c_name, c_action_name, c_action_value){
     ws.send("{ \"component\": \"" + c_name + "\", \"" + c_action_name + "\": \"" + c_action_value + "\" }\r");
 }
-function send_input_message(ms) {
-    if (event.key === 'Enter') {
-        _message = '"{ \"component\": \"' + ms.id + '\", \"message\": \"' + ms.value + '\" }\r"'
-        if (debug) {
-            console.log('send_input_message:' + _message);
-        }
-        ws.send(_message);
-    }
-};
