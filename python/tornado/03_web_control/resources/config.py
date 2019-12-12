@@ -8,12 +8,6 @@ class Struct(object):
         for k, v in adict.items():
             if isinstance(v, dict):
                 self.__dict__[k] = Struct(v)
-        for k, v in adict.items():
-            if type(v) == str:
-                if v.lower() == "true" or v.lower() == "false":
-                    v = bool(v)
-                    adict[k] = v
-
 
 class Config:
 
@@ -33,6 +27,7 @@ class Config:
         return Struct(self.configuration)
 
     def default(self):
+        # booleans must be no strings here !
         _config = {
             'baud': 38400,
             'camera': {
@@ -40,11 +35,11 @@ class Config:
                 'resolutionX': 640,
                 'resolutionY': 480
             },
-            'debug': 'False',
+            'debug': False,
             'name': self.name,
             'port': 9090,
             'sensors': {
-                'bno055': "False"
+                'bno055': False
             }
         }
         return _config

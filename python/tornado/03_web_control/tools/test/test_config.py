@@ -18,7 +18,7 @@ print(cfg.audio)
 print(cfg.baud)
 print(cfg.debug)
 print(cfg.port)
-print(cfg.sensors.bno055)
+print(type(cfg.sensors.bno055))
 if cfg.sensors.bno055:
     print('bno055 attached')
 else:
