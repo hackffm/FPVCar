@@ -119,6 +119,7 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
     def log(self, text):
         print(self.name + ' ' + text)
 
+    # websocket handling
     def check_origin(self, origin):
         return True
 
@@ -136,18 +137,22 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
 
     def on_message(self, message):
         if self.debug:
-            self.log('WebSocket message: ', message)
+            self.log('WebSocket message: ' + str(message))
         try:
-            m = json.loads(message)
+            m = message
+            if isinstance(m, str):
+                m = json.loads(message)
             if 'component' in m:
                 if m['component'] in components:
                     component = components[m["component"]]
                     result = component.handleMessage(m)
                     if result:
-                        result = {str(m["component"]): result}
-                        websocket_write(result)
+                        result = {m["component"]: result}
                         if self.debug:
-                            self.log(result)
+                            self.log('result:' +str(result))
+                        websocket_write(json.dumps(result))
+                        if self.debug:
+                            self.log('send')
                 else:
                     if self.debug:
                        self.log('unknown component')

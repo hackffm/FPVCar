@@ -10,11 +10,11 @@ class Base(Component):
         self.debug = debug
         self.ser = ser
 
-    def handle_message(self, message):
-        result = ''
+    def handleMessage(self, message):
+        result = 'unknown command'
 
         if self.debug:
-            print(self.name + ' recieved ' + message)
+            print(self.name + ' recieved ' + str(message))
 
         if "right" in message:
             result = self.move_right(message)

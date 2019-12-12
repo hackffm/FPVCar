@@ -103,6 +103,10 @@ window.onload = function() {
     ctx.lineTo(pos.ox, pos.oy);
     ctx.stroke();
   }
+
+  document.getElementById("myCamera_start").addEventListener("click",function(){send_component_action("cam","start")});
+  document.getElementById("myCamera_stop").addEventListener("click",function(){send_component_action("cam","stop")});
+
 }
 
 function sendMsg() {
@@ -144,19 +148,26 @@ function dispatchMsg(msg) {
       }
       if (msg.hasOwnProperty('config')){
         configuration = msg['config'];
-        debug = configuration.debug.toLocaleLowerCase()
+        debug = configuration['debug']
+        return
       }
     } catch (e) {
       console.log(e)
     }
     document.getElementById('outputMessage').value = msg;
 }
-function playSound(name) {
-    ws.send("{ \"component\": \"sound\", \"sound\": \"" + name + "\" }\r");
+function send_component_action(c_name, c_action, ){
+    ws.send("{ \"component\": \"" + c_name + "\", \"action\": \"" + c_action + "\" }\r");
 }
-function startCam() {
-    ws.send("{ \"component\": \"cam\", \"action\": \"start\" }\r");
+function send_component_action_value(c_name, c_action_name, c_action_value){
+    ws.send("{ \"component\": \"" + c_name + "\", \"" + c_action_name + "\": \"" + c_action_value + "\" }\r");
 }
-function stopCam() {
-    ws.send("{ \"component\": \"cam\", \"action\": \"stop\" }\r");
-}
+function send_input_message(ms) {
+    if (event.key === 'Enter') {
+        _message = '"{ \"component\": \"' + ms.id + '\", \"message\": \"' + ms.value + '\" }\r"'
+        if (debug) {
+            console.log('send_input_message:' + _message);
+        }
+        ws.send(_message);
+    }
+};
