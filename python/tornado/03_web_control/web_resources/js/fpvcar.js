@@ -106,7 +106,6 @@ window.onload = function() {
 
   document.getElementById("myCamera_start").addEventListener("click",function(){send_component_action("cam","start")});
   document.getElementById("myCamera_stop").addEventListener("click",function(){send_component_action("cam","stop")});
-
 }
 
 function sendMsg() {
@@ -115,6 +114,10 @@ function sendMsg() {
 
 function echo() {
   ws.send("echo\r");
+}
+
+function fetchConfig() {
+  ws.send("{ \"component\": \"config\", \"load\": \"all\" }\r")
 }
 
 function fetchStats() {

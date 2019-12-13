@@ -9,6 +9,7 @@ class Struct(object):
             if isinstance(v, dict):
                 self.__dict__[k] = Struct(v)
 
+
 class Config:
 
     def __init__(self, name=False, debug=False):

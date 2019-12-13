@@ -261,6 +261,7 @@
         /* buttons evenst */
         my_camera_img.addEventListener("click", function () {
             if (my_camera.style.display === "none") {
+                ws.send("{ \"component\": \"config\", \"load\": \"all\" }\r")
                 my_camera.style.display = "block";
             } else {
                 my_camera.style.display = "none";
