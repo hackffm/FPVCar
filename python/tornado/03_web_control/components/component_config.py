@@ -13,31 +13,35 @@ class ComponentConfig(Component):
     def handleMessage(self, message):
         result = self.failed
 
-        if self.debug:
-            print(self.name + ' received ' + str(message))
+        try:
+            if self.debug:
+                print(self.name + ' received ' + str(message))
 
-        if "get" in message:
-            result = self.get(message["get"])
+            if "get" in message:
+                result = self.get(message["get"])
 
-        if "load" in message:
-            what = message['load']
-            if "configuration" == what:
-                result = self.config.load()
-            else:
-                result = self.get(what)
+            if "load" in message:
+                what = message['load']
+                if "configuration" == what:
+                    result = self.config.load()
+                else:
+                    result = self.get(what)
 
-        if "save" in message:
-            self.config.configuration = message["save"]
-            result = self.save()
+            if "save" in message:
+                self.config.configuration = message["save"]
+                result = self.save()
 
-        if "set" in message:
-            data = message['set']
-            for k in data:
-                self.config.configuration[k] = data[k]
-            result = self.save()
-
+            if "set" in message:
+                data = message['set']
+                for k in data:
+                    self.config.configuration[k] = data[k]
+                result = self.save()
+        except Exception as e:
+            result = str(e)
         #
-        return result
+        if self.debug:
+            print(self.name + ' result is ' + str(result))
+        return str(result)
 
     # ---------------------------------------------------
     def get(self, what):

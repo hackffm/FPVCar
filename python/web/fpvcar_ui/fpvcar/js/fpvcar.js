@@ -1,3 +1,5 @@
+var configuration = {};
+var debug = false;
 var ws;
 var msgbuf = "";
 Number.prototype.map = function(in_min, in_max, out_min, out_max) {
@@ -5,11 +7,16 @@ Number.prototype.map = function(in_min, in_max, out_min, out_max) {
 }
 
 window.onload = function() {
+ /*
   ws = new WebSocket("ws://"+ip_first+":9090/websocket");
 
   ws.onmessage = function(e) {
     dispatchMsg(e.data);
   };
+  ws.onopen = function (){
+      ws.send("{ \"component\": \"config\", \"load\": \"configuration\" }\r")
+  }
+  */
   var canvas = document.getElementById("myCanvas");
   var ctx = canvas.getContext("2d");
   var rect = canvas.getBoundingClientRect();
@@ -101,18 +108,9 @@ window.onload = function() {
     ctx.lineTo(pos.ox, pos.oy);
     ctx.stroke();
   }
-}
 
-function sendMsg() {
-  ws.send(document.getElementById('msg').value  + "\r");
-}
-
-function echo() {
-  ws.send("echo\r");
-}
-
-function fetchStats() {
-    ws.send("{ \"component\": \"stats\" }\r");
+  document.getElementById("myCamera_start").addEventListener("click",function(){send_component_action("cam","start")});
+  document.getElementById("myCamera_stop").addEventListener("click",function(){send_component_action("cam","stop")});
 }
 
 function dispatchMsg(msg) {
@@ -140,17 +138,35 @@ function dispatchMsg(msg) {
         }
         return
       }
+      if (msg.hasOwnProperty('config')){
+        configuration = msg['config'];
+        debug = configuration['debug']
+        document.getElementById('Config_Hostname').value = configuration['name']
+        return
+      }
     } catch (e) {
       console.log(e)
     }
     document.getElementById('outputMessage').value = msg;
 }
-function playSound(name) {
-    ws.send("{ \"component\": \"sound\", \"sound\": \"" + name + "\" }\r");
+
+function echo() {
+  ws.send("echo\r");
 }
-function startCam() {
-    ws.send("{ \"component\": \"cam\", \"action\": \"start\" }\r");
+
+function fetchConfig() {
+  ws.send("{ \"component\": \"config\", \"load\": \"all\" }\r")
 }
-function stopCam() {
-    ws.send("{ \"component\": \"cam\", \"action\": \"stop\" }\r");
+
+function fetchStats() {
+    ws.send("{ \"component\": \"stats\" }\r");
+}
+function send_component_action(c_name, c_action, ){
+    ws.send("{ \"component\": \"" + c_name + "\", \"action\": \"" + c_action + "\" }\r");
+}
+function send_component_action_value(c_name, c_action_name, c_action_value){
+    ws.send("{ \"component\": \"" + c_name + "\", \"" + c_action_name + "\": \"" + c_action_value + "\" }\r");
+}
+function sendMsg() {
+  ws.send(document.getElementById('msg').value  + "\r");
 }

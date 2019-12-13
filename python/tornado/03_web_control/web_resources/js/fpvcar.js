@@ -12,6 +12,9 @@ window.onload = function() {
   ws.onmessage = function(e) {
     dispatchMsg(e.data);
   };
+  ws.onopen = function (){
+      ws.send("{ \"component\": \"config\", \"load\": \"configuration\" }\r")
+  }
   var canvas = document.getElementById("myCanvas");
   var ctx = canvas.getContext("2d");
   var rect = canvas.getBoundingClientRect();
@@ -108,23 +111,11 @@ window.onload = function() {
   document.getElementById("myCamera_stop").addEventListener("click",function(){send_component_action("cam","stop")});
 }
 
-function sendMsg() {
-  ws.send(document.getElementById('msg').value  + "\r");
-}
-
-function echo() {
-  ws.send("echo\r");
-}
-
-function fetchConfig() {
-  ws.send("{ \"component\": \"config\", \"load\": \"all\" }\r")
-}
-
-function fetchStats() {
-    ws.send("{ \"component\": \"stats\" }\r");
-}
-
 function dispatchMsg(msg) {
+    if(msg.startsWith('failed')){
+        console.log('Message is failed with ' + msg);
+        return;
+    }
     if(msg.startsWith('V')) {
       var tokens = msg.split(':');
       document.getElementById('vbus').innerHTML = tokens[1];
@@ -150,8 +141,10 @@ function dispatchMsg(msg) {
         return
       }
       if (msg.hasOwnProperty('config')){
-        configuration = msg['config'];
-        debug = configuration['debug']
+        config = msg['config'];
+        debug = config['debug']
+        document.getElementById('radio_debug').checked = debug;
+        document.getElementById('Config_Hostname').value = configuration['name']
         return
       }
     } catch (e) {
@@ -159,9 +152,27 @@ function dispatchMsg(msg) {
     }
     document.getElementById('outputMessage').value = msg;
 }
+
+function echo() {
+  ws.send("echo\r");
+}
+
+function fetchConfig() {
+  ws.send("{ \"component\": \"config\", \"load\": \"configuration\" }\r")
+}
+
+function fetchStats() {
+    ws.send("{ \"component\": \"stats\" }\r");
+}
 function send_component_action(c_name, c_action, ){
     ws.send("{ \"component\": \"" + c_name + "\", \"action\": \"" + c_action + "\" }\r");
 }
 function send_component_action_value(c_name, c_action_name, c_action_value){
     ws.send("{ \"component\": \"" + c_name + "\", \"" + c_action_name + "\": \"" + c_action_value + "\" }\r");
+}
+function send_component_action_object(c_name, c_action_name, json_object){
+    ws.send("{ \"component\": \""+ c_name + "\", \"" + c_action_name + "\":" + JSON.stringify(json_object) +"}")
+}
+function sendMsg() {
+  ws.send(document.getElementById('msg').value  + "\r");
 }

@@ -140,26 +140,32 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
     def on_message(self, message):
         if self.debug:
             self.log('WebSocket message: ' + str(message))
+        m = message
+        result = 'failed'
         try:
-            m = message
             if isinstance(m, str):
                 m = json.loads(message)
             if 'component' in m:
                 if m['component'] in components:
                     component = components[m["component"]]
                     result = component.handleMessage(m)
-                    if result:
-                        result = {m["component"]: result}
-                        if self.debug:
-                            self.log('result:' +str(result))
-                        websocket_write(json.dumps(result))
-                        if self.debug:
-                            self.log('send')
-                else:
-                    if self.debug:
-                       self.log('unknown component')
+                    if isinstance(result, dict):
+                            result = json.dumps(result)
+                    if isinstance(result, str):
+                        result = str({ m['component'] : result })
+                if self.debug:
+                    self.log('compent result:' +str(result))
+            else:
+                if self.debug:
+                   self.log('unknown component')
         except Exception as e:
             self.log('failed handling message with :' + str(e))
+        try:
+            if result != 'failed':
+               result = {m["component"]: str(result)}
+            websocket_write(result)
+        except Exception as e:
+            self.log('failed returning result with :' + str(e))
 
 
 class WebApplication(tornado.web.Application):

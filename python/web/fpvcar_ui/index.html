@@ -57,7 +57,7 @@
 
 <div id="container">
   <canvas id="myCanvas" width=640 height=480 style="border:1px solid #000000;"></canvas>
-  <div id="video">
+  <div id="oldVideo">
     <!-- todo handle if stream is dead -->
   </div>
 </div>
@@ -158,7 +158,7 @@
 <!-- input/ output message------------------------------------------------->
 <div id='myInputOutput'>
     <div class="txt_recieved">
-        <input type='text' id='inputMessage' onkeydown="send_input_message(this)" type="search" placeholder="Your Message" aria-label="Message">
+        <input type='text' id='inputMessage' onkeydown="ws_send_input(this)" type="search" placeholder="Your Message" aria-label="Message">
         <label>Received:</label>
         <textarea id="outputMessage"></textarea>
     </div>
@@ -171,59 +171,58 @@
 <!-- buttons -------------------------------------------------------------->
 <img id="myConfig_img" src="fpvcar/images/burger.svg">
 <div id="myConfig">
-    <input type='text' id='Config_Hostname' onkeydown="send_input_message(this)" type="search" placeholder="Hostname" aria-label="Message">
+    <div class="selection_vertical">
+        <div class="selection_item">
+            <label for="Config_Hostname">Hostname:</label>
+            <input type='text' id='Config_Hostname' onkeydown="ws_send_input(this)" type="search" placeholder="Hostname" aria-label="Message"/>
+        </div>
+        <div class="selection_item">
+            <label for="radio_debug">Debug:</label>
+            <input type="checkbox" id="radio_debug" name="radiodebug" value="1" />
+        </div>
+    </div>
 </div>
 <img id="mySounds_img" src="fpvcar/images/sounds.svg">
 <div id="mySounds">
-    <div class="vertical_buttons">
+    <div class="buttons_vertical">
         <button class="button" onclick="echo()">echo</button>
-        <button class="button" onclick="playSound('chicken')">chicken</button>
-        <button class="button" onclick="playSound('sheep')">sheep</button>
-        <button class="button" onclick="playSound('cat')">cut</button>
+        <button class="button" onclick="send_component_action('sound','chicken')">chicken</button>
+        <button class="button" onclick="send_component_action('sound','sheep')">sheep</button>
+        <button class="button" onclick="send_component_action('sound','cat')">cut</button>
     </div>
 </div>
 <img id="myCamera_img" src="fpvcar/images/camera.svg">
 <div id="myCamera">
-    <div class="vertical_buttons">
-        <button class="button" onclick="startCam()">start cam</button>
-        <button class="button" onclick="stopCam()">stop cam</button>
+    <div class="buttons_vertical">
+        <button id="myCamera_start" class="button">start cam</button>
+        <button id="myCamera_stop" class="button">stop cam</button>
     </div>
 </div>
 <!-- base directions ------------------------------------------------------>
 <div id="baseDirection">
-<table id="tableBaseDirections">
-<tr>
-<td colspan="3">Base</td>
-</tr>
-<tr>
-<td><img id="turnLeft"    class="arrow" src="fpvcar/images/arrow-left.svg"></td>
-<td><img id="moveForward" class="arrow" src="fpvcar/images/arrow-up.svg"  ></td>
-<td><img id="turnRight"   class="arrow" src="fpvcar/images/arrow-turning-right.svg"></td>
-</tr>
-<tr>
-<td><img id="moveLeft"    class="arrow" src="fpvcar/images/arrow-left.svg"></td>
-<td>
-<div id="steercontainter">
-<!-- find out why css is not working -->
-<canvas id="cnvsJoy" width="100" height="100"></canvas>
-</div>
-</td>
-<td><img id="moveRight"   class="arrow" src="fpvcar/images/arrow-right.svg"></td>
-</tr>
-<tr>
-<td><img id="stop"        class="arrow" src="fpvcar/images/stop.svg"></td>
-<td><img id="moveBackward" class="arrow" src="fpvcar/images/arrow-down.svg"></td>
-<td></td>
-</tr>
-<tr>
-<td colspan="3">
-<div id="lblBaseVel">
-<label>Base velocity:</label>
-<input type="text" id="lblVel" readonly />
-</div>
-</td>
-</tr>
-</table>
+    <table id="tableBaseDirections">
+        <tr>
+            <td colspan="3">Base</td>
+        </tr>
+        <tr>
+            <td><img id="img_base_turn_left"    class="arrow" src="fpvcar/images/arrow-left.svg"></td>
+            <td><img id="img_base_forward"      class="arrow" src="fpvcar/images/arrow-up.svg"  ></td>
+            <td><img id="img_base_turn_right"   class="arrow" src="fpvcar/images/arrow-turning-right.svg"></td>
+        </tr>
+        <tr>
+            <td><img id="img_base_left"      class="arrow" src="fpvcar/images/arrow-left.svg"></td>
+            <td><div id="steercontainter"><canvas id="cnvsJoy" width="100" height="100"></canvas></div></td>
+            <td><img id="img_base_right"    class="arrow" src="fpvcar/images/arrow-right.svg"></td>
+        </tr>
+        <tr>
+            <td><img id="img_base_stop"     class="arrow" src="fpvcar/images/stop.svg"></td>
+            <td><img id="img_base_backward" class="arrow" src="fpvcar/images/arrow-down.svg"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan="3"><div id="lblBaseVel"><label>Base velocity:</label><input type="text" id="lblVel" readonly /></div></td>
+        </tr>
+    </table>
 </div>
 <!-- infos----------------------------------------------------------------->
 <div id="myData">
@@ -242,7 +241,6 @@
     var angle = 90;
     var appNameShort = 'fpvcar';
     var base = {'component': 'base', 'stop': 0 };
-    var debug = true;
     var distance = 10;
     var mode_visuals = 1;
     var url = '/' + appNameShort + '/api';
@@ -259,145 +257,127 @@
     var my_sounds_img = document.getElementById("mySounds_img");
     var tbd = document.getElementById("baseDirection");
     $(function() {
-        /* buttons */
-        my_camera_img.addEventListener("click", function() {
+        /* buttons evenst */
+        my_camera_img.addEventListener("click", function () {
             if (my_camera.style.display === "none") {
                 my_camera.style.display = "block";
             } else {
                 my_camera.style.display = "none";
             }
         });
-        my_sounds_img.addEventListener("click", function() {
+        my_sounds_img.addEventListener("click", function () {
             if (my_sounds.style.display === "none") {
-              my_sounds.style.display = "block";
+                my_sounds.style.display = "block";
             } else {
-              my_sounds.style.display = "none";
-          }
+                my_sounds.style.display = "none";
+            }
         });
-        my_config_img.addEventListener("click", function() {
+        my_config_img.addEventListener("click", function () {
             if (my_config.style.display === "none") {
-              my_config.style.display = "block";
+                my_config.style.display = "block";
             } else {
-              my_config.style.display = "none";
+                my_config.style.display = "none";
             }
         });
         /*set arrow functions*/
-        document.getElementById("moveLeft").addEventListener("click", function () {
-            base = {'component': 'base', 'left': angle } ;
-                send_component_message(base)
+        document.getElementById("img_base_left").addEventListener("click", function () {
+            send_component_action_value('base','left',10)
         });
-        document.getElementById("moveForward").addEventListener("click", function () {
-            base = {'component': 'base', 'forward' : distance } ;
-            send_component_message(base)
+        document.getElementById("img_base_forward").addEventListener("click", function () {
+            send_component_action_value('base','forward',distance)
         });
-        document.getElementById("moveRight").addEventListener("click", function () {
-            base = {'component': 'base', 'right' : angle};
-            send_component_message(base)
+        document.getElementById("img_base_right").addEventListener("click", function () {
+            send_component_action_value('base','right',angle)
         });
-        document.getElementById("moveBackward").addEventListener("click", function () {
-            base = {'component': 'base','backward': angle};
-            send_component_message(base)
+        document.getElementById("img_base_backward").addEventListener("click", function () {
+            send_component_action_value('base','backward',distance)
         });
-        document.getElementById("turnLeft").addEventListener("click", function () {
-            base = {'component': 'base','turnLeft': 180 };
-            send_component_message(base)
+        document.getElementById("img_base_turn_left").addEventListener("click", function () {
+            send_component_action_value('base','img_base_turn_left',180)
         });
-        document.getElementById("turnRight").addEventListener("click", function () {
-            base = {'component': 'base','turnRight': 180};
-            send_component_message(base)
+        document.getElementById("img_base_turn_right").addEventListener("click", function () {
+            send_component_action_value('base','img_base_turn_right',180)
         });
-        document.getElementById("stop").addEventListener("click", function () {
-            base = {'component': 'base', 'stop': 0 };
-            send_component_message(base)
+        document.getElementById("img_base_stop").addEventListener("click", function () {
+            send_component_action_value('base','stop',0)
         });
         /* shutdown */
         document.getElementById("btm_icon_shutdown_img").addEventListener("click", function () {
             window.location.href = '/shutdown';
-        });
+        })
     });
-
     //-- functions -------------------------------------------------------->
-    function move_base_linear(base){
+    function move_base_linear(base) {
         // requiered by CancasJoystik
         data = JSON.stringify(base);
         $.ajax({
-            url:url + '/base',
-            type:"POST",
-            data:data,
-            contentType:"application/json; charset=utf-8",
-            dataType:"json",
-            success: function(baseMove){
+            url: url + '/base',
+            type: "POST",
+            data: data,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (baseMove) {
                 console.log(baseMove);
-                newMove = 'BaseMove: linearX:' + baseMove.linearX + ' linearY:'+ baseMove.linearY;
+                newMove = 'BaseMove: linearX:' + baseMove.linearX + ' linearY:' + baseMove.linearY;
                 showMoveResult(newMove);
             }
-        });
+        })
     };
-    function send_component_message(component){
-        // TODO align with component framework
-        component = JSON.stringify(component);
-        if (debug){console.log('send_component_message:' + component);}
-        $.post(url + '/component', component).done( function(result) {
-            showMoveResult(result);	});
-     };
-    function send_input_message(ms) {
-        if (event.key === 'Enter') {
-            _message = '"{ \"component\": \"' + ms.id + '\", \"action\": \"' + ms.value + '\" }\r"'
-            if (debug){console.log('send_input_message:' + _message);}
-            ws.send(_message);
-        }
-    };
-    function showMoveResult(result){
+
+    function showMoveResult(result) {
         $("#moveResult").val(result);
     };
+
     function toggle_controls() {
-      if (mode_visuals == 0){
-          btm_shutdown.style.display = "none";
-          lbl_labelResult.style.display = "none";
-          my_camera.style.display = "none";
-          my_camera_img.style.display = "none";
-          my_config_img.style.display = "none";
-          my_data.style.display = "none";
-          my_in_out.style.display = "none";
-          my_sounds.style.display = "none";
-          my_sounds_img.style.display = "none";
-          tbd.style.display = "none";
-          mode_visuals += 1;
-          return;
-      }
-      if (mode_visuals == 1){
-          btm_shutdown.style.display = "block";
-          my_camera_img.style.display = "block";
-          my_config_img.style.display = "block";
-          my_sounds_img.style.display = "block";
-          tbd.style.display = "block";
-          mode_visuals += 1;
-          return;
-      }
-      if (mode_visuals == 2){
-        lbl_labelResult.style.display = "block";
-        my_data.style.display = "block";
-        my_in_out.style.display = "block";
-        tbd.style.display = "block";
-        mode_visuals = 0;
-        return;
-      }
+        if (mode_visuals == 0) {
+            btm_shutdown.style.display = "none";
+            lbl_labelResult.style.display = "none";
+            my_camera.style.display = "none";
+            my_camera_img.style.display = "none";
+            my_config.style.display = "none";
+            my_config_img.style.display = "none";
+            my_data.style.display = "none";
+            my_in_out.style.display = "none";
+            my_sounds.style.display = "none";
+            my_sounds_img.style.display = "none";
+            tbd.style.display = "none";
+            mode_visuals += 1;
+            return;
+        }
+        if (mode_visuals == 1) {
+            btm_shutdown.style.display = "block";
+            my_camera_img.style.display = "block";
+            my_config_img.style.display = "block";
+            my_sounds_img.style.display = "block";
+            tbd.style.display = "block";
+            mode_visuals += 1;
+            return;
+        }
+        if (mode_visuals == 2) {
+            lbl_labelResult.style.display = "block";
+            my_data.style.display = "block";
+            my_in_out.style.display = "block";
+            tbd.style.display = "block";
+            mode_visuals = 0;
+            return;
+        }
     }
-document.addEventListener("DOMContentLoaded", function(){
-/*set default values*/
-$("#moveResult").val(" [ not yet ]");
-    btm_shutdown.style.display = "none";
-    lbl_labelResult.style.display = "none";
-    my_camera.style.display = "none";
-    my_camera_img.style.display = "none";
-    my_config.style.display = "none";
-    my_config_img.style.display = "none";
-    my_data.style.display = "none";
-    my_in_out.style.display = "none";
-    my_sounds.style.display = "none";
-    my_sounds_img.style.display = "none";
-    tbd.style.display = "none";
-});
+
+    document.addEventListener("DOMContentLoaded", function () {
+        /*set default values*/
+        $("#moveResult").val(" [ not yet ]");
+        btm_shutdown.style.display = "none";
+        lbl_labelResult.style.display = "none";
+        my_camera.style.display = "none";
+        my_camera_img.style.display = "none";
+        my_config.style.display = "none";
+        my_config_img.style.display = "none";
+        my_data.style.display = "none";
+        my_in_out.style.display = "none";
+        my_sounds.style.display = "none";
+        my_sounds_img.style.display = "none";
+        tbd.style.display = "none";
+    });
 </script>
 <script src="fpvcar/js/canvasJoystick.js"></script>
 <script src="fpvcar/js/gauge.js"></script>
