@@ -41,14 +41,20 @@ m = {'component': 'config', 'save': config.configuration}
 result = component.handleMessage(m)
 print('component save result is ' + str(result))
 
-_set = {'debug' : False}
-m = {'component': 'config', 'set': _set}
-result = component.handleMessage(m)
-print('component set debug result is ' + str (result))
-
 _set = {'debug' : True}
 m = {'component': 'config', 'set': _set}
 result = component.handleMessage(m)
 print('component set debug result is ' + str (result))
 
 print(valid_jasonparse(str(result)))
+
+_set = {'port' : 8080}
+m = {'component': 'config', 'set': _set}
+result = component.handleMessage(m)
+print('component set port result is ' + str (result))
+
+_set = {'sensors' : {'bno055': True}}
+m = {'component': 'config', 'set': _set}
+result = component.handleMessage(m)
+print('component set bno055 result is ' + str (result))
+

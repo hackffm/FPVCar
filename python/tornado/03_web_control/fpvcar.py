@@ -50,7 +50,7 @@ def read_bno():
     while True:
         with bno_changed:
             component = components["sensor_bno"]
-            sensor_bno_data = component.handleMessage({'bno': 'all'})
+            sensor_bno_data = component.handleMessage({'bno055': 'all'})
             #sensor_bno_data['euler'] = sensor_bno.euler()
             #sensor_bno_data['temp'] = sensor_bno.temperature()
             #sensor_bno_data['quaternion'] = sensor_bno.quaternion()

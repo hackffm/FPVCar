@@ -174,11 +174,19 @@
     <div class="selection_vertical">
         <div class="selection_item">
             <label for="Config_Hostname">Hostname:</label>
-            <input type='text' id='Config_Hostname' onkeydown="ws_send_input(this)" type="search" placeholder="Hostname" aria-label="Message"/>
+            <input type='text' id='Config_Hostname' type="search" placeholder="Hostname" />
         </div>
         <div class="selection_item">
             <label for="radio_debug">Debug:</label>
             <input type="checkbox" id="radio_debug" name="radiodebug"/>
+        </div>
+        <div class="selection_item">
+            <label for="Config_Port">Port:</label>
+            <input type='text' id='Config_Port' type="search" placeholder="9090" />
+        </div>
+        <div class="selection_item">
+            <label for="radio_bno055">Bno055:</label>
+            <input type="checkbox" id="radio_bno055" name="radiobno055"/>
         </div>
     </div>
 </div>
@@ -278,9 +286,15 @@
                 document.getElementById('radio_debug').checked = debug;
                 my_config.style.display = "block";
             } else {
+                _bno = document.getElementById('radio_bno055').checked;
                 debug = document.getElementById('radio_debug').checked;
+                _hostname = document.getElementById('Config_Hostname').value;
+                _port = document.getElementById('Config_Port').value;
                 my_config.style.display = "none";
+                send_component_action_object('config','set',{'sensors': { 'bno055': _bno}})
                 send_component_action_object('config','set',{'debug': debug})
+                send_component_action_object('config','set',{'name': _hostname})
+                send_component_action_object('config','set',{'port': _port})
             }
         });
         /*set arrow functions*/

@@ -142,9 +142,15 @@ function dispatchMsg(msg) {
       }
       if (msg.hasOwnProperty('ComponentConfig')){
         configuration = msg.ComponentConfig;
+        if (configuration === true) {
+            console.log('configuration done');
+            return;
+        }
         debug = configuration['debug']
-        document.getElementById('radio_debug').checked = debug;
         document.getElementById('Config_Hostname').value = configuration['name']
+        document.getElementById('Config_Port').value = configuration['port']
+        document.getElementById('radio_bno055').checked = configuration['sensors']['bno055'];
+        document.getElementById('radio_debug').checked = debug;
         return
       }
     } catch (e) {

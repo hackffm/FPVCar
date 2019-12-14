@@ -11,7 +11,7 @@ bno = adafruit_bno055.BNO055(i2c)
 class Bno055(Component):
 
     def __init__(self, debug=False):
-        name = 'bno'
+        name = 'bno055'
         super(Bno055, self).__init__(name)
         self.debug = debug
         self.bnos = {"acceleration": self.acceleration(),
@@ -29,14 +29,14 @@ class Bno055(Component):
         result = {}
 
         if self.name in message:
-            m = message['bno']
+            m = message['bno055']
             if m in self.bnos:
                 result[m] = self.bnos[m]
             elif m == 'all':
                 for s in self.bnos:
                     result[s] = self.bnos[s]
             else:
-                result = {'bno': 'failed'}
+                result = {'bno055': 'failed'}
 
         return result
 
