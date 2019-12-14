@@ -28,10 +28,6 @@ class Bno055(Component):
     def handleMessage(self, message):
         result = {}
 
-        if self.debug:
-            pass
-            #print(self.name + ' recieved ' + str(message))
-
         if self.name in message:
             m = message['bno']
             if m in self.bnos:
