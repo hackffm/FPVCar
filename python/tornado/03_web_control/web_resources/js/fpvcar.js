@@ -140,9 +140,9 @@ function dispatchMsg(msg) {
         }
         return
       }
-      if (msg.hasOwnProperty('config')){
-        config = msg['config'];
-        debug = config['debug']
+      if (msg.hasOwnProperty('ComponentConfig')){
+        configuration = msg.ComponentConfig;
+        debug = configuration['debug']
         document.getElementById('radio_debug').checked = debug;
         document.getElementById('Config_Hostname').value = configuration['name']
         return

@@ -32,7 +32,7 @@ class Bno055(Component):
             pass
             #print(self.name + ' recieved ' + str(message))
 
-        if "bno" in message:
+        if self.name in message:
             m = message['bno']
             if m in self.bnos:
                 result[m] = self.bnos[m]

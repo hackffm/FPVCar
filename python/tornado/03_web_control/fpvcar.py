@@ -121,6 +121,12 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
     def log(self, text):
         print(self.name + ' ' + text)
 
+    def valid_jasonparse(self, text):
+        text = text.replace('\'', '\\"')
+        text = text.replace('True', 'true')
+        text = text.replace('False', 'false')
+        return text
+
     # websocket abstract methods
     def check_origin(self, origin):
         return True
@@ -151,8 +157,7 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
                     result = component.handleMessage(m)
                     if isinstance(result, dict):
                             result = json.dumps(result)
-                    if isinstance(result, str):
-                        result = str({ m['component'] : result })
+                            result = self.valid_jasonparse(result)
                 if self.debug:
                     self.log('compent result:' +str(result))
             else:
@@ -161,8 +166,6 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
         except Exception as e:
             self.log('failed handling message with :' + str(e))
         try:
-            if result != 'failed':
-               result = {m["component"]: str(result)}
             websocket_write(result)
         except Exception as e:
             self.log('failed returning result with :' + str(e))
