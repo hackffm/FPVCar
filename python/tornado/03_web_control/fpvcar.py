@@ -26,6 +26,7 @@ bno_changed = threading.Condition()
 # resources
 config = Config()
 helper = Helper()
+p1 = 'webserver process'
 
 cfg = config.cfg()
 ser = serial.Serial('/dev/ttyS0', cfg.baud)
@@ -158,6 +159,11 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
                     if isinstance(result, dict):
                             result = json.dumps(result)
                             result = self.valid_jasonparse(result)
+                if m['component'] == 'fpvcar':
+                    if 'shutdown' in m:
+                        _shutdown = m['shutdown']
+                        helper.shutdown(_shutdown)
+                        p1.terminate()
                 if self.debug:
                     self.log('compent result:' +str(result))
             else:

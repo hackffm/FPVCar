@@ -311,16 +311,17 @@
             send_component_action_value('base','backward',distance)
         });
         document.getElementById("img_base_turn_left").addEventListener("click", function () {
-            send_component_action_value('base','img_base_turn_left',180)
+            send_component_action_value('base','turn_left',180)
         });
         document.getElementById("img_base_turn_right").addEventListener("click", function () {
-            send_component_action_value('base','img_base_turn_right',180)
+            send_component_action_value('base','turn_right',180)
         });
         document.getElementById("img_base_stop").addEventListener("click", function () {
             send_component_action_value('base','stop',0)
         });
         /* shutdown */
         document.getElementById("btm_icon_shutdown_img").addEventListener("click", function () {
+            send_component_action_value('fpvcar','shutdown',0)
             window.location.href = '/shutdown';
         })
     });

@@ -1,7 +1,9 @@
 import os
-import socket
-
 import netifaces
+import socket
+import subprocess
+
+from time import sleep
 
 
 class Helper:
@@ -51,3 +53,11 @@ class Helper:
         if ip != '127.0.0.1':
             return True
         return False
+
+    def shutdown(self, time):
+        _down = int(time)
+        print('fpvcar down in ' + str(_down))
+        sleep(_down)
+        print('os shudown in 10')
+        subprocess.call(['sleep 10s; shutdown -h now'], shell=True)
+        return
