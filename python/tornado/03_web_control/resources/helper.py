@@ -3,6 +3,8 @@ import netifaces
 import socket
 import subprocess
 
+from os import listdir
+from os.path import isfile, join
 from time import sleep
 
 
@@ -48,6 +50,10 @@ class Helper:
                     if self.not_local(_i):
                         ifaces.append(_i)
         return ifaces
+
+    def files_in_path(self, file_path):
+        files = [f for f in listdir(file_path) if isfile(join(file_path, f))]
+        return files
 
     def not_local(self, ip):
         if ip != '127.0.0.1':

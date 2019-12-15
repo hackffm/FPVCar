@@ -37,7 +37,7 @@ components = {
     "base": Base(ser, debug=cfg.debug),
     "cam": Cam(ser, debug=cfg.debug),
     "config": ComponentConfig(config, debug=cfg.debug),
-    "sound": Sound(ser, debug=cfg.debug),
+    "sound": Sound(config, helper, debug=cfg.debug),
     "stats": Stats(ser, debug=cfg.debug)
 }
 

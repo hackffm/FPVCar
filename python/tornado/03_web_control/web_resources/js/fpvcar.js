@@ -1,7 +1,7 @@
 var configuration = {};
 var debug = false;
+var sounds = [];
 var ws;
-var msgbuf = "";
 Number.prototype.map = function(in_min, in_max, out_min, out_max) {
   return (this - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
@@ -13,7 +13,8 @@ window.onload = function() {
     dispatchMsg(e.data);
   };
   ws.onopen = function (){
-      ws.send("{ \"component\": \"config\", \"load\": \"configuration\" }\r")
+      setTimeout(ws.send("{ \"component\": \"config\", \"load\": \"configuration\" }\r"), 1000);
+      setTimeout(ws.send("{ \"component\": \"sound\", \"get\": \"all\" }\r"), 1000);
   }
   var canvas = document.getElementById("myCanvas");
   var ctx = canvas.getContext("2d");
@@ -129,32 +130,51 @@ function dispatchMsg(msg) {
     }
 
     try {
-      msg = JSON.parse(msg);
-      if (msg.hasOwnProperty('sensor')) {
-        _sensor = msg.sensor;
-        if(_sensor.hasOwnProperty('temperature')){
-            document.gauges.get('myTemperature').value = _sensor.temperature;
+        msg = JSON.parse(msg);
+        if (msg.hasOwnProperty('ComponentConfig')){
+          configuration = msg.ComponentConfig;
+          if (configuration === true) {
+              console.log('configuration done');
+              return;
+          }
+          debug = configuration['debug']
+          document.getElementById('Config_Hostname').value = configuration['name']
+          document.getElementById('Config_Port').value = configuration['port']
+          document.getElementById('radio_bno055').checked = configuration['sensors']['bno055'];
+          document.getElementById('radio_debug').checked = debug;
+          return
         }
-        if(_sensor.hasOwnProperty('heading')){
-            document.gauges.get('myCompass').value = _sensor.heading.toFixed(0);
+        if (msg.hasOwnProperty('sensor')) {
+          _sensor = msg.sensor;
+          if(_sensor.hasOwnProperty('temperature')){
+              document.gauges.get('myTemperature').value = _sensor.temperature;
+          }
+          if(_sensor.hasOwnProperty('heading')){
+              document.gauges.get('myCompass').value = _sensor.heading.toFixed(0);
+          }
+          return
         }
-        return
-      }
-      if (msg.hasOwnProperty('ComponentConfig')){
-        configuration = msg.ComponentConfig;
-        if (configuration === true) {
-            console.log('configuration done');
+        if (msg.hasOwnProperty('sound')) {
+          _sound = msg.sound;
+          if(_sound.includes('[')){
+            text = _sound.replace(']','')
+            text = text = text.replace('[','')
+            text = text.split('"').join('')
+            text = text.split(' ').join('')
+            sounds = text.split(',')
+            sl = document.getElementById('sound_list')
+            sounds.forEach( function (item){
+              node = document.createElement("button");
+              node.setAttribute("class", "button");
+              node.setAttribute("onclick", "send_component_action_value('sound','play','" + item +"')");
+              node.textContent =  item;
+              sl.appendChild(node)
+            });
             return;
+          }
         }
-        debug = configuration['debug']
-        document.getElementById('Config_Hostname').value = configuration['name']
-        document.getElementById('Config_Port').value = configuration['port']
-        document.getElementById('radio_bno055').checked = configuration['sensors']['bno055'];
-        document.getElementById('radio_debug').checked = debug;
-        return
-      }
     } catch (e) {
-      console.log(e)
+    console.log(e)
     }
     document.getElementById('outputMessage').value = msg;
 }

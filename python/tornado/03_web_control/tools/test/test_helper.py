@@ -4,5 +4,7 @@ from resources import *
 
 helper = Helper()
 
-while True:
-    helper.shutdown(1)
+
+def test_shutdown():
+    while True:
+        helper.shutdown(1)

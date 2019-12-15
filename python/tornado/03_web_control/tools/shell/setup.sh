@@ -9,6 +9,12 @@ if [ ! -d ~/fpvcar ]; then
   python3 -m venv ~/fpvcar/venv
 fi
 
+if [ ! -d ~/fpvcar/sound ]; then
+  echo "create forlder for sounds"
+  mkdir -p ~/fpvcar/sound
+  cp ./sound/*.* ~/fpvcar/sound
+fi
+
 echo "install requierements"
 source ~/fpvcar/venv/bin/activate
 pip install --upgrade pip
