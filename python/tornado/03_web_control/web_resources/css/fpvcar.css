@@ -43,17 +43,18 @@ label {
 #myCamera {
   bottom: 3em;
   position: absolute;
-  right: 25em;
+  right: 20em;
 }
 #myCamera_img {
   bottom: 0.5em;
-  height: 25px;
+  height: 20px;
   position: absolute;
-  right: 26.5em;
+  right: 20.5em;
   width: 25px;
 }
 #myConfig {
   top: 25em;
+  left: 10em;
   position: absolute;
 }
 #myConfig_img {
@@ -83,7 +84,7 @@ label {
   font-size: 14px;
   padding: 5px 0;
   text-align: center;
-  width: 70px;
+  width: 100px;
 }
 
 .buttons_vertical {

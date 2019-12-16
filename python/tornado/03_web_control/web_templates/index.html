@@ -173,20 +173,20 @@
 <div id="myConfig">
     <div class="selection_vertical">
         <div class="selection_item">
-            <label for="Config_Hostname">Hostname:</label>
-            <input type='text' id='Config_Hostname' type="search" placeholder="Hostname" />
-        </div>
+            <label for="radio_bno055">Bno055:</label>
+            <input type="checkbox" id="radio_bno055" name="radiobno055"/>
+        </div>        
         <div class="selection_item">
             <label for="radio_debug">Debug:</label>
             <input type="checkbox" id="radio_debug" name="radiodebug"/>
         </div>
         <div class="selection_item">
-            <label for="Config_Port">Port:</label>
-            <input type='text' id='Config_Port' type="search" placeholder="9090" />
+            <label for="Config_Hostname">Hostname:</label>
+            <input type='text' id='Config_Hostname' type="search" placeholder="Hostname" />
         </div>
         <div class="selection_item">
-            <label for="radio_bno055">Bno055:</label>
-            <input type="checkbox" id="radio_bno055" name="radiobno055"/>
+            <label for="Config_Port">Port:</label>
+            <input type='text' id='Config_Port' type="search" placeholder="9090" />
         </div>
     </div>
 </div>
@@ -263,7 +263,6 @@
         /* buttons evenst */
         my_camera_img.addEventListener("click", function () {
             if (my_camera.style.display === "none") {
-                ws.send("{ \"component\": \"config\", \"load\": \"all\" }\r")
                 my_camera.style.display = "block";
             } else {
                 my_camera.style.display = "none";
