@@ -114,7 +114,7 @@ window.onload = function() {
 
 function dispatchMsg(msg) {
     if(msg.startsWith('failed')){
-        console.log('Message is failed with ' + msg);
+        document.getElementById('outputMessage').value = 'Message is failed with ' + msg;
         return;
     }
     if(msg.startsWith('V')) {
@@ -134,7 +134,7 @@ function dispatchMsg(msg) {
         if (msg.hasOwnProperty('ComponentConfig')){
           configuration = msg.ComponentConfig;
           if (configuration === true) {
-              console.log('configuration done');
+              document.getElementById('outputMessage').value = 'configuration done';
               return;
           }
           debug = configuration['debug']
@@ -174,7 +174,7 @@ function dispatchMsg(msg) {
           }
         }
     } catch (e) {
-    console.log(e)
+    document.getElementById('outputMessage').value = e;
     }
     document.getElementById('outputMessage').value = msg;
 }

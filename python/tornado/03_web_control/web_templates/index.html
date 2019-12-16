@@ -31,8 +31,8 @@
     data-bar-stroke-width="0"
     data-bar-width="5"
     data-borders="0"
-    data-color-needle="rgba(246, 147, 31, 1)"
-    data-color-numbers="white"
+    data-color-needle="white"
+    data-color-numbers="rgba(246, 147, 31, 1)"
     data-color-plate="rgba(246, 147, 31, .1)"
     data-color-title="white"
     data-font-numbers-size="30"
@@ -71,8 +71,8 @@
         data-bar-begin-circle="false"
         data-bar-stroke-width="0"
         data-bar-width="5"
-        data-color-needle="rgba(246, 147, 31, 1)"
-        data-color-numbers="white"
+        data-color-needle="white"
+        data-color-numbers="rgba(246, 147, 31, 1)"
         data-color-plate="rgba(246, 147, 31, .1)"
         data-color-title="white"
         data-color-units="white"
@@ -118,8 +118,8 @@
         data-bar-begin-circle="false"
         data-bar-stroke-width="0"
         data-bar-width="5"
-        data-color-needle="rgba(246, 147, 31, 1)"
-        data-color-numbers="white"
+        data-color-needle="white"
+        data-color-numbers="rgba(246, 147, 31, 1)"
         data-color-plate="rgba(246, 147, 31, .1)"
         data-color-title="white"
         data-color-units="white"
@@ -163,11 +163,6 @@
         <textarea id="outputMessage"></textarea>
     </div>
 </div>
-<!-- move result----------------------------------------------------------->
-<div id='labelResult'>
-    <label>Result:</label>
-    <input type='text' id='moveResult' readonly />
-</div>
 <!-- buttons -------------------------------------------------------------->
 <img id="myConfig_img" src="fpvcar/images/burger.svg">
 <div id="myConfig">
@@ -175,7 +170,7 @@
         <div class="selection_item">
             <label for="radio_bno055">Bno055:</label>
             <input type="checkbox" id="radio_bno055" name="radiobno055"/>
-        </div>        
+        </div>
         <div class="selection_item">
             <label for="radio_debug">Debug:</label>
             <input type="checkbox" id="radio_debug" name="radiodebug"/>
@@ -205,25 +200,30 @@
 <div id="baseDirection">
 <table id="tableBaseDirections">
     <tr>
-        <td colspan="3">Base</td>
+        <td colspan="3"><label>Base Control</label></td>
     </tr>
     <tr>
-        <td><img id="img_base_turn_left"    class="arrow" src="fpvcar/images/arrow-left.svg"></td>
-        <td><img id="img_base_forward"      class="arrow" src="fpvcar/images/arrow-up.svg"  ></td>
-        <td><img id="img_base_turn_right"   class="arrow" src="fpvcar/images/arrow-turning-right.svg"></td>
+        <td><img id="img_base_turn_left"  class="arrow" src="fpvcar/images/arrow-left.svg"></td>
+        <td><img id="img_base_forward"    class="arrow" src="fpvcar/images/arrow-up.svg"  ></td>
+        <td><img id="img_base_turn_right" class="arrow" src="fpvcar/images/arrow-turning-right.svg"></td>
     </tr>
     <tr>
-        <td><img id="img_base_left"      class="arrow" src="fpvcar/images/arrow-left.svg"></td>
-        <td><div id="steercontainter"><canvas id="cnvsJoy" width="100" height="100"></canvas></div></td>
-        <td><img id="img_base_right"    class="arrow" src="fpvcar/images/arrow-right.svg"></td>
+        <td><img id="img_base_left"       class="arrow" src="fpvcar/images/arrow-left.svg"></td>
+        <td><div id="steercontainter">    <canvas id="cnvsJoy" width="100" height="100"></canvas></div></td>
+        <td><img id="img_base_right"      class="arrow" src="fpvcar/images/arrow-right.svg"></td>
     </tr>
     <tr>
-        <td><img id="img_base_stop"     class="arrow" src="fpvcar/images/stop.svg"></td>
-        <td><img id="img_base_backward" class="arrow" src="fpvcar/images/arrow-down.svg"></td>
+        <td><img id="img_base_stop"       class="arrow" src="fpvcar/images/stop.svg"></td>
+        <td><img id="img_base_backward"   class="arrow" src="fpvcar/images/arrow-down.svg"></td>
         <td></td>
     </tr>
     <tr>
-        <td colspan="3"><div id="lblBaseVel"><label>Base velocity:</label><input type="text" id="lblVel" readonly /></div></td>
+        <td colspan="3">
+            <div id="lblBaseVel">
+                <label>Base velocity:</label>
+                <label id="lblVel"></>
+            </div>
+        </td>
     </tr>
 </table>
 </div>
@@ -249,7 +249,6 @@
     var url = '/' + appNameShort + '/api';
     //--init-------------------------------------------------
     var btm_shutdown = document.getElementById("btm_icon_shutdown");
-    var lbl_labelResult = document.getElementById("labelResult");
     var my_camera = document.getElementById("myCamera");
     var my_camera_img = document.getElementById("myCamera_img");
     var my_config = document.getElementById("myConfig");
@@ -338,13 +337,12 @@
     };
 
     function showMoveResult(result) {
-        $("#moveResult").val(result);
+        document.getElementById('outputMessage').value = result;
     };
 
     function toggle_controls() {
         if (mode_visuals == 0) {
             btm_shutdown.style.display = "none";
-            lbl_labelResult.style.display = "none";
             my_camera.style.display = "none";
             my_camera_img.style.display = "none";
             my_config.style.display = "none";
@@ -367,7 +365,6 @@
             return;
         }
         if (mode_visuals == 2) {
-            lbl_labelResult.style.display = "block";
             my_data.style.display = "block";
             my_in_out.style.display = "block";
             tbd.style.display = "block";
@@ -378,9 +375,7 @@
 
     document.addEventListener("DOMContentLoaded", function () {
         /*set default values*/
-        $("#moveResult").val(" [ not yet ]");
         btm_shutdown.style.display = "none";
-        lbl_labelResult.style.display = "none";
         my_camera.style.display = "none";
         my_camera_img.style.display = "none";
         my_config.style.display = "none";
