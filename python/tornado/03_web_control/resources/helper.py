@@ -65,5 +65,8 @@ class Helper:
         print('fpvcar down in ' + str(_down))
         sleep(_down)
         print('os shudown in 10')
-        subprocess.call(['sleep 10s; shutdown -h now'], shell=True)
-        return
+        try:
+            subprocess.call(['sleep 10s; shutdown -h now'], shell=True)
+            return 'os going down'
+        except Exception as e:
+            return str(e)

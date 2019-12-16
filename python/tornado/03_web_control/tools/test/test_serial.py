@@ -33,3 +33,9 @@ if __name__ == '__main__':
     ser.write(cmd.encode())
     time.sleep(0.3)
     serial_read()
+
+    d = input('shutdown FPVCAR Arduino  ?')
+
+    if d.lower() == 'y':
+        ser.write("?".encode())
+        serial_read()

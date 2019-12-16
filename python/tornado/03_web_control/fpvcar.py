@@ -162,7 +162,11 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
                 if m['component'] == 'fpvcar':
                     if 'shutdown' in m:
                         _shutdown = m['shutdown']
-                        helper.shutdown(_shutdown)
+                        hs = helper.shutdown(_shutdown)
+                        if self.debug:
+                            print(hs)
+                        ser.write("p!999".encode())
+                        sleep(10)
                         p1.terminate()
                 if self.debug:
                     self.log('compent result:' +str(result))
