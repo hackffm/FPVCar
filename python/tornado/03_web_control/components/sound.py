@@ -1,6 +1,8 @@
-from . import Component
-import pygame
+import math
+import time
+from pygame import mixer
 
+from . import Component
 
 class Sound(Component):
 
@@ -10,7 +12,6 @@ class Sound(Component):
         self.debug = debug
         self.helper = helper
         self.path_sound = config.path_fpvcar + '/sound'
-        pygame.mixer.init(44100, -16, 1, 1024)
 
     def handleMessage(self, message):
         result = {}
@@ -36,12 +37,17 @@ class Sound(Component):
     def files_sound(self):
         return self.helper.files_in_path(self.path_sound)
 
-    def playSound(self, name):
+    def playSound(self, file_sound):
+        result = {}
         files = self.files_sound()
-        if name in files:
-            pygame.mixer.music.load(self.path_sound + "/" + name)
-            pygame.mixer.music.play()
-            result = 'played'
+        if file_sound in files:
+            mixer.init()
+            sound = mixer.Sound(self.path_sound + "/" + file_sound)
+            slen = math.ceil(sound.get_length())
+            if self.debug:
+                print('play for {0} seconds'.format(str(slen)))
+            sound.play()
+            result[self.name] = 'played'
         else:
-            result = name + ' not found'
+            result[self.name] = file_sound + ' not found'
         return result
