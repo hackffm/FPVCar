@@ -5,7 +5,8 @@ if [ ! -d ~/fpvcar ]; then
   mkdir -p ~/fpvcar/venv
 
   echo "create python3 venv"
-  sudo apt-get install python3-venv
+  sudo apt-get install python3-venv --yes
+  sudo apt-get install python-pip --yes
   python3 -m venv ~/fpvcar/venv
 fi
 
@@ -19,3 +20,6 @@ echo "install requierements"
 source ~/fpvcar/venv/bin/activate
 pip install --upgrade pip
 pip install -r requierements.txt
+
+echo"add user to dialout group don't forget to reboot !"
+sudo gpasswd --add ${USER} dialout
