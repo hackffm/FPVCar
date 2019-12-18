@@ -29,15 +29,15 @@ helper = Helper()
 p1 = 'webserver process'
 
 cfg = config.cfg()
+path_sound = config.path_fpvcar + '/sound'
 ser = serial.Serial('/dev/ttyS0', cfg.baud)
-
 
 # load components statically
 components = {
     "base": Base(ser, debug=cfg.debug),
     "cam": Cam(ser, debug=cfg.debug),
     "config": ComponentConfig(config, debug=cfg.debug),
-    "sound": Sound(config, helper, debug=cfg.debug),
+    "sound": Sound(path_sound, helper, debug=cfg.debug),
     "stats": Stats(ser, debug=cfg.debug)
 }
 
@@ -186,9 +186,11 @@ class WebApplication(tornado.web.Application):
         current_path = os.path.dirname(os.path.abspath(__file__))
         web_resources = current_path + '/web_resources'
 
+
         handlers = [
             (r'/', HandlerIndexPage, dict(helper=helper)),
             (r'/fpvcar/(.*)', tornado.web.StaticFileHandler, {'path': web_resources}),
+            (r'/manage_sounds', HandlerManageSounds, dict(debug=debug,path_sound=path_sound)),
             (r'/shutdown', HandlerShutdown),
             (r'/websocket', WebSocketHandler, dict(debug=debug))
         ]

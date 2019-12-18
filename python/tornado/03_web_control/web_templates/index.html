@@ -187,7 +187,9 @@
 </div>
 <img id="mySounds_img" src="fpvcar/images/sounds.svg">
 <div id="mySounds">
-    <div class="buttons_vertical" id="sound_list"></div>
+    <div class="buttons_vertical" id="sound_list">
+        <button id="btm_manage_sounds" class="button">manage sounds</button>
+    </div>
 </div>
 <img id="myCamera_img" src="fpvcar/images/camera.svg">
 <div id="myCamera">
@@ -316,6 +318,9 @@
         document.getElementById("btm_icon_shutdown_img").addEventListener("click", function () {
             send_component_action_value('fpvcar','shutdown',0)
             window.location.href = '/shutdown';
+        })
+        document.getElementById("btm_manage_sounds").addEventListener("click", function() {
+            window.location.href = '/manage_sounds';
         })
     });
     //-- functions -------------------------------------------------------->
