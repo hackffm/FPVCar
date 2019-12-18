@@ -336,13 +336,9 @@
             success: function (baseMove) {
                 console.log(baseMove);
                 newMove = 'BaseMove: linearX:' + baseMove.linearX + ' linearY:' + baseMove.linearY;
-                showMoveResult(newMove);
+                document.getElementById('outputMessage').value = newMove;
             }
         })
-    };
-
-    function showMoveResult(result) {
-        document.getElementById('outputMessage').value = result;
     };
 
     function toggle_controls() {

@@ -190,7 +190,7 @@ class WebApplication(tornado.web.Application):
         handlers = [
             (r'/', HandlerIndexPage, dict(helper=helper)),
             (r'/fpvcar/(.*)', tornado.web.StaticFileHandler, {'path': web_resources}),
-            (r'/manage_sounds', HandlerManageSounds, dict(debug=debug,path_sound=path_sound)),
+            (r'/manage_sounds', HandlerManageSounds, dict(debug=debug,helper=helper,path_sound=path_sound)),
             (r'/shutdown', HandlerShutdown),
             (r'/websocket', WebSocketHandler, dict(debug=debug))
         ]

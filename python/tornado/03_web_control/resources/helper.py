@@ -51,6 +51,14 @@ class Helper:
                         ifaces.append(_i)
         return ifaces
 
+    def file_delete(self, file_path):
+        print(file_path)
+        if os.path.exists(file_path):
+            os.remove(file_path)
+            return 'done'
+        else:
+            return 'not found'
+
     def files_in_path(self, file_path):
         files = [f for f in listdir(file_path) if isfile(join(file_path, f))]
         return files

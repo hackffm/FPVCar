@@ -1,19 +1,41 @@
-import sys
 import tornado.web
 
 
 class HandlerManageSounds(tornado.web.RequestHandler):
-    def initialize(self, debug,path_sound):
+    def initialize(self, debug, helper, path_sound):
         self.debug = debug
-        self.name = 'shutdown'
+        self.helper = helper
+        self.name = 'HandlerManageSounds'
         self.path_sound = path_sound
 
+    def show_ip(self):
+        remote_ip = self.request.headers.get("X-Real-IP") or \
+                    self.request.headers.get("X-Forwarded-For") or \
+                    self.request.remote_ip
+        print(self.name + ' was called by ' + remote_ip)
+
+    # handler methods
+    def delete(self):
+        result = 'none'
+        if self.request.headers['Content-Type'] == 'application/json':
+            deletion =  tornado.escape.json_decode(self.request.body)
+            if 'delete' in deletion:
+                _del = deletion['delete']
+                result = self.helper.file_delete(self.path_sound + '/' + _del)
+                if self.debug:
+                    print('deletion result of ' + _del + ' was ' + result)
+        # TODO check why response Text is always empty
+        self.write(str(result))
+
     def get(self):
-        self.render("manage_sounds.html", title="Manage Sounds")
-        sys.exit(0)
+        if self.debug:
+            self.show_ip()
+        sound_files = self.helper.files_in_path(self.path_sound)
+        self.render("manage_sounds.html", title="Manage Sounds", sound_files=sound_files)
 
     def post(self):
-        result = 'ok'
+        if self.debug:
+            self.show_ip()
         for field_name, files in self.request.files.items():
             for file in files:
                 try:
@@ -25,5 +47,5 @@ class HandlerManageSounds(tornado.web.RequestHandler):
                     f.write(body)
                     f.close()
                 except Exception as e:
-                    result = str(e)
-        self.write(result)
+                    self.write(str(e))
+        self.redirect('http://' + self.request.host + '/manage_sounds', permanent=False)

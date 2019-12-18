@@ -1,17 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta charset="utf-8">
     <title>Tornado Upload Application</title>
+    <link href="/fpvcar/css/manage_sounds.css" rel="stylesheet" />
+    <link rel="shortcut icon" type="image/x-icon" href="/fpvcar/images/favicon.ico">
+    <script>var xmlhttp = new XMLHttpRequest();</script>
 </head>
+
 <body>
-<p>
-<h1>Upload Sound</h1></p>
-<form enctype="multipart/form-data" action="/manage_sounds" method="post">
-    File: <input type="file" name="file1"/>
-    <br/>
-    <br/>
-    <input type="submit" value="manage_sounds"/>
-</form>
+    <diV id="toptitel">
+        <h1>{{ title }}</h1>
+    </diV>
+    <div id="soundfiles">
+        <h3>sound files</h3>
+        {% for sf in sound_files %}
+            <div id="{{ sf }}">{{ sf }} <button id="{{ sf }}" onclick="call_delete(this)">delete</button></div>
+        {% end %} 
+    </div>
+    <diV id="frm_sounds_upload">
+        <h3>Upload Sound</h3>
+        <form enctype="multipart/form-data" action="/manage_sounds" method="post">
+            File: <input type="file" name="file1" /><input type="submit" value="Upload" />
+        </form>
+    </diV>
+<script>
+    function call_delete(event) { 
+        xmlhttp.open("DELETE", "/manage_sounds", true);
+        xmlhttp.setRequestHeader("Content-Type", "application/json");
+        xmlhttp.send(JSON.stringify({"delete": event.id}));
+        console.log(xmlhttp.responseText);
+    }
+</script>
 </body>
 </html>
