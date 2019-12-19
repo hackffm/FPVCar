@@ -1,5 +1,7 @@
+import json
 import tornado.web
 
+from time import sleep
 
 class HandlerManageSounds(tornado.web.RequestHandler):
     def initialize(self, debug, helper, path_sound):
@@ -14,7 +16,7 @@ class HandlerManageSounds(tornado.web.RequestHandler):
                     self.request.remote_ip
         print(self.name + ' was called by ' + remote_ip)
 
-    # handler methods
+    # handler methods-------------------------------------------------------------
     def delete(self):
         result = 'none'
         if self.request.headers['Content-Type'] == 'application/json':
@@ -24,8 +26,8 @@ class HandlerManageSounds(tornado.web.RequestHandler):
                 result = self.helper.file_delete(self.path_sound + '/' + _del)
                 if self.debug:
                     print('deletion result of ' + _del + ' was ' + result)
-        # TODO check why response Text is always empty
-        self.write(str(result))
+            self.write(json.dumps({'delete': str(result)}))
+            self.finish()
 
     def get(self):
         if self.debug:
@@ -48,4 +50,4 @@ class HandlerManageSounds(tornado.web.RequestHandler):
                     f.close()
                 except Exception as e:
                     self.write(str(e))
-        self.redirect('http://' + self.request.host + '/manage_sounds', permanent=False)
+        self.redirect('/manage_sounds', permanent=False)
