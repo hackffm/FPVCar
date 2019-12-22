@@ -10,40 +10,57 @@
 </head>
 
 <body>
-    <diV id="toptitel">
-        <h1>{{ title }}</h1>
-    </diV>
-    <div id="soundfiles">
-        <h3>sound files</h3>
+<!-- Shutdown Button ------------------------------------------------------>
+<div id="btm_icon_shutdown">
+    <img id="btm_icon_shutdown_img" src="/fpvcar/images/power-button.svg">
+</div>
+<!-- page toggle ---------------------------------------------------------->
+<div id="btm_toggle_controls" onclick="toggle_controls()">
+<img id="btm_toggle_controls_img" src="/fpvcar/images/hackffm_logo.png">
+</div>
+<!-- sound controls-------------------------------------------------------->
+<diV id="toptitel">
+    <h1>{{ title }}</h1>
+</diV>
+<div id="soundfiles" >
+    <h3>sound files</h3>
+    <div class="soundlist">
         {% for sf in sound_files %}
-            <div id="{{ sf }}">{{ sf }} <button id="{{ sf }}" onclick="call_delete(this)">delete</button></div>
-        {% end %} 
+            <div id="{{ sf }}">{{ sf }}</div><button id="{{ sf }}" onclick="call_delete(this)">delete</button>
+        {% end %}
     </div>
-    <diV id="frm_sounds_upload">
-        <h3>Upload Sound</h3>
-        <form enctype="multipart/form-data" action="/manage_sounds" method="post">
-            File: <input type="file" name="file1" /><input type="submit" value="Upload" />
-        </form>
-    </diV>
+</div>
+<diV id="frm_sounds_upload">
+    <h3>Upload Sound</h3>
+    <form enctype="multipart/form-data" action="/manage_sounds" method="post">
+        File: <input type="file" name="file1" /><input type="submit" value="Upload" />
+    </form>
+</diV>
+<div id="done">
+    <button id="btm_done" >Done</button>
+</div>
+<!-- background image------------------------------------------------------>
+<div id="camera_placeholder"><img src="fpvcar/images/hackffm_logo.png" name="camera"></div>
 <script>
-    function call_delete(event) { 
-        xmlhttp.open("DELETE", "/manage_sounds", true);
-        xmlhttp.setRequestHeader("Content-Type", "application/json");
-        xmlhttp.onreadystatechange = function() {
-            try {
-                answer = xmlhttp.responseText;
-                answer = JSON.parse(answer);
-                if (answer['delete'] === "done"){
-                    window.location.href = '/manage_sounds';
-                }else {
-                    alert(answer['delete']);
-                }
-            } catch {
-                // wait for valid answer
+document.getElementById("btm_done").addEventListener("click", function () {window.location.href = '/';});
+function call_delete(event) {
+    xmlhttp.open("DELETE", "/manage_sounds", true);
+    xmlhttp.setRequestHeader("Content-Type", "application/json");
+    xmlhttp.onreadystatechange = function() {
+        try {
+            answer = xmlhttp.responseText;
+            answer = JSON.parse(answer);
+            if (answer['delete'] === "done"){
+                window.location.href = '/manage_sounds';
+            }else {
+                alert(answer['delete']);
             }
+        } catch {
+            // wait for valid answer
         }
-        xmlhttp.send(JSON.stringify({"delete": event.id}));
     }
+    xmlhttp.send(JSON.stringify({"delete": event.id}));
+}
 </script>
 </body>
 </html>

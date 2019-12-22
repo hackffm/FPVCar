@@ -9,15 +9,13 @@
     <script>var ip_first = '{{ip_first}}';</script>
 </head>
 <body>
-<!-- background image------------------------------------------------------>
-<div id="cameraStream"><img src="fpvcar/images/hackffm_logo.png" name="camera"></div>
-<!-- Shutdown Button ------------------------------------------------------>
-<div id="btm_icon_shutdown">
-    <img id="btm_icon_shutdown_img" src="/fpvcar/images/power-button.svg">
-</div>
 <!-- Menu toggle ---------------------------------------------------------->
 <div id="btm_toggle_controls" onclick="toggle_controls()">
 <img id="btm_toggle_controls_img" src="/fpvcar/images/hackffm_logo.png">
+</div>
+<!-- Shutdown Button ------------------------------------------------------>
+<div id="btm_icon_shutdown">
+    <img id="btm_icon_shutdown_img" src="/fpvcar/images/power-button.svg">
 </div>
 <!-- gauges --------------------------------------------------------------->
 <canvas data-type="linear-gauge" id="myCompass"
@@ -154,7 +152,8 @@
         data-value-dec="0"
         data-value-text-shadow="false"
 ></canvas>
-
+<!-- background image------------------------------------------------------>
+<div id="camera_placeholder"><img src="fpvcar/images/hackffm_logo.png" name="camera"></div>
 <!-- input/ output message------------------------------------------------->
 <div id='myInputOutput'>
     <div class="txt_recieved">
