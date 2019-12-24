@@ -19,7 +19,7 @@ fi
 echo "install requierements"
 source ~/fpvcar/venv/bin/activate
 pip install --upgrade pip
-pip install -r requierements.txt
+pip install -r requirements.txt
 
 echo"add user to dialout group don't forget to reboot !"
 sudo gpasswd --add ${USER} dialout
