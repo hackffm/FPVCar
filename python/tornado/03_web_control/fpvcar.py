@@ -29,6 +29,9 @@ helper = Helper()
 p1 = 'webserver process'
 
 cfg = config.cfg()
+debug = cfg.debug
+print(debug)
+print(type(cfg.baud))
 path_sound = config.path_fpvcar + '/sound'
 ser = serial.Serial('/dev/ttyS0', cfg.baud)
 
@@ -52,10 +55,6 @@ def read_bno():
         with bno_changed:
             component = components["sensor_bno"]
             sensor_bno_data = component.handleMessage({'bno055': 'all'})
-            #sensor_bno_data['euler'] = sensor_bno.euler()
-            #sensor_bno_data['temp'] = sensor_bno.temperature()
-            #sensor_bno_data['quaternion'] = sensor_bno.quaternion()
-            #sensor_bno_data['calibration'] = sensor_bno.calibration_status()
             bno_changed.notifyAll()
         time.sleep(0.1)
 
@@ -63,14 +62,17 @@ def read_bno():
 async def read_sensor():
     with bno_changed:
         bno_changed.wait()
-        heading, roll, pitch = sensor_bno_data['euler']
-        temp = sensor_bno_data['temp']
-        x, y, z, w = sensor_bno_data['quaternion']
-        sys, gyro, accel, mag = sensor_bno_data['calibration']
-    data = {'heading': heading, 'roll': roll, 'pitch': pitch, 'temp': temp,
-            'quatX': x, 'quatY': y, 'quatZ': z, 'quatW': w,
-            'calSys': sys, 'calGyro': gyro, 'calAccel': accel, 'calMag': mag }
-    return data
+        if sensor_bno_data != {}:
+            heading, roll, pitch = sensor_bno_data['euler']
+            temp = sensor_bno_data['temp']
+            x, y, z, w = sensor_bno_data['quaternion']
+            sys, gyro, accel, mag = sensor_bno_data['calibration']
+            data = {'heading': heading, 'roll': roll, 'pitch': pitch, 'temp': temp,
+                    'quatX': x, 'quatY': y, 'quatZ': z, 'quatW': w,
+                    'calSys': sys, 'calGyro': gyro, 'calAccel': accel, 'calMag': mag }
+            return data
+        else:
+            pass
 
 
 async def serial_read():
@@ -169,7 +171,7 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
                         sleep(10)
                         p1.terminate()
                 if self.debug:
-                    self.log('compent result:' +str(result))
+                    self.log('compent result:' + str(result))
             else:
                 if self.debug:
                    self.log('unknown component')
@@ -182,7 +184,7 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
 
 
 class WebApplication(tornado.web.Application):
-    def __init__(self, components, debug):
+    def __init__(self, debug):
         current_path = os.path.dirname(os.path.abspath(__file__))
         web_resources = current_path + '/web_resources'
 
@@ -190,7 +192,7 @@ class WebApplication(tornado.web.Application):
         handlers = [
             (r'/', HandlerIndexPage, dict(helper=helper)),
             (r'/fpvcar/(.*)', tornado.web.StaticFileHandler, {'path': web_resources}),
-            (r'/manage_sounds', HandlerManageSounds, dict(debug=debug,helper=helper,path_sound=path_sound)),
+            (r'/manage_sounds', HandlerManageSounds, dict(debug=debug, helper=helper, path_sound=path_sound)),
             (r'/shutdown', HandlerShutdown),
             (r'/websocket', WebSocketHandler, dict(debug=debug))
         ]
@@ -222,7 +224,7 @@ class WebServer:
             bno_thread.daemon = True  # Don't let the BNO reading thread block exiting.
             bno_thread.start()
 
-        ws_app = WebApplication(components, cfg.debug)
+        ws_app = WebApplication(cfg.debug)
         server = tornado.httpserver.HTTPServer(ws_app)
         server.listen(cfg.port)
 

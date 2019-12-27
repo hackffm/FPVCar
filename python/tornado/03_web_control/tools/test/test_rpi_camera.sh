@@ -1,5 +1,9 @@
 #!/bin/bash
 
+echo camera still picture test
+echo detecting
+vcgencmd get_camera
+
 if [ ! -d ~/temp/camera ]; then
     mkdir -p ~/temp/camera
 fi
