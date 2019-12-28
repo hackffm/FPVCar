@@ -30,10 +30,10 @@ p1 = 'webserver process'
 
 cfg = config.cfg()
 debug = cfg.debug
-print(debug)
-print(type(cfg.baud))
+if debug:
+    print('debug is on')
 path_sound = config.path_fpvcar + '/sound'
-ser = serial.Serial('/dev/ttyS0', cfg.baud)
+ser = serial.Serial(cfg.serial.port, cfg.serial.baud)
 
 # load components statically
 components = {

@@ -31,7 +31,10 @@ class Config:
     def default(self):
         # booleans must be no strings here !
         _config = {
-            'baud': 38400,
+            'serial': {
+                'baud': 38400,
+                'port': '/dev/ttyS0'
+            },
             'camera': {
                 'orientation': 'horizontal',
                 'resolutionX': 640,
