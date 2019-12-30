@@ -15,8 +15,8 @@ window.onload = function() {
   var rect = canvas.getBoundingClientRect();
   var mdown = false;
   var pos;
-  var width = 640;
-  var height = 480;
+  var width = canvas.offsetWidth;
+  var height = canvas.offsetHeight;
   canvas.addEventListener("mousedown", inputStart, false);
   canvas.addEventListener("mouseup", inputEnd, false);
   canvas.addEventListener("mouseout", function(e) {
@@ -66,8 +66,10 @@ window.onload = function() {
   }
 
   function centerPos(pos) {
-    pos.cx = pos.x - rect.width / 2;
-    pos.cy = rect.height / 2 - pos.y;
+    /*pos.cx = pos.x - rect.width / 2;
+    pos.cy = rect.height / 2 - pos.y;*/
+    pos.cx = rect.width - pos.x / 2;
+    pos.cy = rect.height - pos.y / 2;
   }
 
   function toLeftRight(pos) {

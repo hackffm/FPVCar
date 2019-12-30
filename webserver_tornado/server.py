@@ -59,8 +59,8 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
 
 class IndexPageHandler(tornado.web.RequestHandler):
     def get(self):
-        self.render("index.html", hostname=hostname)
-       
+        self.render("index_neu.html", hostname=hostname)
+        
 class CssPageHandler(tornado.web.RequestHandler):  
     def get(self):
         self.set_header("Content-Type", 'text/css')
@@ -77,6 +77,8 @@ class Application(tornado.web.Application):
         ]
 
         settings = {
+            'autoreload': True,
+            'debug': True,
             'template_path': 'templates'
         }
         tornado.web.Application.__init__(self, handlers, **settings)
