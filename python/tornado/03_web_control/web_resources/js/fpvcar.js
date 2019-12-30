@@ -108,8 +108,14 @@ window.onload = function() {
     ctx.stroke();
   }
 
-  document.getElementById("myCamera_start").addEventListener("click",function(){send_component_action("cam","start")});
-  document.getElementById("myCamera_stop").addEventListener("click",function(){send_component_action("cam","stop")});
+  document.getElementById("myCamera_start").addEventListener("click",function(){
+      send_component_action("cam", "start");
+      setTimeout(function(){ window.location.href = '/'; }, 1000);
+  });
+  document.getElementById("myCamera_stop").addEventListener("click",function(){
+    send_component_action("cam","stop")
+    setTimeout(function(){ window.location.href = '/'; }, 1000);
+  });
 }
 
 function dispatchMsg(msg) {
