@@ -60,14 +60,20 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
 class IndexPageHandler(tornado.web.RequestHandler):
     def get(self):
         self.render("index.html", hostname=hostname)
+       
+class CssPageHandler(tornado.web.RequestHandler):  
+    def get(self):
+        self.set_header("Content-Type", 'text/css')
+        self.render("style.css", hostname=hostname)
 
 
 class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
             (r'/', IndexPageHandler),
+            (r'/style.css', CssPageHandler),
             (r'/websocket', WebSocketHandler),
-        (r'/(.*)', tornado.web.StaticFileHandler, {'path': './root'})
+            (r'/(.*)', tornado.web.StaticFileHandler, {'path': './root'})
         ]
 
         settings = {

@@ -104,6 +104,7 @@ window.onload = function() {
     ctx.lineTo(pos.ox, pos.oy);
     ctx.stroke();
   }
+  
 }
 
 function sendMsg() {
@@ -144,6 +145,7 @@ function playSound(name) {
 function startCam() {
     ws.send("{ \"component\": \"cam\", \"action\": \"start\" }\r");
 }
+
 function stopCam() {
     ws.send("{ \"component\": \"cam\", \"action\": \"stop\" }\r");
 }
