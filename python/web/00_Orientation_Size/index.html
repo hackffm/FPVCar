@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Orientation and Size</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!--script src="script.js" /-->
+    <script  type="text/javascript">
+      var vw = 640;
+      var vh = 480;
+    
+      function init() {
+          console.log("init()");
+          
+          
+      }
+      function resize() {
+        var ww = $(window).width();
+        var wh = $(window).height();
+        var wratio = Math.max(ww, wh) / Math.min(ww, wh);
+        var vratio = Math.max(vw, vh) / Math.min(vw, vh);
+        
+        console.log("wh: " + wh + "    ww: " + ww);
+        console.log("vh: " + vh + "    vw: " + vw);
+        console.log("wratio: " + wratio);
+        console.log("vratio: " + vratio);
+        
+        if(ww > wh) {
+            console.log("window horizontal");
+            if(vw > vh) {
+                console.log("video horizontal");
+                if(wratio>vratio) {
+                    console.log("wratio>vratio");
+                    $('#video').height(wh);
+                    $('#video').width(wh*vratio);
+                    //$('#video').width(ww);
+                    //$('#video').height(ww/vratio);
+                } else {
+                    console.log("wratio<vratio");
+                    $('#video').height(wh);
+                    $('#video').width(wh*vratio);
+                }                
+            } else {
+                console.log("video vertical");
+                $('#video').height(wh);
+                $('#video').width(wh/vratio);
+            }
+        } else {
+            console.log("window vertical");
+            if(vw > vh) {
+                console.log("video horizontal");
+                 $('#video').width(ww);
+                 $('#video').height(ww/vratio);
+            } else {
+                console.log("video vertical");
+            }
+        }
+      }
+   
+      
+      $( document ).ready(function() {
+            console.log( "ready!" );
+            window.addEventListener("resize", resize);
+            
+            $('#video').click(function() {
+                if($('#video').attr("src") === "horizontal.jpg") {
+                    $('#video').attr("src","vertical.jpg");
+                    vw = 480;
+                    vh = 640;
+                } else {
+                    $('#video').attr("src","horizontal.jpg");
+                    vw = 640;
+                    vh = 480;
+                }
+                resize();
+              });
+      });
+      
+      
+      
+    </script>
+  </head>
+  <body>
+  
+    <img id="video" src="horizontal.jpg" style="width:100%; height:480px;">
+   
+    <div>
+  </body>
+</html>
