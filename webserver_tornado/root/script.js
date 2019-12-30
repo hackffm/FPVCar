@@ -62,14 +62,13 @@ window.onload = function() {
     };
     pos.ox = pos.x;
     pos.oy = pos.y;
+    console.log(pos.x + "   " + pos.y);
     return pos;
   }
 
   function centerPos(pos) {
-    /*pos.cx = pos.x - rect.width / 2;
-    pos.cy = rect.height / 2 - pos.y;*/
-    pos.cx = rect.width - pos.x / 2;
-    pos.cy = rect.height - pos.y / 2;
+    pos.cx = pos.x - rect.width / 2;
+    pos.cy = rect.height / 2 - pos.y;
   }
 
   function toLeftRight(pos) {
