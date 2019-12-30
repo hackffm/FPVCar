@@ -74,7 +74,7 @@ class Helper:
         sleep(_down)
         print('os shudown in 10')
         try:
-            subprocess.call(['sleep 10s; shutdown -h now'], shell=True)
+            subprocess.call(['sleep 10s;sudo shutdown -h now'], shell=True)
             return 'os going down'
         except Exception as e:
             return str(e)

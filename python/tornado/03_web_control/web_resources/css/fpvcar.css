@@ -9,24 +9,6 @@ input[type="text"]
 label {
   color: white;
 }
-/*--video-------------------------*/
-#container {
-  width: 640px;
-  height: 480px;
-}
-#myCanvas {
-  position: absolute;
-  left: 0.3em;
-  top: 4em;
-  z-index: 0;
-}
-#video {
-  width: 640px;
-  height: 480px;
-  position: absolute;
-  top: 3.0em;
-  left: 0.5em;
-}
 /*--Buttons------------------------*/
 #myCamera {
   bottom: 3em;
@@ -167,19 +149,12 @@ label {
   height: 40px;
   width: 30px;
 }
-#camera_placeholder {
-    border: 1px solid;
-    border-radius: 4px;
-    display: block;
-    left: 20em;
-    top: 20em;
-    position: absolute;
-}
 /*--sensors------------------------*/
 #myCompass {
   display: table;
   margin: 0 auto;
   top: 1em;
+  z-index: 10;
 }
 #myTemperature {
   position: absolute;

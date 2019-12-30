@@ -194,6 +194,7 @@ class WebApplication(tornado.web.Application):
             (r'/fpvcar/(.*)', tornado.web.StaticFileHandler, {'path': web_resources}),
             (r'/manage_sounds', HandlerManageSounds, dict(debug=debug, helper=helper, path_sound=path_sound)),
             (r'/shutdown', HandlerShutdown),
+            (r'/style.css', CssPageHandler),
             (r'/websocket', WebSocketHandler, dict(debug=debug))
         ]
 

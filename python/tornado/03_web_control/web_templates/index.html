@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>First Person View Car</title>
+    <title>FPVCar</title>
+    <link rel="stylesheet" href="style.css">
     <link href="/fpvcar/css/fpvcar.css" rel="stylesheet"/>
     <link rel="shortcut icon" type="image/x-icon" href="/fpvcar/images/favicon.ico">
     <script src="/fpvcar/js/jquery-3.4.1.min.js"></script>
@@ -52,13 +53,6 @@
     data-stroke-ticks="true"
     data-value="90"
 ></canvas>
-
-<div id="container">
-  <canvas id="myCanvas" width=640 height=480 style="border:1px solid #000000;"></canvas>
-  <div id="oldVideo">
-    <!-- todo handle if stream is dead -->
-  </div>
-</div>
 
 <canvas data-type="linear-gauge" id="myTemperature"
         data-width="100"
@@ -153,7 +147,8 @@
         data-value-text-shadow="false"
 ></canvas>
 <!-- background image------------------------------------------------------>
-<div id="camera_placeholder"><img src="fpvcar/images/hackffm_logo.png" name="camera"></div>
+<div id="video"></div>
+<canvas id="myCanvas"></canvas>
 <!-- input/ output message------------------------------------------------->
 <div id='myInputOutput'>
     <div class="txt_recieved">
