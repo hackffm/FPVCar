@@ -148,7 +148,7 @@
 ></canvas>
 <!-- background image------------------------------------------------------>
 <div id="video"></div>
-<canvas id="myCanvas"></canvas>
+<canvas id="myCanvas" width="300px" height="300px"></canvas>
 <!-- input/ output message------------------------------------------------->
 <div id='myInputOutput'>
     <div class="txt_recieved">
@@ -205,7 +205,7 @@
     </tr>
     <tr>
         <td><img id="img_base_left"       class="arrow" src="fpvcar/images/arrow-left.svg"></td>
-        <td><div id="steercontainter">    <canvas id="cnvsJoy" width="100" height="100"></canvas></div></td>
+        <td><div id="canvas_joystick">    <canvas id="cnvsJoy" width="100" height="100"></canvas></div></td>
         <td><img id="img_base_right"      class="arrow" src="fpvcar/images/arrow-right.svg"></td>
     </tr>
     <tr>
@@ -318,23 +318,6 @@
         })
     });
     //-- functions -------------------------------------------------------->
-    function move_base_linear(base) {
-        // requiered by CancasJoystik
-        data = JSON.stringify(base);
-        $.ajax({
-            url: url + '/base',
-            type: "POST",
-            data: data,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (baseMove) {
-                console.log(baseMove);
-                newMove = 'BaseMove: linearX:' + baseMove.linearX + ' linearY:' + baseMove.linearY;
-                document.getElementById('outputMessage').value = newMove;
-            }
-        })
-    };
-
     function toggle_controls() {
         if (mode_visuals == 0) {
             btm_shutdown.style.display = "none";
@@ -382,8 +365,8 @@
         tbd.style.display = "none";
     });
 </script>
-<script src="/fpvcar/js/canvasJoystick.js"></script>
-<script src="/fpvcar/js/gauge.js"></script>
 <script src="/fpvcar/js/fpvcar.js"></script>
+<script src="/fpvcar/js/gauge.js"></script>
+<script src="/fpvcar/js/canvasJoystick.js"></script>
 </body>
 </html>

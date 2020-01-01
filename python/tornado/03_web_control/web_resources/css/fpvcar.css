@@ -10,6 +10,25 @@ input[type="text"]
 label {
   color: white;
 }
+/*--Camera-------------------------*/
+#video {
+    width:100vw;
+    height:100vh;
+    background-image: url("http://{{hostname}}:8080/?action=stream");
+    background-color: #000000;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+
+#myCanvas {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-width: 2px;
+  border-style: dotted;
+}
 /*--Buttons------------------------*/
 #myCamera {
   bottom: 3em;
@@ -75,7 +94,7 @@ label {
   grid-template-columns: auto;
   padding:15px 5px;
 }
-/*----directions------------------*/
+/*----joystick------------------*/
 .arrow {
   height: 25px;
   width: 25px;
@@ -85,7 +104,7 @@ label {
   position: absolute;
   right: 0.5em;
 }
-#steercontainter {
+#canvas_joystick {
     width: 110px;
 }
 #tableBaseDirections{
@@ -140,7 +159,7 @@ label {
   grid-template-columns: 70px;
   padding:15px 5px;
 }
-/*--generic fpvcar-------------------*/
+/*--generic fpvcar header-------------------*/
 #btm_icon_shutdown {
   position: absolute;
   right: 0.5em;

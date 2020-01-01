@@ -21,8 +21,8 @@ window.onload = function() {
   var rect = canvas.getBoundingClientRect();
   var mdown = false;
   var pos;
-  var width = 640;
-  var height = 480;
+  var width = canvas.offsetWidth;
+  var height = canvas.offsetHeight;
   canvas.addEventListener("mousedown", inputStart, false);
   canvas.addEventListener("mouseup", inputEnd, false);
   canvas.addEventListener("mouseout", function(e) {
@@ -68,6 +68,7 @@ window.onload = function() {
     };
     pos.ox = pos.x;
     pos.oy = pos.y;
+    console.log(pos.x + "   " + pos.y);
     return pos;
   }
 
@@ -95,6 +96,7 @@ window.onload = function() {
 	if(pos.right > 255) pos.right = 255;
 	if(pos.right < -255) pos.right = -255;
     document.getElementById("lr").innerHTML = "l:" + pos.left + "  r:" + pos.right;
+    ws.send("{ \"component\": \"base\", \"left\": " + pos.left + ", \"right\": " + pos.right + " }\r");
   }
 
   function drawHandle(pos) {
