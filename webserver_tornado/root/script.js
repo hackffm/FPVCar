@@ -3,6 +3,7 @@ var msgbuf = "";
 Number.prototype.map = function(in_min, in_max, out_min, out_max) {
   return (this - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
+var rect;
 
 window.onload = function() {
   ws = new WebSocket("ws://"+hostname+":9090/websocket");
@@ -12,7 +13,7 @@ window.onload = function() {
   };
   var canvas = document.getElementById("myCanvas");
   var ctx = canvas.getContext("2d");
-  var rect = canvas.getBoundingClientRect();
+  rect = canvas.getBoundingClientRect();
   var mdown = false;
   var pos;
   var width = canvas.offsetWidth;
@@ -27,6 +28,9 @@ window.onload = function() {
   canvas.addEventListener("touchend", inputEnd, false);
   canvas.addEventListener("touchmove", inputMove, false);
 
+  
+  resizeTouchArea();
+  
   function inputStart() {
     mdown = true;
   }
@@ -62,18 +66,19 @@ window.onload = function() {
     };
     pos.ox = pos.x;
     pos.oy = pos.y;
-    console.log(pos.x + "   " + pos.y);
+    console.log("Mouse: " + pos.x + "   " + pos.y);
     return pos;
   }
 
   function centerPos(pos) {
     pos.cx = pos.x - rect.width / 2;
     pos.cy = rect.height / 2 - pos.y;
+    console.log("cx: " + pos.cx + "   cy: " + pos.cy);
   }
 
   function toLeftRight(pos) {
-    pos.left = Math.min(pos.cy + pos.cx, width / 2);
-    pos.right = Math.min(pos.cy - pos.cx, height / 2);
+    pos.left = Math.round(Math.min(pos.cy + pos.cx, width / 2));
+    pos.right = Math.round(Math.min(pos.cy - pos.cx, height / 2));
     return pos;
   }
 
@@ -91,8 +96,7 @@ window.onload = function() {
 	if(pos.right < -255) pos.right = -255;
     document.getElementById("lr").innerHTML = "l:" + pos.left + "  r:" + pos.right;
     ws.send("{ \"component\": \"base\", \"left\": " + pos.left + ", \"right\": " + pos.right + " }\r");
-    //ws.send("f" + pos.left + " " + pos.right + "\r");
-    //ws.send("r" + pos.right + "\r");
+    console.log("l:" + pos.left + "   r:" + pos.right + "\r");
   }
 
   function drawHandle(pos) {
@@ -106,7 +110,32 @@ window.onload = function() {
     ctx.stroke();
   }
   
+  function resizeTouchArea() {
+      var wh = $('#video').height();
+      var ww = $('#video').width();
+      
+      var length = Math.min(wh, ww)/100*70;   
+      
+      var canvas = document.getElementById("myCanvas");
+      canvas.style.top = wh/2-length/2+"px";
+      canvas.style.left = ww/2-length/2+"px";
+      canvas.style.width = length+"px";
+      canvas.style.height = length+"px";
+      
+      var ctx = canvas.getContext("2d");
+      ctx.canvas.width = length;
+      ctx.canvas.height = length;
+      
+      rect = canvas.getBoundingClientRect();
+      width = canvas.offsetWidth;
+      height = canvas.offsetHeight;
+  }
+  
+  window.onresize = resizeTouchArea;
 }
+
+
+
 
 function sendMsg() {
   ws.send(document.getElementById('msg').value  + "\r");
