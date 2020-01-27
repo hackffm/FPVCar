@@ -15,7 +15,12 @@ print(hostname)
 
 class Application(tornado.web.Application):
     def __init__(self):
-        handlers = [(r"/", IndexPageHandler), (r"/player.html", PlayerPageHandler), (r"/ws", WsHandler)]
+        handlers = [(r"/", IndexPageHandler), 
+                    (r"/player.html", PlayerPageHandler), 
+                    (r"/playerstyle.css", PlayerCssPageHandler), 
+                    (r"/playerscript.js", PlayerScriptPageHandler),
+                    (r"/ws", WsHandler),
+                    (r'/(.*)', tornado.web.StaticFileHandler, {'path': './root'})]
         #settings = dict(debug=True,)
         settings = { 'template_path': 'templates', 'debug': 'True'}
         tornado.web.Application.__init__(self, handlers, **settings)
@@ -32,6 +37,16 @@ class IndexPageHandler(tornado.web.RequestHandler):
 class PlayerPageHandler(tornado.web.RequestHandler):
     def get(self):
         self.render("player.html", hostname=hostname)
+        
+class PlayerCssPageHandler(tornado.web.RequestHandler):  
+    def get(self):
+        self.set_header("Content-Type", 'text/css')
+        self.render("playerstyle.css", hostname="schokomobile")
+      
+class PlayerScriptPageHandler(tornado.web.RequestHandler):  
+    def get(self):
+        self.set_header("Content-Type", 'text/javascript')
+        self.render("playerscript.js", hostname=hostname)
         
 class WsHandler(tornado.websocket.WebSocketHandler):
     connections = set()
