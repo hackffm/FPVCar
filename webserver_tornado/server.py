@@ -2,12 +2,15 @@ import tornado.web
 import tornado.websocket
 import tornado.httpserver
 import tornado.ioloop
+from tornado import gen
 import serial
 import _thread
 import pygame
 import socket
 import json
 from components import *
+import asyncio
+from tornado.websocket import websocket_connect
 
 ser = serial.Serial('/dev/ttyS0', 38400)
 print(ser.name)
@@ -88,12 +91,30 @@ class Application(tornado.web.Application):
     def connectToLabyrinth(self):
         print("trying to connect to labyrinth")
         try:
-            self.ws = yield websocket_connect("ws://labyrith:3000/ws")
+            self.ws = yield websocket_connect("ws://labyrinth:3000/ws")
         except Exception:
             print("connection error")
         else:
             print("connected")
+        self.receiverLoop()
 
+    @gen.coroutine
+    def receiverLoop(self):
+        while True:
+            msg = yield self.ws.read_message()
+            print("from labyrinth: " + msg)
+            try:
+                m = json.loads(msg)
+            except Exception:
+                print("no json")
+            else: 
+                component = components[m["component"]]
+                print(component)
+                component.handleMessage(m)
+                if msg is None:
+                    print("connection to labyrinth closed")
+                    self.ws = None
+                    break
 
 if __name__ == '__main__':
     ser.flushInput()
