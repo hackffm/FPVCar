@@ -24,7 +24,7 @@ class Application(tornado.web.Application):
         #settings = dict(debug=True,)
         settings = { 'template_path': 'templates', 'debug': 'True'}
         tornado.web.Application.__init__(self, handlers, **settings)
-        PeriodicCallback(self.keep_alive, 6000).start()
+        PeriodicCallback(self.keep_alive, 10000).start()
 
     def keep_alive(self):
         logging.info("keep alive")
@@ -64,6 +64,7 @@ class WsHandler(tornado.websocket.WebSocketHandler):
 
     def on_message(self, message):
         logging.info("message: {}".format(message))
+        [con.write_message(message) for con in self.connections]
 
 
 def main():
