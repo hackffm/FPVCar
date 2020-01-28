@@ -22,13 +22,8 @@ function soundSheep() {
     ws.send("s1\r");
 }
 
-function fetchStats() {
-    //ws.send("V\r");
-    //ws.send("v\r");
-    ws.send("{ \"component\": \"stats\" }\r");
-}
-
 function dispatchMsg(msg) {
+    console.log(msg);
     var tokens = msg.split(':');
     if(msg.startsWith('V')) {
         document.getElementById('vbus').innerHTML = tokens[1];
@@ -36,7 +31,7 @@ function dispatchMsg(msg) {
     if(msg.startsWith('v')) {
         document.getElementById('vbat').innerHTML = tokens[1];
     } else {
-        document.getElementById('out').value += msg;
+        //document.getElementById('out').value += msg;
     }
 }
 function updateStats(msg) {

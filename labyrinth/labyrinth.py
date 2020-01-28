@@ -55,7 +55,7 @@ class WsHandler(tornado.websocket.WebSocketHandler):
         return True
 
     def open(self):
-        logging.info("A client connected.")
+        logging.info("A client connected." + self.request.remote_ip)
         self.connections.add(self)
 
     def on_close(self):
