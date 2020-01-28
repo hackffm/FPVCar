@@ -75,11 +75,22 @@ class Application(tornado.web.Application):
             (r'/websocket', WebSocketHandler),
             (r'/(.*)', tornado.web.StaticFileHandler, {'path': './root'})
         ]
-
         settings = {
             'template_path': 'templates'
         }
         tornado.web.Application.__init__(self, handlers, **settings)
+        self.ws = None
+        self.connectToLabyrinth()
+        
+    @gen.coroutine
+    def connectToLabyrinth(self):
+        print("trying to connect to labyrinth")
+        try:
+            self.ws = yield websocket_connect("ws://labyrith:3000/ws")
+        except Exception:
+            print("connection error")
+        else:
+            print("connected")
 
 
 if __name__ == '__main__':
