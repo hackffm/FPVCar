@@ -1,0 +1,20 @@
+
+#video {
+    width:100vw;
+    height:100vh;
+    background-image: url("http://{{hostname}}:8080/?action=stream");
+    background-color: #000000;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    z-index: -1;
+}
+
+#myCanvas {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+}

@@ -17,11 +17,9 @@ from components import *
 from resources import *
 from web_handlers import *
 
-
 # bno055 component preparation
 sensor_bno_data = {}
 bno_changed = threading.Condition()
-
 
 # resources
 config = Config()
@@ -44,9 +42,9 @@ components = {
     "stats": Stats(ser, debug=cfg.debug)
 }
 
-
 if cfg.sensors.bno055:
     from components.bno055 import Bno055
+
     components["sensor_bno"] = Bno055(debug=cfg.debug)
 
 
@@ -66,10 +64,10 @@ async def read_sensor():
             heading, roll, pitch = sensor_bno_data['euler']
             temp = sensor_bno_data['temp']
             x, y, z, w = sensor_bno_data['quaternion']
-            sys, gyro, accel, mag = sensor_bno_data['calibration']
+            cal_sys, gyro, accel, mag = sensor_bno_data['calibration']
             data = {'heading': heading, 'roll': roll, 'pitch': pitch, 'temp': temp,
                     'quatX': x, 'quatY': y, 'quatZ': z, 'quatW': w,
-                    'calSys': sys, 'calGyro': gyro, 'calAccel': accel, 'calMag': mag }
+                    'calSys': cal_sys, 'calGyro': gyro, 'calAccel': accel, 'calMag': mag}
             return data
         else:
             pass
@@ -159,8 +157,8 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
                     component = components[m["component"]]
                     result = component.handleMessage(m)
                     if isinstance(result, dict):
-                            result = json.dumps(result)
-                            result = self.valid_jasonparse(result)
+                        result = json.dumps(result)
+                        result = self.valid_jasonparse(result)
                 if m['component'] == 'fpvcar':
                     if 'shutdown' in m:
                         _shutdown = m['shutdown']
@@ -174,7 +172,7 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
                     self.log('compent result:' + str(result))
             else:
                 if self.debug:
-                   self.log('unknown component')
+                    self.log('unknown component')
         except Exception as e:
             self.log('failed handling message with :' + str(e))
         try:
@@ -188,12 +186,12 @@ class WebApplication(tornado.web.Application):
         current_path = os.path.dirname(os.path.abspath(__file__))
         web_resources = current_path + '/web_resources'
 
-
         handlers = [
             (r'/', HandlerIndexPage, dict(helper=helper)),
             (r'/fpvcar/(.*)', tornado.web.StaticFileHandler, {'path': web_resources}),
             (r'/manage_sounds', HandlerManageSounds, dict(debug=debug, helper=helper, path_sound=path_sound)),
             (r'/shutdown', HandlerShutdown),
+            (r'/style.css', CssPageHandler),
             (r'/websocket', WebSocketHandler, dict(debug=debug))
         ]
 
@@ -241,9 +239,7 @@ if __name__ == '__main__':
         p1 = Process(target=WebServer)
         p1.daemon = True
         p1.start()
-
         print('PID Webserver', p1.pid)
-
         while running:
             sleep(0.5)
 

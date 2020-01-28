@@ -138,6 +138,7 @@ function sendPos() {
   //console.log('ps3 x:' + ps3_axis_pos_x + ' ps3 y:' + ps3_axis_pos_y);
   //onsole.log('j cx:' + posJoy.cx + "j cy:" + posJoy.cy)
   console.log("v x:" + vel.linearX + ",v Y:" + vel.linearY);
+  try { ws.send("{ \"component\": \"base\", \"left\": " + vel.linearX + ", \"right\": " + vel.linearX + " }\r"); } catch (e){}
 }
 
 function drawJoyField() {
