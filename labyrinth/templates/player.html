@@ -14,6 +14,37 @@
         
         <input type="button" onclick="playSound('chicken')" value="chicken" />
     </div>
+    <!-- base directions ------------------------------------------------------>
+    <div id="baseDirection">
+    <table id="tableBaseDirections">
+        <tr>
+            <td colspan="3"><label>Base Control</label></td>
+        </tr>
+        <tr>
+            <td><img id="img_base_turn_left"  class="arrow" src="fpvcar/images/arrow-left.svg"></td>
+            <td><img id="img_base_forward"    class="arrow" src="fpvcar/images/arrow-up.svg"  ></td>
+            <td><img id="img_base_turn_right" class="arrow" src="fpvcar/images/arrow-turning-right.svg"></td>
+        </tr>
+        <tr>
+            <td><img id="img_base_left"       class="arrow" src="fpvcar/images/arrow-left.svg"></td>
+            <td><div id="canvas_joystick">    <canvas id="cnvsJoy" width="100" height="100"></canvas></div></td>
+            <td><img id="img_base_right"      class="arrow" src="fpvcar/images/arrow-right.svg"></td>
+        </tr>
+        <tr>
+            <td><img id="img_base_stop"       class="arrow" src="fpvcar/images/stop.svg"></td>
+            <td><img id="img_base_backward"   class="arrow" src="fpvcar/images/arrow-down.svg"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <div id="lblBaseVel">
+                    <label>Base velocity:</label>
+                    <label id="lblVel"></>
+                </div>
+            </td>
+        </tr>
+    </table>
+    </div>
 </body>
 
 </html>
