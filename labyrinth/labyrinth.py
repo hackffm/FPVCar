@@ -1,15 +1,18 @@
+import json
 import logging
-import tornado.web
-import tornado.websocket
+import socket
 import tornado.ioloop
 import tornado.options
-import asyncio
-from tornado.ioloop import IOLoop, PeriodicCallback
+import tornado.web
+import tornado.websocket
+from tornado.ioloop import PeriodicCallback
 from tornado.options import define, options
-import socket
+import toml
 
 define("port", default=3000, help="run on the given port", type=int)
 
+config = toml.load('config_strange.toml')
+print(config)
 hostname = socket.gethostname()
 print(hostname)
 
@@ -24,7 +27,7 @@ class Application(tornado.web.Application):
         #settings = dict(debug=True,)
         settings = { 'template_path': 'templates', 'debug': 'True'}
         tornado.web.Application.__init__(self, handlers, **settings)
-        PeriodicCallback(self.keep_alive, 6000).start()
+        PeriodicCallback(self.keep_alive, 10000).start()
 
     def keep_alive(self):
         logging.info("keep alive")
@@ -50,20 +53,31 @@ class PlayerScriptPageHandler(tornado.web.RequestHandler):
         
 class WsHandler(tornado.websocket.WebSocketHandler):
     connections = set()
+    player = [None] * 2
 
     def check_origin(self, origin):
         return True
 
     def open(self):
         logging.info("A client connected." + self.request.remote_ip)
-        self.connections.add(self)
+        WsHandler.connections.add(self)
 
     def on_close(self):
         logging.info("A client disconnected")
-        self.connections.remove(self)
+        WsHandler.connections.remove(self)
 
     def on_message(self, message):
         logging.info("message: {}".format(message))
+        m = json.loads(message)
+        if m["component"] == 'self':
+            logging.info("client is called "+m["name"])
+            if m["type"] == 'player':
+                WsHandler.player[int(m["nbr"])] = self
+        else:
+            if m["component"] in ('sound', 'base'):
+                WsHandler.player[0].write_message(message)
+            else:
+                [con.write_message(message) for con in WsHandler.connections]
 
 
 def main():
