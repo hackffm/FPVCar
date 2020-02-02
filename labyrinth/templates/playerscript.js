@@ -4,7 +4,9 @@ var msgbuf = "";
 
 window.onload = function() {
   ws = new WebSocket("ws://"+hostname+":3000/ws");
-
+  ws.onopen = function(e) {
+    ws.send("{ \"component\": \"self\", \"name\": \"controller 0\", \"type\":\"controller\", \"nbr\":\"0\" }");
+  }
   ws.onmessage = function(e) {
     dispatchMsg(e.data);
   };
