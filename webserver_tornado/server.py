@@ -91,11 +91,13 @@ class Application(tornado.web.Application):
     def connectToLabyrinth(self):
         print("trying to connect to labyrinth")
         try:
-            self.ws = yield websocket_connect("ws://labyrinth:3000/ws")
+            self.ws = yield websocket_connect("ws://LAPTOP-755IABG4:3000/ws")
         except Exception:
             print("connection error")
         else:
             print("connected")
+            self.ws.write_message("{ \"component\": \"self\", \"name\": \"schokomobil\", \"type\":\"player\", \"nbr\":\"0\" }")
+            
         self.receiverLoop()
 
     @gen.coroutine
