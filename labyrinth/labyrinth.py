@@ -20,8 +20,7 @@ class Application(tornado.web.Application):
     def __init__(self):
         handlers = [(r"/", IndexPageHandler), 
                     (r"/player.html", PlayerPageHandler), 
-                    (r"/playerstyle.css", PlayerCssPageHandler), 
-                    (r"/playerscript.js", PlayerScriptPageHandler),
+                    (r"/playerstyle.css", PlayerCssPageHandler),
                     (r"/ws", WsHandler),
                     (r'/(.*)', tornado.web.StaticFileHandler, {'path': './root'})]
         #settings = dict(debug=True,)
@@ -45,11 +44,6 @@ class PlayerCssPageHandler(tornado.web.RequestHandler):
     def get(self):
         self.set_header("Content-Type", 'text/css')
         self.render("playerstyle.css", hostname="schokomobile")
-      
-class PlayerScriptPageHandler(tornado.web.RequestHandler):  
-    def get(self):
-        self.set_header("Content-Type", 'text/javascript')
-        self.render("playerscript.js", hostname=hostname)
         
 class WsHandler(tornado.websocket.WebSocketHandler):
     connections = set()
@@ -74,7 +68,7 @@ class WsHandler(tornado.websocket.WebSocketHandler):
             if m["type"] == 'player':
                 WsHandler.player[int(m["nbr"])] = self
         else:
-            if m["component"] in ('sound', 'base'):
+            if m["component"] in ('sound', 'base', 'cam'):
                 WsHandler.player[0].write_message(message)
             else:
                 [con.write_message(message) for con in WsHandler.connections]
