@@ -189,7 +189,7 @@ if (haveEvents) {
 
 // -- handlers
 function connectHandler(e) {
-  if(e.gamepad.id.includes('PLAYSTATION(R)3')){
+  if(e.gamepad.id.includes('GamePad')){
     console.log("A gamepad connected:");
     console.log(e.gamepad);
     ps3_connected();

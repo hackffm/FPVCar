@@ -11,6 +11,7 @@ function getUrlVars() {
 
 window.onload = function() {
   urlVars = getUrlVars();
+  msgPrefixCar = "{ \"entity\":\"car\", \"nbr\":"+urlVars.nbr+", \"component\":"
   ws = new WebSocket("ws://"+hostname+":3000/ws");
   ws.onopen = function(e) {
     ws.send("{ \"component\": \"self\", \"name\": \"controller "+urlVars.nbr+"\", \"type\":\"controller\", \"nbr\":"+urlVars.nbr+" }");
@@ -38,7 +39,7 @@ function updateStats(msg) {
     console.log(msg);
 }
 function playSound(name) {
-    ws.send("{ \"component\": \"sound\", \"sound\": \"" + name + "\" }\r");
+    ws.send(msgPrefixCar + "\"sound\", \"sound\":\"" + name + "\" }\r");
 }
 function startCam() {
     ws.send("{ \"component\": \"cam\", \"action\": \"start\" }\r");
