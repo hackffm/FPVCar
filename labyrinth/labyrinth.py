@@ -47,7 +47,8 @@ class PlayerCssPageHandler(tornado.web.RequestHandler):
         
 class WsHandler(tornado.websocket.WebSocketHandler):
     connections = set()
-    player = [None] * 2
+    car = [None] * 2
+    controller = [None] * 2
 
     def check_origin(self, origin):
         return True
@@ -66,10 +67,14 @@ class WsHandler(tornado.websocket.WebSocketHandler):
         if m["component"] == 'self':
             logging.info("client is called "+m["name"])
             if m["type"] == 'player':
-                WsHandler.player[int(m["nbr"])] = self
+                WsHandler.car[m["nbr"]] = self
+            elif m["type"] == 'controller':
+                WsHandler.controller[m["nbr"]] = self
         else:
-            if m["component"] in ('sound', 'base', 'cam'):
-                WsHandler.player[0].write_message(message)
+            if m["entity"] == 'car':
+                WsHandler.car[m["nbr"]].write_message(message)
+            elif m["entity"] == 'controller':
+                WsHandler.controller[m["nbr"]].write_message(message)
             else:
                 [con.write_message(message) for con in WsHandler.connections]
 
