@@ -27,7 +27,7 @@ class Config:
         home = os.getenv('HOME')
         self.debug = debug
 
-        self.path_config = home + '/' + self.name + '/serial_adapter.json'
+        self.path_config = home + '/' + self.name + '/' + self.name + '.json'
         self.path_fpvcar = home + '/' + self.name
         self.configuration = self.load()
 
@@ -37,6 +37,9 @@ class Config:
     def default(self):
         # booleans must be no strings here !
         _config = {
+            self.name: {
+                'port': 9000,
+            },
             'adapters': [
                 {
                     'name': 'A1',
@@ -55,12 +58,15 @@ class Config:
                 {
                     'name': 'A3',
                     'devices': [
-                        {'name': 'r2d3', 'port': '/dev/ttyS0'},
+                        {'name': 'r2d2', 'port': '/dev/ttyS0'},
                     ]
                 },
             ],
             'debug': True,
-            'port': 9090,
+            'default': {
+                "log_file": "labyrinth.log",
+                "log_location": "/Users/vkmacusr/labyrinth/log",
+            }
         }
         return _config
 

@@ -10,34 +10,6 @@ cfg = config.cfg()
 
 
 # --Labyrinth------------------------------------------------------------------------------
-class AdapterController:
-    def __init__(self):
-        self.adapters = []
-
-    def adapter_exists(self, name):
-        for adapter in self.adapters:
-            if adapter.name == name:
-                return True
-        return False
-
-    def adapters_add(self, adapter):
-        if type(adapter) != AdapterDevices:
-            print('error:unexpected type')
-            return
-        self.adapters.append(adapter)
-
-    def device_exists(self, name):
-        for adapter in self.adapters:
-            if adapter.device_exists(name):
-                return True
-        return False
-
-    def device_write(self, device_name, command):
-        if self.device_exists(device_name):
-            for adapter in self.adapters:
-                if adapter.device_exists(device_name):
-                    adapter.write(device_name, command)
-
 
 def test_config():
     if cfg.debug:
@@ -65,6 +37,8 @@ def test_adapter_in_list():
 
 def test_device_in_adapters_list():
     assert ac.device_exists('r1d1') == True, 'Failed finding Device'
+    assert ac.device_exists('r1d2') == True, 'Failed finding Device'
+    assert ac.device_exists('r1d3') == True, 'Failed finding Device'
     assert ac.device_exists('r2d1') == True, 'Failed finding Device'
     assert ac.device_exists('r2d2') == True, 'Failed finding Device'
     assert ac.device_exists('r4d1') == False, 'failed checking non existing Device'
