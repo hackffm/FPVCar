@@ -45,3 +45,6 @@ function startCam() {
 function startGame() {
     ws.send('{ "entity": "labyrinth", "component": "showmessage", "text": "start"}\r');
 }
+function rfid(id, from) {
+    ws.send('{ "thing":"rfid", "id":"'+id+'", "from":"'+from+'" }')
+}

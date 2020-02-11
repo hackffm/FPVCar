@@ -31,7 +31,10 @@ class WsHandler(tornado.websocket.WebSocketHandler):
     def on_message(self, msg):
         print("msg: {}".format(msg))
         m = json.loads(msg)
-        if m["component"] == 'self':
+
+        if 'thing' in m:
+            WsHandler.labyrinth.handle_message(msg, m)
+        elif m["component"] == 'self':
             print("client is called "+m["name"])
             if m["type"] == 'player':
                 WsHandler.car[m["nbr"]] = self
