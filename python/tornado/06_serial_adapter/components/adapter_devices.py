@@ -15,7 +15,7 @@ class SerialFake:
         return
 
 
-class Device():
+class Device:
     def __init__(self, name, port, debug=False):
         self.name = name
         self.ser = SerialFake(port, 38400, debug)
