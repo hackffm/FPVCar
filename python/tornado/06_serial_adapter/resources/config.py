@@ -63,8 +63,8 @@ class Config:
             ],
             'debug': True,
             'default': {
-                "log_file": "labyrinth.log",
-                "log_location": "/Users/vkmacusr/labyrinth/log",
+                "log_file": self.name + ".log",
+                "log_location": "/home/lxwork/Things/log",
             }
         }
         return _config

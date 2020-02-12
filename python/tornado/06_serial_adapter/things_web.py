@@ -1,8 +1,8 @@
 import os
 import sys
 
-import tornado.ioloop
 import tornado.web
+import tornado.httpserver
 
 from multiprocessing import Process
 from time import sleep
@@ -17,9 +17,10 @@ name = 'Things'
 config = Config(name='Things')
 configuration = config.configuration
 helper = Helper(configuration)
-cfg = config.cfg()
 things_controller = ThingController()
 
+cfg = config.cfg()
+debug = cfg.debug
 
 
 class WebApplication(tornado.web.Application):
@@ -29,10 +30,10 @@ class WebApplication(tornado.web.Application):
 
         handlers = [
             (r'/', HandlerIndexPage, dict(helper=helper)),
-            ('r/things', HandlerThings, dict(things_controller=things_controller))
+            ('r/things_controller', HandlerThingsController, dict(things_controller=things_controller)),
+            (r'/things/(.*)', tornado.web.StaticFileHandler, {'path': web_resources})
         ]
 
-        debug = configuration.config['debug']
         settings = {
             'autoreload': debug,
             'debug': debug,
@@ -46,8 +47,9 @@ class WebServer:
     def __init__(self):
         address = '127.0.0.1'
         port = configuration[name]['port']
-        helper.log_add_text(name, 'Start ' + name + 'at address ' + address + ' port:' + str(port))
         print('Start ' + name + 'at address ' + address + ' port:' + str(port))
+        helper.log_add_text(name, 'Start ' + name + 'at address ' + address + ' port:' + str(port))
+
         ws_app = WebApplication()
         server = tornado.httpserver.HTTPServer(ws_app)
         server.listen(port, address=address)
@@ -70,7 +72,7 @@ if __name__ == '__main__':
         running = False
         p1.terminate()
     except Exception as e:
-        print('error in fpvcar __main__ ' + str(e))
+        print('['  + name + ']error in __main__ ' + str(e))
 
     running = False
     print('[' + name + ']bye')

@@ -1,2 +1,2 @@
 from .handler_index_page import HandlerIndexPage
-from .handler_things import HandlerThings
+from .handler_things_controller import HandlerThingsController
