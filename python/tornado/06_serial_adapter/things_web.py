@@ -12,14 +12,15 @@ from components import *
 from resources import *
 from web_handlers import *
 
+name = 'Things'
 # resources
-config = Config()
+config = Config(name='Things')
 configuration = config.configuration
 helper = Helper(configuration)
 cfg = config.cfg()
+things_controller = ThingController()
 
 
-name = 'labyrinth'
 
 class WebApplication(tornado.web.Application):
     def __init__(self):
@@ -28,9 +29,13 @@ class WebApplication(tornado.web.Application):
 
         handlers = [
             (r'/', HandlerIndexPage, dict(helper=helper)),
+            ('r/things', HandlerThings, dict(things_controller=things_controller))
         ]
 
+        debug = configuration.config['debug']
         settings = {
+            'autoreload': debug,
+            'debug': debug,
             'static_path': web_resources,
             'template_path': 'web_templates'
         }

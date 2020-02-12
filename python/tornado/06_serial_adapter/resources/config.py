@@ -28,7 +28,6 @@ class Config:
         self.debug = debug
 
         self.path_config = home + '/' + self.name + '/' + self.name + '.json'
-        self.path_fpvcar = home + '/' + self.name
         self.configuration = self.load()
 
     def cfg(self):
