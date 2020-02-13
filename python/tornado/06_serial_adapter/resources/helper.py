@@ -13,7 +13,6 @@ class Helper:
 
     def __init__(self, configuration):
         self.configuration = configuration
-
         self.default = self.configuration['default']
 
     def infos(self):
@@ -72,7 +71,7 @@ class Helper:
                 os.makedirs(folder_path)
             return True
         except IOError as e:
-            self.log_add_text('actioncam', 'Error[Helper]' + str(e))
+            print('Error[Helper]' + str(e))
             return False
 
     def log_add_text(self, name, text):

@@ -28,7 +28,6 @@ class Config:
         self.debug = debug
 
         self.path_config = home + '/' + self.name + '/' + self.name + '.json'
-        self.path_fpvcar = home + '/' + self.name
         self.configuration = self.load()
 
     def cfg(self):
@@ -64,8 +63,8 @@ class Config:
             ],
             'debug': True,
             'default': {
-                "log_file": "labyrinth.log",
-                "log_location": "/Users/vkmacusr/labyrinth/log",
+                "log_file": self.name + ".log",
+                "log_location": "/home/lxwork/Things/log",
             }
         }
         return _config
