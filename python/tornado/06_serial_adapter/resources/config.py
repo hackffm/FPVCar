@@ -23,11 +23,11 @@ class Config:
         if not name:
             name = 'labyrinth'
 
-        self.name = name
-        home = os.getenv('HOME')
         self.debug = debug
+        self.home = os.getenv('HOME')
+        self.name = name
 
-        self.path_config = home + '/' + self.name + '/' + self.name + '.json'
+        self.path_config = self.home + '/' + self.name + '/' + self.name + '.json'
         self.configuration = self.load()
 
     def cfg(self):
@@ -64,7 +64,7 @@ class Config:
             'debug': True,
             'default': {
                 "log_file": self.name + ".log",
-                "log_location": "/home/lxwork/Things/log",
+                "log_location": self.home + "/Things/log",
             }
         }
         return _config

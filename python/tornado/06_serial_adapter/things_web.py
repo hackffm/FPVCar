@@ -14,7 +14,7 @@ from web_handlers import *
 
 name = 'Things'
 # resources
-config = Config(name='Things')
+config = Config(name=name)
 configuration = config.configuration
 helper = Helper(configuration)
 things_controller = ThingController()
@@ -30,8 +30,7 @@ class WebApplication(tornado.web.Application):
 
         handlers = [
             (r'/', HandlerIndexPage, dict(helper=helper)),
-            ('r/things_controller', HandlerThingsController, dict(things_controller=things_controller)),
-            (r'/things/(.*)', tornado.web.StaticFileHandler, {'path': web_resources})
+            ('r/things.html', HandlerThingsPage)
         ]
 
         settings = {
