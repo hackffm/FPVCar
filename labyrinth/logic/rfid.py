@@ -1,15 +1,18 @@
 from .thing import Thing
+from .rfidthing import RfidThing
 
 class Rfid(Thing):
 
-    def __init__(self):
+    def __init__(self, labyrinth, tid):
+        super().__init__(labyrinth, tid)
         self.things = {}
 
-    def addThing(self, thing):
-        self.things[thing.id] = thing
+    def addThing(self, thing:RfidThing):
+        self.things[thing.rfid] = thing
 
     def handleMessage(self, msg, m):
         print("Rfid: " + msg)
         thing = self.things[m["id"]]
         if thing is not None:
-            thing.handleMessage(msg, m)
+            m[thing] = thing.tid
+            thing.handleMessage(msg.replace('rfid', thing.tid), m)

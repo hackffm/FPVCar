@@ -14,25 +14,35 @@ window.onload = function() {
   msgPrefixCar = '{ "entity":"car", "nbr":"'+urlVars.nbr+'", "component":'
   ws = new WebSocket("ws://"+hostname+":3000/ws");
   ws.onopen = function(e) {
-    ws.send('{ "component": "self", "name": "controller '+urlVars.nbr+'", "type":"controller", "nbr":'+urlVars.nbr+' }');
+    ws.send('{ "thing": "ctrl1", "init":"true" }');
   }
   ws.onmessage = function(e) {
     dispatchMsg(e.data);
   };
 }
 
-function dispatchMsg(msg) {
-    console.log(msg);
-    var tokens = msg.split(':');
-    if(msg.startsWith('V')) {
-        document.getElementById('vbus').innerHTML = tokens[1];
-    } else
-    if(msg.startsWith('v')) {
-        document.getElementById('vbat').innerHTML = tokens[1];
-    } else {
-        //document.getElementById('out').value += msg;
+function dispatchMsg(message) {
+    console.log(message);
+    if(!message.startsWith("{")) return;
+
+    var msg = JSON.parse(message)
+    if(msg.component == 'items') {
+        if(msg.action == 'add') {
+            addItem(msg)
+        } else
+        if(msg.action == 'rem') {
+            remItem(msg)
+        }
     }
 }
+function addItem(msg) {
+    $("#items").append('<li id="'+msg.item+'" style="color:white;"><i class="fa-li fa fa-key" ></i>'+msg.item+'</li>');
+}
+function remItem(msg) {
+    $('#'+msg.item).remove();
+}
+
+
 function updateStats(msg) {
     console.log(msg);
 }
@@ -43,8 +53,11 @@ function startCam() {
     ws.send('{ "component": "cam", "action": "start" }\r');
 }
 function startGame() {
-    ws.send('{ "entity": "labyrinth", "component": "showmessage", "text": "start"}\r');
+    ws.send('{ "thing": "ctrl1", "component": "showmessage", "text": "start"}\r');
 }
-function rfid(id, from) {
-    ws.send('{ "thing":"rfid", "id":"'+id+'", "from":"'+from+'" }')
+function rfid(id, from, action) {
+    ws.send('{ "thing":"rfid", "id":"'+id+'", "car":"'+from+'", "action":"'+action+'" }\r');
+}
+function move(id, l, r) {
+    ws.send('{ "thing":"'+id+'", "component":"base", "left":'+l+', "right":'+r+' }\r');
 }

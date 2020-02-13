@@ -1,9 +1,15 @@
 from .thing import Thing
+from .rfidthing import RfidThing
 
-class KeyCard(Thing):
-
-    def __init__(self, id):
-        self.id = id
+class KeyCard(RfidThing):
 
     def handleMessage(self, msg, m):
-        print("KeyCard: " + msg)
+        print("KeyCard: " + self.rfid + "  " + msg)
+        car = self.labyrinth.get_thing(m["car"])
+        if m["action"] == "add":
+            print("add")
+            car.addItem(self)
+        elif m["action"] == "rem":
+            print("rem")
+            car.removeItem(self)
+
