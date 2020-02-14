@@ -30,7 +30,7 @@ class WebApplication(tornado.web.Application):
 
         handlers = [
             (r'/', HandlerIndexPage, dict(helper=helper)),
-            ('r/things.html', HandlerThingsPage)
+            (r'/things', HandlerThingsPage, dict(things_controller=things_controller))
         ]
 
         settings = {

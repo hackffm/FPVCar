@@ -5,8 +5,13 @@
     <title>Labyrinth</title>
 </head>
 <body>
-    <input type="text" id="infoIP" name="IP" value="{{ ip }}" disabled/>
-    <hr>
-    <a href="/things.html" class="button">Things</a>
+<input type="text" id="infoIP" name="IP" value="{{ ip }}" disabled/>
+<hr>
+<button id="btm_things" class="button">things</button>
+<script>
+document.getElementById("btm_things").addEventListener("click", function() {
+    window.location.href = '/things';
+});
+</script>
 </body>
 </html>

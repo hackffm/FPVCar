@@ -2,9 +2,10 @@ import tornado.web
 
 
 class HandlerThingsPage(tornado.web.RequestHandler):
-    def initialize(self):
+    def initialize(self, things_controller):
         self.name = 'HandlerThings'
+        self.things_controller = things_controller
         
     def get(self):
-        print('......')
-        self.render("things.html", title=self.name)
+        things_qty = len(self.things_controller.things)
+        self.render("things.html", title=self.name, things_qty=things_qty)
