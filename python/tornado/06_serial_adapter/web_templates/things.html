@@ -3,9 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ title }}</title>
+    <script>var ip_first = '{{ip_first}}';</script>
 </head>
 <body>
 <p>{{ title }}</p>
 <p>Number of Things {{  things_qty }}</p>
+{% for thing in things %}
+ <tr>
+     <td>Thing: </td>
+     <td>{{ thing[0] }}</td>
+     <td> command :</td>
+     <td>
+        <input type='text' id='valC{{ thing[0] }}' />
+     </td>
+     <td>
+         <button id="btm_C{{ thing[0] }}" class="button">send</button>
+     </td>
+ </tr>
+{% end %}
+<script>
+window.onload = function() {
+    ws = new WebSocket("ws://" + ip_first + ":{{ port }}/websocket");
+
+    ws.onmessage = function (e) {
+        console.log(e.data);
+    };
+    ws.onopen = function () {
+        console.log('WS opened');
+    }
+}
+{% for thing in things %}
+var v_C{{ thing[0] }} = document.getElementById("valC{{ thing[0] }}");
+document.getElementById("btm_C{{ thing[0] }}").addEventListener("click", function() {
+    send_thing_command('v_C{{ thing[0] }}', v_C{{ thing[0] }}.value);
+});
+{% end %}
+function send_thing_command(c_name, c_command, ){
+    console.log("{ \"thing\": \"" + c_name + "\", \"command\": \"" + c_command + "\" }\r");
+    ws.send("{ \"thing\": \"" + c_name + "\", \"command\": \"" + c_command + "\" }\r");
+}
+</script>
 </body>
 </html>
