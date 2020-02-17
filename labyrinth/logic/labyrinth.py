@@ -1,10 +1,9 @@
-from .handler import WsHandler
-from .rfid import Rfid
-from .serialhandler import SerialHandler
-from .keycard import KeyCard
-from .door import Door
-from .car import Car
-from .controller import Controller
+from labyrinth.things.rfid import Rfid
+from labyrinth.things.serialhandler import SerialHandler
+from labyrinth.things.keycard import KeyCard
+from labyrinth.things.door import Door
+from labyrinth.things.car import Car
+from labyrinth.things.controller import Controller
 
 class Labyrinth:
 

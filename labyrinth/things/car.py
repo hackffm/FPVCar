@@ -1,4 +1,4 @@
-from .thing import Thing
+from labyrinth.things.thing import Thing
 
 class Car(Thing):
 
@@ -19,8 +19,8 @@ class Car(Thing):
         self.ctrl.handleMessage('{ "component": "items", "action":"add", "item": "'+item.tid+'"}', None)
 
     def removeItem(self, item):
-        self.items.pop(item.tid, None)
-        self.ctrl.handleMessage('{ "component": "items", "action":"rem", "item": "'+item.tid+'"}', None)
+        if self.items.pop(item.tid, None) is not None:
+            self.ctrl.handleMessage('{ "component": "items", "action":"rem", "item": "'+item.tid+'"}', None)
 
     def useItem(self, item):
         print("car: useItem: " + item.tid)

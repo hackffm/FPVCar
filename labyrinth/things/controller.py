@@ -1,4 +1,4 @@
-from .thing import Thing
+from labyrinth.things.thing import Thing
 
 class Controller(Thing):
 

@@ -1,4 +1,3 @@
-from .thing import Thing
 from .rfidthing import RfidThing
 
 class KeyCard(RfidThing):

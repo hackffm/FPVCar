@@ -1,5 +1,5 @@
-from .thing import Thing
-from .rfidthing import RfidThing
+from labyrinth.things.thing import Thing
+from labyrinth.things.rfidthing import RfidThing
 
 class Rfid(Thing):
 
