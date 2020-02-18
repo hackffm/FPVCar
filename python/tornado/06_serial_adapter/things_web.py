@@ -1,3 +1,4 @@
+import json
 import os
 import sys
 
@@ -18,7 +19,7 @@ name = 'Things'
 config = Config(name=name)
 configuration = config.configuration
 helper = Helper(configuration)
-things_controller = ThingController()
+serial_handler = SerialHandler()
 
 cfg = config.cfg()
 debug = cfg.debug
@@ -57,7 +58,15 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
         pass
 
     def on_message(self, message):
-        self.log('WebSocket message: ' + str(message))
+        try:
+            m = json.loads(message)
+            if 'thing' in m:
+                t = m['thing']
+                serial_handler.write(t['ID'], t['command'])
+            else:
+                self.log('on_message:' + str(m))
+        except Exception as e:
+            self.log('on_message failed with ' + str(e))
         pass
 
 
@@ -68,7 +77,7 @@ class WebApplication(tornado.web.Application):
 
         handlers = [
             (r'/', HandlerIndexPage, dict(helper=helper)),
-            (r'/things', HandlerThingsPage, dict(helper=helper,  port=port, things_controller=things_controller)),
+            (r'/things', HandlerThingsPage, dict(helper=helper,  port=port, serial_handler=serial_handler)),
             (r'/websocket', WebSocketHandler, dict(debug=debug))
         ]
 
@@ -85,7 +94,7 @@ class WebServer:
     def __init__(self, helper):
         address = helper.interfaces_first()
         port = configuration[name]['port']
-        print('Start ' + name + 'at address ' + address + ' port:' + str(port))
+        print('Start ' + name + ' http://' + address + ':' + str(port))
         helper.log_add_text(name, 'Start ' + name + 'at address ' + address + ' port:' + str(port))
 
         ws_app = WebApplication(port)

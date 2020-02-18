@@ -39,8 +39,8 @@ document.getElementById("btm_C{{ thing[0] }}").addEventListener("click", functio
 });
 {% end %}
 function send_thing_command(c_name, c_command, ){
-    console.log("{ \"thing\": \"" + c_name + "\", \"command\": \"" + c_command + "\" }\r");
-    ws.send("{ \"thing\": \"" + c_name + "\", \"command\": \"" + c_command + "\" }\r");
+    console.log("{ \"thing\": {\"ID\":\"" + c_name + "\", \"command\": \"" + c_command + "\" }}");
+    ws.send("{ \"thing\": {\"ID\":\"" + c_name + "\", \"command\": \"" + c_command + "\" }}");
 }
 </script>
 </body>
