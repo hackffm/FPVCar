@@ -5,7 +5,6 @@ class Thing(object):
 
     def __init__(self, id, debug=False):
         self.debug = debug
-        self.failed = 'failed'
         self.id = id
 
     def handle_message(self, message):

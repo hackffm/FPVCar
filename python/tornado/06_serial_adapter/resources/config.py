@@ -39,32 +39,35 @@ class Config:
             self.name: {
                 'port': 9000,
             },
-            'adapters': [
+            'things_serial': [
                 {
-                    'name': 'A1',
-                    'devices': [
-                        {'name': 'r1d1', 'port': '/dev/ttyS0'},
-                        {'name': 'r1d2', 'port': '/dev/ttyS1'}
+                    'ID': 'A1',
+                    'port': '/dev/ttyS0',
+                    'thingies': [
+                        {'ID': 'D1'},
+                        {'ID': 'L1'}
                     ]
                 },
                 {
-                    'name': 'A2',
-                    'devices': [
-                        {'name': 'r1d3', 'port': '/dev/ttyS0'},
-                        {'name': 'r2d1', 'port': '/dev/ttyS1'}
+                    'ID': 'A2',
+                    'port': '/dev/ttyS1',
+                    'thingies': [
+                        {'ID': 'D2'},
+                        {'ID': 'D3'}
                     ]
                 },
                 {
-                    'name': 'A3',
-                    'devices': [
-                        {'name': 'r2d2', 'port': '/dev/ttyS0'},
+                    'ID': 'A3',
+                    'port': '/dev/ttyS3',
+                    'thingies': [
+                        {'ID': 'D3'}
                     ]
                 },
             ],
             'debug': True,
             'default': {
                 "log_file": self.name + ".log",
-                "log_location": self.home + "/Things/log",
+                "log_location": self.home + "/" + self.name + "/log",
             }
         }
         return _config
