@@ -23,12 +23,13 @@ class Config:
         if not name:
             name = 'labyrinth'
 
+        self.configuration = ''
         self.debug = debug
         self.home = os.getenv('HOME')
         self.name = name
 
         self.path_config = self.home + '/' + self.name + '/' + self.name + '.json'
-        self.configuration = self.load()
+        self.load()
 
     def cfg(self):
         return Struct(self.configuration)
@@ -83,8 +84,7 @@ class Config:
                 print('new config', self.path_config)
             self.configuration = self.default()
             self.save()
-
-        return self.configuration
+        return
 
     def save(self):
         data = json.dumps(self.configuration, indent=4)

@@ -6,11 +6,15 @@ from resources import *
 
 # resources
 config = Config()
+config.path_config = config.home + '/' + config.name + '/test.json'
+helper_test.file_delete(config.path_config)
+config.load()
 cfg = config.cfg()
 
 
 # --Labyrinth------------------------------------------------------------------------------
 sh = SerialHandler()
+
 
 def test_config():
     print('>test_config')

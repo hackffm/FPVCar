@@ -14,7 +14,7 @@ class ThingSerial(Thing):
     def handleMessage(self, message):
         result = ''
         if self.debug:
-            print(self.name + ' recieved ' + str(message))
+            print(self.name + ' received ' + str(message))
         self.ser.write(message)
 
     def serial_read(self):
