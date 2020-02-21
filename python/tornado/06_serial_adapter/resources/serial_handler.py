@@ -6,9 +6,19 @@ from things import *
 
 
 class SerialHandler:
-    def __init__(self, debug=False):
+    def __init__(self, things_serial, debug=False):
         self.debug = debug
         self.things_serial = []
+        if things_serial:
+            self.things_add(things_serial)
+
+    def things_add(self, things_serial):
+        for ts in things_serial:
+            self.things_serial_add(ts['ID'], ts['port'], self.debug)
+        print('add thingies')
+        for ts in things_serial:
+            for t in ts['thingies']:
+                self.thingy_add(ts['ID'], t['ID'])
 
     def things_serial_exists(self, id):
         for t in self.things_serial:
@@ -44,6 +54,13 @@ class SerialHandler:
         for thing in self.things_serial:
             if thing.id == id:
                 thing.write(command)
+
+    def thingies(self):
+        _thingies = []
+        for ts in self.things_serial:
+            for ty in ts.thingies:
+                _thingies.append(ty.id)
+        return _thingies
 
     def thingy_add(self, id_ts, id_thingy):
         for ts in self.things_serial:

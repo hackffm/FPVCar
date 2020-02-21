@@ -10,10 +10,8 @@ class HandlerThingsPage(tornado.web.RequestHandler):
 
     def get(self):
         ip_first = self.helper.interfaces_first()
-        things_qty = len(self.serial_handler.things_serial)
-        things = []
-        for thing in self.serial_handler.things_serial:
-            t = str(thing.id)
-            t = t.replace(" ", "")
-            things.append([t])
-        self.render("things.html", ip_first=ip_first, title=self.name, port=self.port, things=things, things_qty=things_qty)
+        thingies_qty = len(self.serial_handler.thingies())
+        thingies = []
+        for t in self.serial_handler.thingies():
+            thingies.append([t])
+        self.render("things.html", ip_first=ip_first, title=self.name, port=self.port, thingies=thingies, thingies_qty=thingies_qty)

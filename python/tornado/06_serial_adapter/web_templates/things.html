@@ -7,10 +7,11 @@
 </head>
 <body>
 <p>{{ title }}</p>
-<p>Number of Things {{  things_qty }}</p>
-{% for thing in things %}
+<p>Number of thingies {{  thingies_qty }}</p>
+{% for thing in thingies %}
+<table>
  <tr>
-     <td>Thing: </td>
+     <td>Thingy: </td>
      <td>{{ thing[0] }}</td>
      <td> command :</td>
      <td>
@@ -21,6 +22,7 @@
      </td>
  </tr>
 {% end %}
+</table>
 <script>
 window.onload = function() {
     ws = new WebSocket("ws://" + ip_first + ":{{ port }}/websocket");
@@ -32,7 +34,7 @@ window.onload = function() {
         console.log('WS opened');
     }
 }
-{% for thing in things %}
+{% for thing in thingies %}
 var v_C{{ thing[0] }} = document.getElementById("valC{{ thing[0] }}");
 document.getElementById("btm_C{{ thing[0] }}").addEventListener("click", function() {
     send_thing_command('v_C{{ thing[0] }}', v_C{{ thing[0] }}.value);

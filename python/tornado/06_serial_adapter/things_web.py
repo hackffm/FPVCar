@@ -14,16 +14,17 @@ from components import *
 from resources import *
 from web_handlers import *
 
-name = 'Things'
-# resources
-config = Config(name=name)
-configuration = config.configuration
-helper = Helper(configuration)
-serial_handler = SerialHandler()
 
+# resources
+config = Config('labyrinth')
+config.load()
+configuration = config.configuration
 cfg = config.cfg()
 debug = cfg.debug
+helper = Helper(configuration)
 
+serial_handler = SerialHandler(cfg.things_serial)
+print(serial_handler.thingies())
 
 class WebSocketHandler(tornado.websocket.WebSocketHandler):
     connections = set()
@@ -93,9 +94,9 @@ class WebApplication(tornado.web.Application):
 class WebServer:
     def __init__(self, helper):
         address = helper.interfaces_first()
-        port = configuration[name]['port']
-        print('Start ' + name + ' http://' + address + ':' + str(port))
-        helper.log_add_text(name, 'Start ' + name + 'at address ' + address + ' port:' + str(port))
+        port = configuration['labyrinth']['port']
+        print('Start things_web http://' + address + ':' + str(port))
+        helper.log_add_text('things_web', 'Start things_web at address ' + address + ' port:' + str(port))
 
         ws_app = WebApplication(port)
         server = tornado.httpserver.HTTPServer(ws_app)
@@ -119,8 +120,8 @@ if __name__ == '__main__':
         running = False
         p1.terminate()
     except Exception as e:
-        print('['  + name + ']error in __main__ ' + str(e))
+        print('[things_web]error in __main__ ' + str(e))
 
     running = False
-    print('[' + name + ']bye')
+    print('[things_web]bye')
     sys.exit()

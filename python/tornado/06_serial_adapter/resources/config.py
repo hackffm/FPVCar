@@ -28,7 +28,7 @@ class Config:
         self.home = os.getenv('HOME')
         self.name = name
 
-        self.path_config = self.home + '/' + self.name + '/' + self.name + '.json'
+        self.path_config = self.home + '/labyrinth/' + self.name + '.json'
         self.load()
 
     def cfg(self):
