@@ -58,10 +58,10 @@ class Config:
                     ]
                 },
                 {
-                    'ID': 'A3',
-                    'port': '/dev/ttyS3',
+                    'ID': 'VK',
+                    'port': '/dev/ttyACM0',
                     'thingies': [
-                        {'ID': 'D3'}
+                        {'ID': 'D4'}
                     ]
                 },
             ],

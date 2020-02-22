@@ -8,18 +8,32 @@
 <body>
 <p>{{ title }}</p>
 <p>Number of thingies {{  thingies_qty }}</p>
-{% for thing in thingies %}
+<p>Verified</p>
+{% for thingy in thingies_verified %}
 <table>
  <tr>
+     <td>Thing: </td>
+     <td>{{ thingy[0] }}</td>
      <td>Thingy: </td>
-     <td>{{ thing[0] }}</td>
+     <td>{{ thingy[1] }}</td>
      <td> command :</td>
      <td>
-        <input type='text' id='valC{{ thing[0] }}' />
+        <input type='text' id='valC{{ thingy[1] }}' />
      </td>
      <td>
-         <button id="btm_C{{ thing[0] }}" class="button">send</button>
+         <button id="btm_C{{ thingy[1] }}" class="button">send</button>
      </td>
+ </tr>
+{% end %}
+</table>
+<p>Not Verified</p>
+{% for thingy in thingies_not_verified %}
+<table>
+ <tr>
+     <td>Thing: </td>
+     <td>{{ thingy[0] }}</td>
+     <td>Thingy: </td>
+     <td>{{ thingy[1] }}</td>
  </tr>
 {% end %}
 </table>
@@ -34,15 +48,15 @@ window.onload = function() {
         console.log('WS opened');
     }
 }
-{% for thing in thingies %}
-var v_C{{ thing[0] }} = document.getElementById("valC{{ thing[0] }}");
-document.getElementById("btm_C{{ thing[0] }}").addEventListener("click", function() {
-    send_thing_command('v_C{{ thing[0] }}', v_C{{ thing[0] }}.value);
+{% for thing in thingies_verified %}
+var v_C{{ thingy[1] }} = document.getElementById("valC{{ thingy[1] }}");
+document.getElementById("btm_C{{ thing[1] }}").addEventListener("click", function() {
+    send_thing_command('v_C{{ thingy[1] }}', v_C{{ thingy[0] }}.value);
 });
 {% end %}
 function send_thing_command(c_name, c_command, ){
-    console.log("{ \"thing\": {\"ID\":\"" + c_name + "\", \"command\": \"" + c_command + "\" }}");
-    ws.send("{ \"thing\": {\"ID\":\"" + c_name + "\", \"command\": \"" + c_command + "\" }}");
+    console.log("{ \"thingy\": {\"ID\":\"" + c_name + "\", \"command\": \"" + c_command + "\" }}");
+    ws.send("{ \"thingy\": {\"ID\":\"" + c_name + "\", \"command\": \"" + c_command + "\" }}");
 }
 </script>
 </body>

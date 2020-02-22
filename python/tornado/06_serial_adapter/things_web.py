@@ -24,7 +24,8 @@ debug = cfg.debug
 helper = Helper(configuration)
 
 serial_handler = SerialHandler(cfg.things_serial)
-print(serial_handler.thingies())
+serial_handler.things_serial_verify()
+
 
 class WebSocketHandler(tornado.websocket.WebSocketHandler):
     connections = set()
@@ -63,9 +64,14 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
             m = json.loads(message)
             if 'thing' in m:
                 t = m['thing']
-                serial_handler.write(t['ID'], t['command'])
-            else:
-                self.log('on_message:' + str(m))
+                serial_handler.things_serial_write(t['ID'], t['command'])
+                return
+            if 'thingy' in m:
+                t = m['thingy']
+                serial_handler.thingy_write(t['ID'], t['command'])
+                return
+            # should be never here
+            self.log('on_message:' + str(m))
         except Exception as e:
             self.log('on_message failed with ' + str(e))
         pass

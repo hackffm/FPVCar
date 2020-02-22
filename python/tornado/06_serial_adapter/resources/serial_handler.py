@@ -20,7 +20,7 @@ class SerialHandler:
             for t in ts['thingies']:
                 self.thingy_add(ts['ID'], t['ID'])
 
-    def things_serial_exists(self, id):
+    def things_serial_id_valid(self, id):
         for t in self.things_serial:
             if t.id == id:
                 return True
@@ -48,9 +48,23 @@ class SerialHandler:
                 print('found thing ' + p.description + ' on port ' + p.device)
             self.things_serial_add(p.description, p.device, self.debug)
 
+    def things_serial_read(self, id):
+        result = ''
+        if self.debug:
+            print('read from {}'.format(id))
+        for ts in self.things_serial:
+            for ty in ts.thingies:
+                if ty.id == id:
+                    result = ts.read()
+        return result
+
+    def things_serial_verify(self):
+        for ts in self.things_serial:
+            ts.verify()
+
     def things_serial_write(self, id,  command):
         if self.debug:
-            print('id {} write {}'.format(str(t['ID']), str(t['command'])))
+            print('id {} write {}'.format(id, command))
         for thing in self.things_serial:
             if thing.id == id:
                 thing.write(command)
@@ -68,11 +82,24 @@ class SerialHandler:
                 ts.thingy_add(id_thingy)
         return
 
-    def thingy_exists(self, id):
+    def thingy_id_valid(self, id):
         for ts in self.things_serial:
             if ts.thingy_exists(id):
                 return True
         return False
 
-    def write(self, id, command):
-        self.things_serial_write(str(id),  str(command))
+    def thingy_read(self, id):
+        for ts in self.things_serial:
+            for thingy in ts.thingies:
+                if thingy.id == id:
+                    result = ts.read()
+                    return result
+        return 'Thingy not found'
+
+    def thingy_write(self, id, command):
+        for ts in self.things_serial:
+            for thingy in ts.thingies:
+                if thingy.id == id:
+                    self.things_serial_write(ts.id,  str(command))
+                    return 'Done'
+        return 'Thingy not found'
