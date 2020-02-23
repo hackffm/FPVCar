@@ -9,32 +9,32 @@
 <p>{{ title }}</p>
 <p>Number of thingies {{  thingies_qty }}</p>
 <p>Verified</p>
-{% for thingy in thingies_verified %}
 <table>
- <tr>
-     <td>Thing: </td>
-     <td>{{ thingy[0] }}</td>
-     <td>Thingy: </td>
-     <td>{{ thingy[1] }}</td>
-     <td> command :</td>
-     <td>
+{% for thingy in thingies_verified %}
+<tr>
+    <td>Thing: </td>
+    <td>{{ thingy[0] }}</td>
+    <td>Thingy: </td>
+    <td>{{ thingy[1] }}</td>
+    <td> command :</td>
+    <td>
         <input type='text' id='valC{{ thingy[1] }}' />
-     </td>
-     <td>
-         <button id="btm_C{{ thingy[1] }}" class="button">send</button>
-     </td>
- </tr>
+    </td>
+    <td>
+        <button id="btm_C{{ thingy[1] }}" class="button">send</button>
+    </td>
+</tr>
 {% end %}
 </table>
+<table>
 <p>Not Verified</p>
 {% for thingy in thingies_not_verified %}
-<table>
- <tr>
-     <td>Thing: </td>
-     <td>{{ thingy[0] }}</td>
-     <td>Thingy: </td>
-     <td>{{ thingy[1] }}</td>
- </tr>
+<tr>
+    <td>Thing: </td>
+    <td>{{ thingy[0] }}</td>
+    <td>Thingy: </td>
+    <td>{{ thingy[1] }}</td>
+</tr>
 {% end %}
 </table>
 <script>
