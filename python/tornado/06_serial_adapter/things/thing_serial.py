@@ -66,16 +66,21 @@ class ThingSerial(Thing):
             self.ser.write('?\r'.encode())
             sleep(1)
             data = b''
-            for i in range(self.ser.inWaiting()):
-                b = self.ser.read(1)
-                if b != b'\r':
-                    if b == b'\n':
-                        data = str(data.decode())
-                    else:
-                        data += b
+            wait_bytes = self.ser.inWaiting()
+            if len(wait_bytes) >= 2:
+                for i in range(self.ser.inWaiting()):
+                    b = self.ser.read(1)
+                    if b != b'\r':
+                        if b == b'\n':
+                            data = str(data.decode())
+                        else:
+                            data += b
+            else:
+                data = ''
         except Exception as e:
             if self.debug:
-                print('failed writing to serial port of thing ' +str(self.id) + ' with ' + str(e))
+                print('failed writing to serial port of thing ' + str(self.id) + ' with ' + str(e))
+                return
         if not data == '':
             self.id = data
         else:
