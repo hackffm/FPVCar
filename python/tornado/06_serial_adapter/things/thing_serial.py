@@ -2,9 +2,6 @@ from .thing import Thing
 
 from .thingy import Thingy
 
-import string
-import random
-
 from time import sleep
 
 
@@ -17,6 +14,8 @@ class ThingSerial(Thing):
         self.thingies = []
         self.verified = False
 
+        self.NOT_VERIFIED = 'not verified'
+
     def handleMessage(self, message):
         result = ''
         if self.debug:
@@ -25,7 +24,7 @@ class ThingSerial(Thing):
 
     def read(self):
         if not self.verified:
-            return 'not verified'
+            return self.NOT_VERIFIED
         data = b''
 
         wait_bytes = self.ser.inWaiting()
@@ -44,9 +43,9 @@ class ThingSerial(Thing):
         if not self.thingy_exists(id):
             _t = Thingy(id)
             self.thingies.append(_t)
+            return 'added'
         else:
-            print('thingy already exists')
-        return
+            return 'thingy already exists'
 
     def thingy_exists(self, id):
         for ty in self.thingies:
@@ -56,18 +55,19 @@ class ThingSerial(Thing):
 
     def verify(self):
         self.verified = False
-        self.update_id()
-        if 'None' not in self.id:
+        if self.update_id():
+            if self.debug:
+                print('{} was verified'.format(str(self.id)))
             self.verified = True
 
     def update_id(self):
         data = ''
         try:
             self.ser.write('?\r'.encode())
-            sleep(1)
+            sleep(1.0)
             data = b''
             wait_bytes = self.ser.inWaiting()
-            if len(wait_bytes) >= 2:
+            if wait_bytes >= 2:
                 for i in range(self.ser.inWaiting()):
                     b = self.ser.read(1)
                     if b != b'\r':
@@ -80,14 +80,17 @@ class ThingSerial(Thing):
         except Exception as e:
             if self.debug:
                 print('failed writing to serial port of thing ' + str(self.id) + ' with ' + str(e))
-                return
+                return False
         if not data == '':
             self.id = data
+            return True
         else:
-            self.id = 'None_' + ''.join(random.choices(string.ascii_uppercase + string.digits, k=5))
+            return False
 
     def write(self, command):
-        if not self.verified:
-            return
-        command = str(command) + '\r'
-        self.ser.write(command.encode())
+        try:
+            command = str(command) + '\r'
+            self.ser.write(command.encode())
+        except Exception as e:
+            if self.debug:
+                print('failed writing to serial port of thing ' + str(self.id) + ' with ' + str(e))

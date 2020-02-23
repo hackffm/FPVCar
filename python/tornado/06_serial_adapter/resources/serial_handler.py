@@ -20,12 +20,6 @@ class SerialHandler:
             for t in ts['thingies']:
                 self.thingy_add(ts['ID'], t['ID'])
 
-    def things_serial_id_valid(self, id):
-        for t in self.things_serial:
-            if t.id == id:
-                return True
-        return False
-
     def things_serial_add(self, id, port, debug):
             ser = random()
             try:
@@ -64,7 +58,7 @@ class SerialHandler:
 
     def things_serial_write(self, id,  command):
         if self.debug:
-            print('id {} write {}'.format(id, command))
+            print('Write to {} command {}'.format(id, command))
         for thing in self.things_serial:
             if thing.id == id:
                 thing.write(command)
@@ -79,14 +73,9 @@ class SerialHandler:
     def thingy_add(self, id_ts, id_thingy):
         for ts in self.things_serial:
             if ts.id == id_ts:
-                ts.thingy_add(id_thingy)
-        return
-
-    def thingy_id_valid(self, id):
-        for ts in self.things_serial:
-            if ts.thingy_exists(id):
-                return True
-        return False
+                result = ts.thingy_add(id_thingy)
+                return result
+        return 'thing serial not found'
 
     def thingy_read(self, id):
         for ts in self.things_serial:

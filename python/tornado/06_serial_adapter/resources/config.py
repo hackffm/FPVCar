@@ -68,7 +68,7 @@ class Config:
             'debug': True,
             'default': {
                 "log_file": self.name + ".log",
-                "log_location": self.home + "/" + self.name + "/log",
+                "log_location": self.home + "/labyrinth/log",
             }
         }
         return _config
