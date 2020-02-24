@@ -23,12 +23,13 @@ class Config:
         if not name:
             name = 'labyrinth'
 
+        self.configuration = ''
         self.debug = debug
         self.home = os.getenv('HOME')
         self.name = name
 
-        self.path_config = self.home + '/' + self.name + '/' + self.name + '.json'
-        self.configuration = self.load()
+        self.path_config = self.home + '/labyrinth/' + self.name + '.json'
+        self.load()
 
     def cfg(self):
         return Struct(self.configuration)
@@ -39,32 +40,35 @@ class Config:
             self.name: {
                 'port': 9000,
             },
-            'adapters': [
+            'things_serial': [
                 {
-                    'name': 'A1',
-                    'devices': [
-                        {'name': 'r1d1', 'port': '/dev/ttyS0'},
-                        {'name': 'r1d2', 'port': '/dev/ttyS1'}
+                    'ID': 'A1',
+                    'port': '/dev/ttyS0',
+                    'thingies': [
+                        {'ID': 'D1'},
+                        {'ID': 'L1'}
                     ]
                 },
                 {
-                    'name': 'A2',
-                    'devices': [
-                        {'name': 'r1d3', 'port': '/dev/ttyS0'},
-                        {'name': 'r2d1', 'port': '/dev/ttyS1'}
+                    'ID': 'A2',
+                    'port': '/dev/ttyS1',
+                    'thingies': [
+                        {'ID': 'D2'},
+                        {'ID': 'D3'}
                     ]
                 },
                 {
-                    'name': 'A3',
-                    'devices': [
-                        {'name': 'r2d2', 'port': '/dev/ttyS0'},
+                    'ID': 'VK',
+                    'port': '/dev/ttyACM0',
+                    'thingies': [
+                        {'ID': 'D4'}
                     ]
                 },
             ],
             'debug': True,
             'default': {
                 "log_file": self.name + ".log",
-                "log_location": self.home + "/Things/log",
+                "log_location": self.home + "/labyrinth/log",
             }
         }
         return _config
@@ -80,8 +84,7 @@ class Config:
                 print('new config', self.path_config)
             self.configuration = self.default()
             self.save()
-
-        return self.configuration
+        return
 
     def save(self):
         data = json.dumps(self.configuration, indent=4)
