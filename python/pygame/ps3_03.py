@@ -4,10 +4,15 @@ import json
 
 pygame.init()
 pygame.joystick.init()
+joystick = pygame.joystick.Joystick(1)
+joystick.init()
+
 done = False
 
 def handleButtons():
     print("Joystick button pressed.")
+    joystick = pygame.joystick.Joystick(1)
+    joystick.init()
 
     btTmp = -1
     buttons = joystick.get_numbuttons()
@@ -21,8 +26,23 @@ def handleButtons():
     msg = json.dumps(m)
     print(msg)
 
-
-
+def handleJoystick():
+    print("Joystick axis motion")
+    j = pygame.joystick.Joystick(1)
+    j.init()
+    xaxis = round(j.get_axis(2), 2)
+    yaxis = round(j.get_axis(3), 2)
+    print("x: " + str(xaxis) + "   y: " + str(yaxis))
+    if (xaxis > 0.01 or xaxis < - 0.01) or (yaxis > 0.01 or yaxis < 0.01):
+        left = round(yaxis + xaxis, 2)
+        right = round(yaxis - xaxis, 2)
+        m["left"] = left
+        m["right"] = right
+        msg = json.dumps(m)
+        print(msg)
+    #pos.left = Math.round(Math.min(pos.cy + pos.cx, width / 2));
+    #pos.right = Math.round(Math.min(pos.cy - pos.cx, height / 2));
+    #    print("Axis "+str(i)+" value: {:>6.3f}".format(axis))
 
 while not done:
     m = {}
@@ -35,18 +55,7 @@ while not done:
         elif event.type == pygame.JOYBUTTONUP:
             print("Joystick button released.")
         elif event.type == pygame.JOYAXISMOTION:
-            print("Joystick axis motion")
-
-    joystick = pygame.joystick.Joystick(1)
-    joystick.init()
-    name = joystick.get_name()
-    print("Joystick name: " + name)
-
-    axes = joystick.get_numaxes()
-    for i in range(axes):
-        axis = joystick.get_axis(i)
-        #print("Axis "+str(i)+" value: {:>6.3f}".format(axis))
-
+            handleJoystick()
 
 
     time.sleep(0.3)
