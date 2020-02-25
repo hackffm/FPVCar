@@ -34,5 +34,5 @@ for p in ports:
     write(ser, '?')
     sr = serial_read(ser)
     result = str(sr.decode())
-    print('Serial result was ' +result)
+    print('Serial result was' + result)
 
