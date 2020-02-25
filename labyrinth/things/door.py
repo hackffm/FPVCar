@@ -12,6 +12,7 @@ class Door(RfidThing):
         car = self.labyrinth.get_thing(m["car"])
         if m["action"] == "use":
             print("use")
+            self.ser.write(b"l1\r")
             key = self.labyrinth.get_thing(self.keyId)
             if car.useItem(key):
                 self.serialHandler.handle_message(msg, m)

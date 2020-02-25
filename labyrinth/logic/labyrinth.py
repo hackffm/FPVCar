@@ -12,9 +12,11 @@ class Labyrinth:
 
         self.things = {}
         self.add_thing(Rfid(self, "rfid"))
-        self.add_thing(SerialHandler(self, "serh"))
+        serHandler = SerialHandler(self, "serh")
+        self.add_thing(serHandler)
         self.add_thing(KeyCard(self, "kc1234", "100101011"))
         self.add_thing(Door(self, "door1234", "111111101", 'kc1234'))
+        self.add_thing(Door(self, "door666", "111110001", 'kc1234'))
         self.add_thing(Car(self, "car1"))
         self.add_thing(Car(self, "car2"))
         self.add_thing(Controller(self, "ctrl1"))
@@ -26,6 +28,8 @@ class Labyrinth:
 
         self.things["car1"].ctrl = self.things["ctrl1"]
         self.things["car2"].ctrl = self.things["ctrl2"]
+
+        serHandler.find_my_things()
 
     def add_thing(self, thing):
         self.things[thing.tid] = thing

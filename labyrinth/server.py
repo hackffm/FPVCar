@@ -6,6 +6,7 @@ import tornado.web
 import tornado.websocket
 from tornado.ioloop import PeriodicCallback
 from tornado.options import define, options
+from tornado import gen
 import toml
 from logic import WsHandler
 from logic import Labyrinth
@@ -31,10 +32,18 @@ class Application(tornado.web.Application):
         settings = { 'template_path': 'templates', 'debug': 'True'}
         tornado.web.Application.__init__(self, handlers, **settings)
         PeriodicCallback(self.keep_alive, 10000).start()
+        self.startSerial()
 
     def keep_alive(self):
         logging.info("keep alive")
         [con.write_message("keep alive from server") for con in WsHandler.connections]
+
+    @gen.coroutine
+    def startSerial(self):
+        serialHandler = labyrinth.get_thing('serh')
+        while True:
+            yield gen.sleep(1)
+            serialHandler.loop()
 
 class IndexPageHandler(tornado.web.RequestHandler):
     def get(self):
