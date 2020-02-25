@@ -29,7 +29,7 @@ class Labyrinth:
         self.things["car1"].ctrl = self.things["ctrl1"]
         self.things["car2"].ctrl = self.things["ctrl2"]
 
-        serHandler.find_my_things()
+        #serHandler.find_my_things()
 
     def add_thing(self, thing):
         self.things[thing.tid] = thing

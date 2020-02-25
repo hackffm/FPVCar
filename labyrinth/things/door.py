@@ -5,7 +5,6 @@ class Door(RfidThing):
     def __init__(self, labyrinth, tid, rfid, keyId):
         super().__init__(labyrinth, tid, rfid)
         self.keyId = keyId
-        self.serialHandler = labyrinth.get_thing('serh')
 
     def handleMessage(self, msg, m):
         print("Door: " + msg)
@@ -15,4 +14,4 @@ class Door(RfidThing):
             self.ser.write(b"l1\r")
             key = self.labyrinth.get_thing(self.keyId)
             if car.useItem(key):
-                self.serialHandler.handle_message(msg, m)
+                print("implementation missing")

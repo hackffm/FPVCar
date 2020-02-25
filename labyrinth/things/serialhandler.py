@@ -2,6 +2,7 @@ from labyrinth.things.thing import Thing
 import serial
 import serial.tools.list_ports
 from time import sleep
+from tornado import gen
 
 class SerialHandler(Thing):
 
@@ -40,7 +41,7 @@ class SerialHandler(Thing):
             ser = serial.Serial(p.device, 38400, )
             self.serials.append(ser)
             self.write(ser, '?')
-            sleep(0.1)
+            sleep(0.2)
             sr = self.serial_read(ser)
             if sr is False:
                 break
@@ -51,10 +52,14 @@ class SerialHandler(Thing):
             for tid in tids:
                 thing = self.labyrinth.get_thing(tid)
                 thing.ser = ser
+        self.loop()
 
+    @gen.coroutine
     def loop(self):
-        data = b''
-        for p in self.serials:
-            data = self.serial_read(p)
-            if data is not False:
-                print(data)
+        while True:
+            yield gen.sleep(1)
+            data = b''
+            for p in self.serials:
+                data = self.serial_read(p)
+                if data is not False:
+                    print(data)
