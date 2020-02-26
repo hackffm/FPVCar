@@ -102,7 +102,7 @@ class Helper:
         return False
 
     def now_str(self):
-        return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        return datetime.datetime.now().strftime("%Y-%m-%d%H:%M:%S")
 
     def shutdown(self, time):
         _down = int(time)
