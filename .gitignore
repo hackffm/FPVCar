@@ -11,6 +11,8 @@
 # Spyder project settings
 .spyderproject
 .spyproject
+# Visual Studio Code
+.vscode
 
 # Log Files
 *.log
