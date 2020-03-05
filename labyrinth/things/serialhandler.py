@@ -8,7 +8,7 @@ class SerialHandler(Thing):
 
     def __init__(self, labyrinth, tid):
         super().__init__(labyrinth, tid)
-        self.serials = []
+        self.serials = {}
 
     def handle_message(self, msg, m):
         print("SerialHandler: " + msg)
@@ -39,19 +39,28 @@ class SerialHandler(Thing):
         for p in ports:
             print('write to ' + p.description + ' on port ' + p.device)
             ser = serial.Serial(p.device, 38400, )
-            self.serials.append(ser)
-            self.write(ser, '?')
-            sleep(0.2)
+            #self.serials.append(ser)
+            self.write(ser, '0?')
+            sleep(0.3)
             sr = self.serial_read(ser)
             if sr is False:
                 break
             result = str(sr.decode())
             print('Serial result was ' + result)
-            tokens = result.split(" ")
-            tids = tokens[1].split(",")
-            for tid in tids:
+            tids = result.split(";")
+            mcuThing = self.labyrinth.get_thing(tids[0])
+            mcuThing.setSerial(0, ser)
+            self.serials[tids[0]] = mcuThing
+
+            for i in range(1, len(tids)):
+                tid = tids[i]
+                print(tid)
                 thing = self.labyrinth.get_thing(tid)
-                thing.ser = ser
+                if thing is not None:
+                    thing.setSerial(i, ser)
+                    mcuThing.addThing(i, thing)
+                else:
+                    print('SerialHandler: couldnt find ' + tid)
         self.loop()
 
     @gen.coroutine
@@ -59,7 +68,9 @@ class SerialHandler(Thing):
         while True:
             yield gen.sleep(1)
             data = b''
-            for p in self.serials:
-                data = self.serial_read(p)
+            for tid in self.serials:
+                data = self.serial_read(self.serials[tid].ser)
                 if data is not False:
-                    print(data)
+                    print(tid + " " + str(data))
+                    thing = self.labyrinth.get_thing(tid)
+                    thing.handleSerialMessage(data)
