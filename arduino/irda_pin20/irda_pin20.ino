@@ -9,6 +9,11 @@ extern "C" char *sbrk(int i);
 //D20 PA31 sercom1.3 RX
 //D19 PA30 sercom1.2 TX
 
+#define LED_WHITE 0
+#define LED_UV 1
+#define LED_LASER 2
+
+
 // Serial2 (sercom 1)
 #define PIN_SERIAL2_RX  (20ul) // PA07
 #define PAD_SERIAL2_RX  (SERCOM_RX_PAD_3)
@@ -43,28 +48,45 @@ int FreeRam () {
   return &stack_dummy - sbrk(0);
 }
  
+void txEn() {
+  pinPeripheral(4, PIO_SERCOM_ALT);
+  delayMicroseconds(10);
+}
+
+void txDis() {
+  Serial1.flush();
+  pinMode(4, INPUT_PULLUP);
+} 
+ 
 void setup() {
   // put your setup code here, to run once:
+  pinMode(LED_WHITE, OUTPUT);
+  pinMode(LED_UV, OUTPUT);
+  pinMode(LED_LASER, OUTPUT);
+  
   pinMode(4, OUTPUT);
   pinMode(3, INPUT_PULLUP);
   
   Serial.begin(115200);
+  Serial1.begin(38400);
   Serial2.begin(100000, SERIAL_8E1);
   
   // Assign pins 19 & 20 SERCOM functionality
   pinPeripheral(PIN_SERIAL2_RX, PIO_SERCOM_ALT ); 
   pinPeripheral(PIN_SERIAL2_TX, PIO_SERCOM_ALT );
 
+  txDis();
+
   strip.begin();
-  strip.setPixelColor(0, 1, 1, 1); strip.show(); delay(1000); //green
+  strip.setPixelColor(0, 1, 1, 1); strip.show(); 
 
 
-  delay(2000);
-  Serial.println(FreeRam());
-
-  Serial.println(SERCOM1->USART.CTRLA.reg, HEX);
-  Serial.println(SERCOM1->USART.CTRLB.reg, HEX);
-  Serial.println(SERCOM1->USART.BAUD.reg);  
+  //delay(2000);
+  //Serial.println(FreeRam());
+  //
+  //Serial.println(SERCOM1->USART.CTRLA.reg, HEX);
+  //Serial.println(SERCOM1->USART.CTRLB.reg, HEX);
+  //Serial.println(SERCOM1->USART.BAUD.reg);  
 
   
   SERCOM1->USART.CTRLA.bit.ENABLE = 0;
@@ -80,9 +102,9 @@ void setup() {
   SERCOM1->USART.CTRLA.bit.ENABLE = 1;
   while(SERCOM1->USART.SYNCBUSY.reg) {}
   
-  Serial.println(SERCOM1->USART.CTRLA.reg, HEX);
-  Serial.println(SERCOM1->USART.CTRLB.reg, HEX);
-  Serial.println(SERCOM1->USART.BAUD.reg);
+  //Serial.println(SERCOM1->USART.CTRLA.reg, HEX);
+  //Serial.println(SERCOM1->USART.CTRLB.reg, HEX);
+  //Serial.println(SERCOM1->USART.BAUD.reg);
 
   for(int i=0; i<MAX_ENTRIES; i++) tags[i].id = 0;
   
@@ -191,6 +213,82 @@ void try_receive() {
   }
   
 }
+
+ 
+void serialParser() {
+  static char cmd[64];
+  static byte charCount = 0;
+
+  while(Serial1.available()) {
+    // if any char in serial buffer available then do the parsing
+    char c;
+    c = Serial1.read(); // read one char from serial buffer
+    if((c==8) && (charCount>0)) charCount--; // backspace
+
+    if(c>=32) { // char in num char range then add char to cmd array
+      cmd[charCount] = c;
+      charCount++;
+    }
+
+    if((c==0x0D) || (c==0x0A) || (charCount>60)) 
+    {
+      // if the char is NL(New Line 0x0A) 
+      // or CR (carriage return 0x0D) 
+      // or cmd array buffer limit reached
+      // parse the cmd buffer
+
+      cmd[charCount]=0; // clear the last char in cmd buffer
+      
+      if(charCount>=1) { // prevent empty cmd buffer parsing
+
+        switch(cmd[0]) {
+            
+          case 'T':
+            if(charCount>=2) {
+              int r, speed0;
+              
+              switch(cmd[1]) {
+                case '0':
+                  r = sscanf(&cmd[2],"%i",&speed0);
+                  if(r==1) {
+                    Serial1.println(speed0); 
+                  } else {
+                    Serial1.println("?");
+                  }
+                  break;
+                  
+
+                case 'r':
+                    Serial1.println("123"); 
+                    Serial1.flush();
+                    
+                    pinMode(4, INPUT_PULLUP);
+                    Serial1.println("456"); 
+                    Serial1.flush();
+                    
+                    pinPeripheral(4, PIO_SERCOM_ALT);
+                    Serial1.println("789"); 
+                    Serial1.flush();
+                    break;
+
+                default:
+                  
+                  break;
+              }
+            }
+            break; // case 'T'
+  
+          default:
+            Serial1.println("hae?\a");
+            break;
+
+        }
+      }
+      charCount = 0;
+      //Serial1.print(">");
+    }
+  }
+} 
  
 void loop() {
   static uint32_t tstamp = millis();
@@ -235,5 +333,5 @@ void loop() {
       strip.show();
       old_color = new_color;
     }
-    
+    serialParser();
 }

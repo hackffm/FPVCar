@@ -1,5 +1,6 @@
 /*
  Servo on 9, 10
+ Button Sense: 0..1 not pressed, ~549..562 pressed
  */
 #include <PWMServo.h>
 #include <Wire.h>
