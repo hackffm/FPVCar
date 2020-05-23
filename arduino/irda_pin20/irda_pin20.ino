@@ -38,6 +38,9 @@ uint32_t new_color;
 Uart Serial2( &sercom1, PIN_SERIAL2_RX, PIN_SERIAL2_TX, PAD_SERIAL2_RX, PAD_SERIAL2_TX ) ;
 Adafruit_DotStar strip = Adafruit_DotStar(1, INTERNAL_DS_DATA, INTERNAL_DS_CLK, DOTSTAR_BGR);
 
+#define IDEVENTBUFFERLEN 128
+char IDEventBuffer[IDEVENTBUFFERLEN];
+
 void SERCOM1_Handler()
 {
     Serial2.IrqHandler();
@@ -80,14 +83,6 @@ void setup() {
   strip.begin();
   strip.setPixelColor(0, 1, 1, 1); strip.show(); 
 
-
-  //delay(2000);
-  //Serial.println(FreeRam());
-  //
-  //Serial.println(SERCOM1->USART.CTRLA.reg, HEX);
-  //Serial.println(SERCOM1->USART.CTRLB.reg, HEX);
-  //Serial.println(SERCOM1->USART.BAUD.reg);  
-
   
   SERCOM1->USART.CTRLA.bit.ENABLE = 0;
   while(SERCOM1->USART.SYNCBUSY.reg) {}
@@ -102,12 +97,17 @@ void setup() {
   SERCOM1->USART.CTRLA.bit.ENABLE = 1;
   while(SERCOM1->USART.SYNCBUSY.reg) {}
   
-  //Serial.println(SERCOM1->USART.CTRLA.reg, HEX);
-  //Serial.println(SERCOM1->USART.CTRLB.reg, HEX);
-  //Serial.println(SERCOM1->USART.BAUD.reg);
 
   for(int i=0; i<MAX_ENTRIES; i++) tags[i].id = 0;
-  
+  IDEventBuffer[0] = 0;
+  new_color = 0x000200ul;
+  old_color = 0;
+}
+
+void AddIDEvent(const char *s) {
+  if((strlen(IDEventBuffer) + strlen(s) + 1) < IDEVENTBUFFERLEN) {
+    strcat(IDEventBuffer, s);
+  }      
 }
 
 // check one entry at a time
@@ -118,6 +118,9 @@ void id_table_worker() {
       // timed out
       if(tags[i].count == 0) {
         uint16_t id = tags[i].id;
+        char s[20];
+        sprintf(s, "x%d;", id);
+        AddIDEvent(s);
         // EXITED
         Serial.print("Exit ID: ");
         Serial.println(id);    
@@ -155,6 +158,9 @@ void id_found(uint16_t id) {
     if(tags[i].count != 0) {
       tags[i].count++;
       if(tags[i].count >= ENTER_TRIGGER_COUNT) {
+        char s[20];
+        sprintf(s, "t%d;", id);
+        AddIDEvent(s);
         tags[i].count = 0;
         // ENTERED
         Serial.print("Enter ID: ");
@@ -245,32 +251,57 @@ void serialParser() {
             
           case 'T':
             if(charCount>=2) {
-              int r, speed0;
+              int r, speed0, b;
+              uint32_t color;
               
               switch(cmd[1]) {
-                case '0':
-                  r = sscanf(&cmd[2],"%i",&speed0);
-                  if(r==1) {
-                    Serial1.println(speed0); 
-                  } else {
-                    Serial1.println("?");
-                  }
-                  break;
-                  
-
-                case 'r':
-                    Serial1.println("123"); 
-                    Serial1.flush();
-                    
-                    pinMode(4, INPUT_PULLUP);
-                    Serial1.println("456"); 
-                    Serial1.flush();
-                    
-                    pinPeripheral(4, PIO_SERCOM_ALT);
-                    Serial1.println("789"); 
-                    Serial1.flush();
+                case '?':
+                    txEn();
+                    Serial1.println("cRRGGBB = RGB-LED, r = event receive, wx = white LED, ux = UV LED on off, lx = Laser : x = 0..255"); 
+                    txDis();
                     break;
-
+                  
+                case 'c':
+                    r = sscanf(&cmd[2],"%lx",&color);
+                    if(r==1) new_color = color;
+                    break;
+                
+                case 'p':
+                    AddIDEvent("e333;");
+                    break;
+                  
+                case 'r':
+                    txEn();
+                    Serial1.println(IDEventBuffer); 
+                    IDEventBuffer[0] = 0;
+                    txDis();
+                    break;
+                    
+                case 'w': // white led
+                    r = sscanf(&cmd[2],"%i",&b);
+                    if(r==1) {
+                      analogWrite(LED_WHITE, b);  
+                    }
+                    break;
+                    
+                case 'u': // uv led
+                    r = sscanf(&cmd[2],"%i",&b);
+                    if(r==1) {
+                      if(b > 0) {
+                        digitalWrite(LED_UV, HIGH);  
+                      } else {
+                        digitalWrite(LED_UV, LOW); 
+                      }
+                    }
+                    break;
+                     
+                case 'l': // laser
+                    r = sscanf(&cmd[2],"%i",&b);
+                    if(r==1) {
+                      analogWrite(LED_LASER, b);  
+                    }
+                    break;
+                    
                 default:
                   
                   break;
