@@ -39,6 +39,16 @@ int loopCnt = 0;
 #define DTIMEOUT 2000
 uint16_t driveTimeout = 0;
 
+void txEn() {
+  pinMode(1, OUTPUT);
+  delayMicroseconds(10);
+}
+
+void txDis() {
+  Serial1.flush();
+  pinMode(1, INPUT_PULLUP);
+} 
+
 int chgRegWrite(uint8_t reg, uint8_t data) {
   int ret = 0;
   
@@ -143,7 +153,7 @@ void setup() {
 
 
 void loop() {
-
+  checkButton();
   serialParser();
   if(((uint16_t)millis() - driveTimeout) > DTIMEOUT) {
     driveTimeout = millis();
@@ -212,6 +222,34 @@ void fahr(int left, int right) {
   //TCCR2B &= 0xf9;
 }
 
+void checkButton() {
+  static uint8_t old_buttonstate = 0;
+  uint8_t new_buttonstate;  
+  static uint32_t button_ts = 0;
+  
+  
+  if(analogRead(BUTTON_SENSE) > 200) {
+    new_buttonstate = 1;  
+  } else {
+    new_buttonstate = 0;
+  }    
+  
+  if(old_buttonstate != new_buttonstate) {
+    if(new_buttonstate == 1) {
+      // now pressed
+      button_ts = millis(); 
+    }
+  } else {
+      if(new_buttonstate == 1) {
+          if((millis() - button_ts) > 5000) {
+              Serial.println("LongPressed5s");
+              button_ts = millis();
+          }
+      }   
+  }
+  old_buttonstate = new_buttonstate;
+}
+
 void serialParser() {
   static char cmd[64];
   static byte charCount = 0;
@@ -243,6 +281,12 @@ void serialParser() {
       cmd[charCount]=0; // clear the last char in cmd buffer
       
       if(charCount>=1) { // prevent empty cmd buffer parsing
+      
+        if(cmd[0] == 'T') {
+            txDis();
+        } else {
+            txEn();
+        }
 
         switch(cmd[0]) {
           case '?':
