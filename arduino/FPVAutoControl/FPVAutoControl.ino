@@ -45,7 +45,7 @@ void txEn() {
 }
 
 void txDis() {
-  Serial1.flush();
+  Serial.flush();
   pinMode(1, INPUT_PULLUP);
 } 
 
