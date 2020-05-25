@@ -40,12 +40,14 @@ int loopCnt = 0;
 uint16_t driveTimeout = 0;
 
 void txEn() {
+  UCSR0B |= (1 << TXEN0);
   pinMode(1, OUTPUT);
   delayMicroseconds(10);
 }
 
 void txDis() {
   Serial.flush();
+  UCSR0B &= ~(1 << TXEN0);
   pinMode(1, INPUT_PULLUP);
 } 
 
@@ -244,6 +246,14 @@ void checkButton() {
           if((millis() - button_ts) > 5000) {
               Serial.println("LongPressed5s");
               button_ts = millis();
+              Serial.println("Off after 10s!");
+              digitalWrite(EN_5V5, LOW); // Motors off
+              delay(10000);
+              digitalWrite(EN_5V1, LOW);
+              delay(5000);
+              digitalWrite(EN_3V3, LOW);
+              delay(5000);
+              
           }
       }   
   }
@@ -289,6 +299,9 @@ void serialParser() {
         }
 
         switch(cmd[0]) {
+          case 'T': // answered by second uC
+            break;
+            
           case '?':
             // show command listup
             Serial.println(F("Direct: adswqe space, Indirect: vMmNnP\a"));
