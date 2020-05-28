@@ -246,6 +246,7 @@ void checkButton() {
           if((millis() - button_ts) > 5000) {
               Serial.println("LongPressed5s");
               button_ts = millis();
+              while(analogRead(BUTTON_SENSE) > 200) ;
               Serial.println("Off after 10s!");
               digitalWrite(EN_5V5, LOW); // Motors off
               delay(10000);

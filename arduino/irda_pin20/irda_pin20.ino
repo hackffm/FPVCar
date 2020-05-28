@@ -81,7 +81,11 @@ void setup() {
   txDis();
 
   strip.begin();
-  strip.setPixelColor(0, 1, 1, 1); strip.show(); 
+  strip.setBrightness(255);
+  delay(100);
+  strip.setPixelColor(0, 255, 255, 255); strip.show(); 
+  delay(500);
+  //strip.setPixelColor(0, 1, 1, 1); strip.show(); 
 
   
   SERCOM1->USART.CTRLA.bit.ENABLE = 0;
