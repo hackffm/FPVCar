@@ -24,7 +24,7 @@ extern "C" char *sbrk(int i);
 
 #define MAX_ENTRIES 16
 #define ENTER_TRIGGER_COUNT 3
-#define EXIT_TIMEOUT_MS 100
+#define EXIT_TIMEOUT_MS 200
 
 struct tag_entry {
   uint16_t id;
@@ -170,8 +170,8 @@ void id_found(uint16_t id) {
         Serial.print("Enter ID: ");
         Serial.println(id);
 
-        if(id == 18) new_color |= ((uint32_t)32 << 16);
-        if(id == 19) new_color |= ((uint32_t)32 << 8);
+        if(id == 18) new_color |= ((uint32_t)255 << 16);
+        if(id == 19) new_color |= ((uint32_t)255 << 8);
       }
     }
   }
