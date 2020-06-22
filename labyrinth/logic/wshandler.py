@@ -24,4 +24,4 @@ class WsHandler(tornado.websocket.WebSocketHandler):
             car = WsHandler.labyrinth.get_thing(m['tid'])
             car.wshandler = self
         else:
-            WsHandler.labyrinth.handle_message(msg, m)
+            WsHandler.labyrinth.handle_message(msg, m, None)
