@@ -11,6 +11,8 @@ import toml
 from logic import WsHandler
 from logic import Labyrinth
 
+logging.basicConfig(level=logging.DEBUG)
+
 define("port", default=3000, help="run on the given port", type=int)
 
 config = toml.load('config_strange.toml')

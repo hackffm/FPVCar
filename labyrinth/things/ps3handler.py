@@ -1,19 +1,25 @@
+from things.thing import Thing
+from tornado import gen
 import pygame
-import time
 import json
-import _thread
+import logging
 
-class Ps3Controller:
+_logger = logging.getLogger(__name__)
 
-    def __init__(self):
+class Ps3Handler(Thing):
+
+    def __init__(self, labyrinth, tid, tidCar):
+        super().__init__(labyrinth, tid)
+        self.car = self.labyrinth.get_thing(tidCar)
         pygame.init()
-        #pygame.joystick.init()
-        print('jcount: ' + str(pygame.joystick.get_count()))
-
+        pygame.joystick.init()
+        
+        _logger.debug(pygame.joystick.get_count())
+        
         joystick = pygame.joystick.Joystick(1)
-        print('jname:  ' + joystick.get_name())
         joystick.init()
 
+    @gen.coroutine
     def loop(self):
         done = False
         while not done:
@@ -27,7 +33,7 @@ class Ps3Controller:
                 elif event.type == pygame.JOYAXISMOTION:
                     self.handleJoystick()
 
-            time.sleep(0.3)
+            yield gen.sleep(0.3)
 
     def handleButtons(self):
         print("Joystick button pressed.")
@@ -48,25 +54,19 @@ class Ps3Controller:
         print(msg)
 
     def handleJoystick(self):
-        print("Joystick axis motion")
+        #print("Joystick axis motion")
         j = pygame.joystick.Joystick(1)
         j.init()
         xaxis = round(j.get_axis(2), 2)
         yaxis = round(j.get_axis(3), 2)
-        print("x: " + str(xaxis) + "   y: " + str(yaxis))
+        #print("x: " + str(xaxis) + "   y: " + str(yaxis))
         if (xaxis > 0.01 or xaxis < - 0.01) or (yaxis > 0.01 or yaxis < 0.01):
             left = round(yaxis + xaxis, 2)
             right = round(yaxis - xaxis, 2)
             m = {}
+            m["component"] = "base"
             m["left"] = left
             m["right"] = right
             msg = json.dumps(m)
-            print(msg)
-
-if __name__ == "__main__":
-    ps3 = Ps3Controller()
-    done = False
-    _thread.start_new_thread(ps3.loop(), ("test", 1, ))
-    while not done:
-        time.sleep(0.3)
-        print("again")
+            self.car.handleMessage(msg, m)
+            #print(msg)

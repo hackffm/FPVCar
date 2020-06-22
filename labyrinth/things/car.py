@@ -1,4 +1,4 @@
-from labyrinth.things.thing import Thing
+from things.thing import Thing
 
 class Car(Thing):
 
@@ -10,6 +10,8 @@ class Car(Thing):
 
     def handleMessage(self, msg, m):
         print(str(self.tid) + ": " + msg)
+        if self.wshandler is not None:
+            self.wshandler.write_message(msg)
 
     def addItem(self, item):
         print("Car.addItem: " + item.tid)

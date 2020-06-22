@@ -1,8 +1,11 @@
-from labyrinth.things.thing import Thing
+from things.thing import Thing
 import serial
-import serial.tools.list_ports
+from serial.tools.list_ports import comports
 from time import sleep
 from tornado import gen
+import logging
+
+_logger = logging.getLogger(__name__)
 
 class SerialHandler(Thing):
 
@@ -22,7 +25,8 @@ class SerialHandler(Thing):
         wait_bytes = ser.inWaiting()
         if wait_bytes == 0:
             return False
-        print(str(wait_bytes) + ' bytes waiting in serial port')
+        #print(str(wait_bytes) + ' bytes waiting in serial port')
+        _logger.debug(str(wait_bytes) + ' bytes waiting in serial port')
         for i in range(ser.inWaiting()):
             b = ser.read(1)
             if b != b'\r':
@@ -33,7 +37,7 @@ class SerialHandler(Thing):
         return False
 
     def find_my_things(self):
-        ports = list(serial.tools.list_ports.comports())
+        ports = comports()
         if len(ports) == 0:
             print('no used ports found')
         for p in ports:

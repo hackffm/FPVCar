@@ -96,7 +96,7 @@ class Application(tornado.web.Application):
             print("connection error")
         else:
             print("connected")
-            self.ws.write_message("{ \"component\": \"self\", \"name\": \"schokomobil\", \"type\":\"player\", \"nbr\":\"0\" }")
+                self.ws.write_message('{ "component": "self", "name": "schokomobil", "type":"player", "nbr":"0" }')
             
         self.receiverLoop()
 

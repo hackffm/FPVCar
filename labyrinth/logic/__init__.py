@@ -1,2 +1,2 @@
 from .labyrinth import Labyrinth
-from .handler import WsHandler
+from .wshandler import WsHandler

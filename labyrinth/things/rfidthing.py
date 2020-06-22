@@ -1,4 +1,4 @@
-from labyrinth.things.thing import Thing
+from things.thing import Thing
 
 class RfidThing(Thing):
 

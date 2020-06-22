@@ -9,3 +9,4 @@ from .keycard import KeyCard
 from .rfid import Rfid
 from .serialhandler import SerialHandler
 from .mcu import Mcu
+from .ps3handler import Ps3Handler

@@ -1,10 +1,11 @@
-from labyrinth.things.rfid import Rfid
-from labyrinth.things.serialhandler import SerialHandler
-from labyrinth.things.keycard import KeyCard
-from labyrinth.things.door import Door
-from labyrinth.things.car import Car
-from labyrinth.things.controller import Controller
-from labyrinth.things.mcu import Mcu
+from things.rfid import Rfid
+from things.serialhandler import SerialHandler
+from things.keycard import KeyCard
+from things.door import Door
+from things.car import Car
+from things.controller import Controller
+from things.mcu import Mcu
+from things.ps3handler import Ps3Handler
 
 
 class Labyrinth:
@@ -24,6 +25,7 @@ class Labyrinth:
         self.add_thing(Car(self, "car2"))
         self.add_thing(Controller(self, "ctrl1"))
         self.add_thing(Controller(self, "ctrl2"))
+        #self.add_thing(Ps3Handler(self, "ps3h1", "car1"))
 
         rfid = self.things["rfid"]
         rfid.addThing(self.things["kc1234"])
@@ -32,7 +34,8 @@ class Labyrinth:
         self.things["car1"].ctrl = self.things["ctrl1"]
         self.things["car2"].ctrl = self.things["ctrl2"]
 
-        #serHandler.find_my_things()
+        #ps3h1 = self.things["ps3h1"]
+        #ps3h1.loop()
 
     def add_thing(self, thing):
         self.things[thing.tid] = thing

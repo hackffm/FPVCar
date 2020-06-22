@@ -1,7 +1,7 @@
 import json
 import tornado.websocket
 
-class WsHandler(tornado.websocket.WebSocketHandler):
+class WsHandlerOld(tornado.websocket.WebSocketHandler):
     connections = set()
     car = [None] * 2
     controller = [None] * 2

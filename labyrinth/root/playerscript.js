@@ -11,10 +11,10 @@ function getUrlVars() {
 
 window.onload = function() {
   urlVars = getUrlVars();
-  msgPrefixCar = '{ "entity":"car", "nbr":"'+urlVars.nbr+'", "component":'
+  msgPrefixCar = '{ "tid":"car1", "component":'
   ws = new WebSocket("ws://"+hostname+":3000/ws");
   ws.onopen = function(e) {
-    ws.send('{ "thing": "ctrl1", "init":"true" }');
+    ws.send('{ "tid": "ctrl1", "init":"true" }');
   }
   ws.onmessage = function(e) {
     dispatchMsg(e.data);
@@ -53,11 +53,11 @@ function startCam() {
     ws.send('{ "component": "cam", "action": "start" }\r');
 }
 function startGame() {
-    ws.send('{ "thing": "ctrl1", "component": "showmessage", "text": "start"}\r');
+    ws.send('{ "tid": "ctrl1", "component": "showmessage", "text": "start"}\r');
 }
 function rfid(id, from, action) {
-    ws.send('{ "thing":"rfid", "id":"'+id+'", "car":"'+from+'", "action":"'+action+'" }\r');
+    ws.send('{ "tid":"rfid", "id":"'+id+'", "car":"'+from+'", "action":"'+action+'" }\r');
 }
 function move(id, l, r) {
-    ws.send('{ "thing":"'+id+'", "component":"base", "left":'+l+', "right":'+r+' }\r');
+    //ws.send('{ "tid":"'+id+'", "component":"base", "left":'+l+', "right":'+r+' }\r');
 }
