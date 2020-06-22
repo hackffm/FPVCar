@@ -1,5 +1,6 @@
 /*
  Servo on 9, 10
+ Button Sense: 0..1 not pressed, ~549..562 pressed
  */
 #include <PWMServo.h>
 #include <Wire.h>
@@ -37,6 +38,18 @@ int loopCnt = 0;
 
 #define DTIMEOUT 2000
 uint16_t driveTimeout = 0;
+
+void txEn() {
+  UCSR0B |= (1 << TXEN0);
+  pinMode(1, OUTPUT);
+  delayMicroseconds(10);
+}
+
+void txDis() {
+  Serial.flush();
+  UCSR0B &= ~(1 << TXEN0);
+  pinMode(1, INPUT_PULLUP);
+} 
 
 int chgRegWrite(uint8_t reg, uint8_t data) {
   int ret = 0;
@@ -142,7 +155,7 @@ void setup() {
 
 
 void loop() {
-
+  checkButton();
   serialParser();
   if(((uint16_t)millis() - driveTimeout) > DTIMEOUT) {
     driveTimeout = millis();
@@ -211,6 +224,43 @@ void fahr(int left, int right) {
   //TCCR2B &= 0xf9;
 }
 
+void checkButton() {
+  static uint8_t old_buttonstate = 0;
+  uint8_t new_buttonstate;  
+  static uint32_t button_ts = 0;
+  
+  
+  if(analogRead(BUTTON_SENSE) > 200) {
+    new_buttonstate = 1;  
+  } else {
+    new_buttonstate = 0;
+  }    
+  
+  if(old_buttonstate != new_buttonstate) {
+    if(new_buttonstate == 1) {
+      // now pressed
+      button_ts = millis(); 
+    }
+  } else {
+      if(new_buttonstate == 1) {
+          if((millis() - button_ts) > 5000) {
+              Serial.println("LongPressed5s");
+              button_ts = millis();
+              while(analogRead(BUTTON_SENSE) > 200) ;
+              Serial.println("Off after 10s!");
+              digitalWrite(EN_5V5, LOW); // Motors off
+              delay(10000);
+              digitalWrite(EN_5V1, LOW);
+              delay(5000);
+              digitalWrite(EN_3V3, LOW);
+              delay(5000);
+              
+          }
+      }   
+  }
+  old_buttonstate = new_buttonstate;
+}
+
 void serialParser() {
   static char cmd[64];
   static byte charCount = 0;
@@ -242,8 +292,17 @@ void serialParser() {
       cmd[charCount]=0; // clear the last char in cmd buffer
       
       if(charCount>=1) { // prevent empty cmd buffer parsing
+      
+        if(cmd[0] == 'T') {
+            txDis();
+        } else {
+            txEn();
+        }
 
         switch(cmd[0]) {
+          case 'T': // answered by second uC
+            break;
+            
           case '?':
             // show command listup
             Serial.println(F("Direct: adswqe space, Indirect: vMmNnP\a"));

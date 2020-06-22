@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <script>var ip_first = '{{ip_first}}';</script>
+</head>
+<body>
+<p>{{ title }}</p>
+<p>Number of thingies {{  thingies_qty }}</p>
+<p>Verified</p>
+<table>
+{% for thingy in thingies_verified %}
+<tr>
+    <td>Thing: </td>
+    <td>{{ thingy[0] }}</td>
+    <td>Thingy: </td>
+    <td>{{ thingy[1] }}</td>
+    <td> command :</td>
+    <td>
+        <input type='text' id='valC{{ thingy[1] }}' />
+    </td>
+    <td>
+        <button id="btm_C{{ thingy[1] }}" class="button">send</button>
+    </td>
+</tr>
+{% end %}
+</table>
+<table>
+<p>Not Verified</p>
+{% for thingy in thingies_not_verified %}
+<tr>
+    <td>Thing: </td>
+    <td>{{ thingy[0] }}</td>
+    <td>Thingy: </td>
+    <td>{{ thingy[1] }}</td>
+</tr>
+{% end %}
+</table>
+<script>
+window.onload = function() {
+    ws = new WebSocket("ws://" + ip_first + ":{{ port }}/websocket");
+
+    ws.onmessage = function (e) {
+        console.log(e.data);
+    };
+    ws.onopen = function () {
+        console.log('WS opened');
+    }
+}
+{% for thing in thingies_verified %}
+var v_C{{ thingy[1] }} = document.getElementById("valC{{ thingy[1] }}");
+document.getElementById("btm_C{{ thing[1] }}").addEventListener("click", function() {
+    send_thing_command('v_C{{ thingy[1] }}', v_C{{ thingy[0] }}.value);
+});
+{% end %}
+function send_thing_command(c_name, c_command, ){
+    console.log("{ \"thingy\": {\"ID\":\"" + c_name + "\", \"command\": \"" + c_command + "\" }}");
+    ws.send("{ \"thingy\": {\"ID\":\"" + c_name + "\", \"command\": \"" + c_command + "\" }}");
+}
+</script>
+</body>
+</html>
