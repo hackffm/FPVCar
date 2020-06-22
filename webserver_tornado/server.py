@@ -26,20 +26,20 @@ components = {
 }
 
 def readSerial():
-	global data
-	try:
-		data
-	except:
-		data = b''
-	for i in range(ser.inWaiting()):
-		b = ser.read(1)
-		if(b != b'\r'): 
-			if(b == b'\n'):
-				print('msg from arduino: ', data)
-				[con.write_message(data.decode("utf-8")) for con in WebSocketHandler.connections]
-				data = b''
-			else:
-				data += b
+    global data
+    try:
+        data
+    except:
+        data = b''
+    for i in range(ser.inWaiting()):
+        b = ser.read(1)
+        if(b != b'\r'): 
+            if(b == b'\n'):
+                print('msg from arduino: ', data)
+                [con.write_message(data.decode("utf-8")) for con in WebSocketHandler.connections]
+                data = b''
+            else:
+                data += b
 
 class WebSocketHandler(tornado.websocket.WebSocketHandler):
     connections = set()
@@ -96,7 +96,7 @@ class Application(tornado.web.Application):
             print("connection error")
         else:
             print("connected")
-                self.ws.write_message('{ "component": "self", "name": "schokomobil", "type":"player", "nbr":"0" }')
+            self.ws.write_message('{ "component": "self", "name": "schokomobil", "type":"player", "nbr":"0" }')
             
         self.receiverLoop()
 
