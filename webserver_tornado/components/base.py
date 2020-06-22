@@ -3,7 +3,7 @@ from . import Component
 class Base(Component):
 
     def handleMessage(self, message):
-        print("Base.handleMessage")
+        #print("Base.handleMessage")
         
         if "right" in message:
             self.moveRightLeft(message)
