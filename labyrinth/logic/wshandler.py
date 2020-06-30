@@ -1,6 +1,10 @@
 import json
 import tornado.websocket
 
+# Is a connection endpoint of a websocket
+# With on_message() you receive and with write_message() you can send messages
+# Things that open a ws: player website, fpv-car
+# If a message with the attribute 'init' is received, the handler gets assigned a thing instance
 class WsHandler(tornado.websocket.WebSocketHandler):
 
     labyrinth = None;
@@ -21,7 +25,7 @@ class WsHandler(tornado.websocket.WebSocketHandler):
         print("WsHandler: msg: {}".format(msg))
         m = json.loads(msg)
         if 'init' in m:
-            car = WsHandler.labyrinth.get_thing(m['tid'])
-            car.wshandler = self
+            thing = WsHandler.labyrinth.get_thing(m['tid'])
+            thing.wshandler = self
         else:
             WsHandler.labyrinth.handle_message(msg, m, None)
