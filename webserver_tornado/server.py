@@ -11,7 +11,9 @@ import json
 from components import *
 import asyncio
 from tornado.websocket import websocket_connect
+import toml
 
+config = toml.load('config_strange.toml')
 ser = serial.Serial('/dev/ttyS0', 38400)
 print(ser.name)
 hostname = socket.gethostname()
@@ -26,20 +28,20 @@ components = {
 }
 
 def readSerial():
-	global data
-	try:
-		data
-	except:
-		data = b''
-	for i in range(ser.inWaiting()):
-		b = ser.read(1)
-		if(b != b'\r'): 
-			if(b == b'\n'):
-				print('msg from arduino: ', data)
-				[con.write_message(data.decode("utf-8")) for con in WebSocketHandler.connections]
-				data = b''
-			else:
-				data += b
+    global data
+    try:
+        data
+    except:
+        data = b''
+    for i in range(ser.inWaiting()):
+        b = ser.read(1)
+        if(b != b'\r'): 
+            if(b == b'\n'):
+                print('msg from arduino: ', data)
+                [con.write_message(data.decode("utf-8")) for con in WebSocketHandler.connections]
+                data = b''
+            else:
+                data += b
 
 class WebSocketHandler(tornado.websocket.WebSocketHandler):
     connections = set()
@@ -91,12 +93,12 @@ class Application(tornado.web.Application):
     def connectToLabyrinth(self):
         print("trying to connect to labyrinth")
         try:
-            self.ws = yield websocket_connect("ws://LAPTOP-755IABG4:3000/ws")
+            self.ws = yield websocket_connect("ws://"+config.get('labyrint_host_name')+":3000/ws")
         except Exception:
             print("connection error")
         else:
             print("connected")
-                self.ws.write_message('{ "component": "self", "name": "schokomobil", "type":"player", "nbr":"0" }')
+            self.ws.write_message("{ \"tid\": \"car1\", \"name\": \"schokomobil\", \"init\":\"true\" }")
             
         self.receiverLoop()
 
@@ -104,6 +106,7 @@ class Application(tornado.web.Application):
     def receiverLoop(self):
         while True:
             msg = yield self.ws.read_message()
+            if msg is None: return
             print("from labyrinth: " + msg)
             try:
                 m = json.loads(msg)
@@ -111,7 +114,6 @@ class Application(tornado.web.Application):
                 print("no json")
             else: 
                 component = components[m["component"]]
-                print(component)
                 component.handleMessage(m)
                 if msg is None:
                     print("connection to labyrinth closed")

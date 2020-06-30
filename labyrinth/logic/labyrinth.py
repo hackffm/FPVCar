@@ -49,7 +49,7 @@ class Labyrinth:
     def handle_message(self, msg, m, handler):
         print("labyrinth.handle_message: " + msg)
         # WsHandler.send_car(0, msg)
-        thing = self.things[m["tid"]]
+        thing = self.things[m["thing"]]
         if thing is not None:
             if 'init' in m:
                 thing.wshandler = handler
