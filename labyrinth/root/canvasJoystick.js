@@ -44,7 +44,8 @@ function goodPos() {
 
 function finaliseMove() {
     drawJoyField();
-    sendPos();
+    //sendPos();
+    
 }
 
 function inputStart() {
@@ -58,6 +59,7 @@ function inputEnd() {
   vel.linearX = 0.0;
   vel.linearY = 0.0;
   finaliseMove();
+  ws.send("{ \"tid\":\"car1\", \"component\": \"base\", \"left\": " + 0 + ", \"right\": " + 0 + " }\r"); 
 }
 
 function inputMove(e) {
@@ -137,9 +139,13 @@ function sendPos() {
   // here we would call an api or anything which should know the result
   //console.log('ps3 x:' + ps3_axis_pos_x + ' ps3 y:' + ps3_axis_pos_y);
   //onsole.log('j cx:' + posJoy.cx + "j cy:" + posJoy.cy)
+  if(vel.linearX == 0 && vel.linearY == 0) return;
   console.log("v x:" + vel.linearX + ",v Y:" + vel.linearY);
+  var left = Math.round(Math.min(vel.linearY + vel.linearX, 100 / 2))*5;
+  var right = Math.round(Math.min(vel.linearY - vel.linearX, 100 / 2))*5;
+  console.log("l:" + left + ", r:" + right);
   try { 
-    ws.send("{ \"tid\":\"car1\", \"component\": \"base\", \"left\": " + vel.linearX + ", \"right\": " + vel.linearX + " }\r"); 
+    ws.send("{ \"tid\":\"car1\", \"component\": \"base\", \"left\": " + left + ", \"right\": " + right + " }\r"); 
   } catch (e){}
 }
 
