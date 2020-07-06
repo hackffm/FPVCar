@@ -50,7 +50,7 @@ function playSound(name) {
     ws.send(msgPrefixCar + '"sound", "sound":"' + name + '" }\r');
 }
 function startCam() {
-    ws.send('{ "component": "cam", "action": "start" }\r');
+    ws.send(msgPrefixCar + '"cam", "action": "start" }\r');
 }
 function startGame() {
     ws.send('{ "tid": "ctrl1", "component": "showmessage", "text": "start"}\r');
