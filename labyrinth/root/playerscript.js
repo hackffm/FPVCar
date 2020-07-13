@@ -23,6 +23,12 @@ window.onload = function() {
   $(document).on('input', '#white_led', function() {
       whiteLED();
   });
+  $(document).on('input', '#servo_h', function() {
+      servoHorizontal();
+  });
+  $(document).on('input', '#servo_v', function() {
+      servoVertical();
+  });
 }
 
 function dispatchMsg(message) {
@@ -68,5 +74,11 @@ function move(id, l, r) {
 function whiteLED() {
     console.log("white led");
     ws.send(msgPrefixCar + '"light", "type":"white", "intensity":"'+$('#white_led').val()+'" }\r');
+}
+function servoHorizontal() {
+    ws.send(msgPrefixCar + '"servo", "type":"h", "intensity":"'+$('#servo_h').val()+'" }\r');
+}
+function servoVertical() {
+    ws.send(msgPrefixCar + '"servo", "type":"v", "intensity":"'+$('#servo_v').val()+'" }\r');
 }
     
