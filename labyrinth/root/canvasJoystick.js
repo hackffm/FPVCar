@@ -141,8 +141,8 @@ function sendPos() {
   //onsole.log('j cx:' + posJoy.cx + "j cy:" + posJoy.cy)
   if(vel.linearX == 0 && vel.linearY == 0) return;
   console.log("v x:" + vel.linearX + ",v Y:" + vel.linearY);
-  var left = Math.round(Math.min(vel.linearY + vel.linearX, 100 / 2))*5;
-  var right = Math.round(Math.min(vel.linearY - vel.linearX, 100 / 2))*5;
+  var right = Math.round(Math.min(vel.linearY + vel.linearX, 100 / 2))*5;
+  var left = Math.round(Math.min(vel.linearY - vel.linearX, 100 / 2))*5;
   console.log("l:" + left + ", r:" + right);
   try { 
     ws.send("{ \"tid\":\"car1\", \"component\": \"base\", \"left\": " + left + ", \"right\": " + right + " }\r"); 
