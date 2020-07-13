@@ -19,6 +19,10 @@ window.onload = function() {
   ws.onmessage = function(e) {
     dispatchMsg(e.data);
   };
+  
+  $(document).on('input', '#white_led', function() {
+      whiteLED();
+  });
 }
 
 function dispatchMsg(message) {
@@ -61,3 +65,8 @@ function rfid(id, from, action) {
 function move(id, l, r) {
     //ws.send('{ "tid":"'+id+'", "component":"base", "left":'+l+', "right":'+r+' }\r');
 }
+function whiteLED() {
+    console.log("white led");
+    ws.send(msgPrefixCar + '"light", "type":"white", "intensity":"'+$('#white_led').val()+'" }\r');
+}
+    
