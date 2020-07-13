@@ -25,7 +25,8 @@ components = {
     "sound": Sound(ser),
     "cam": Cam(ser),
     "stats": Stats(ser),
-    "light": Light(ser)
+    "light": Light(ser),
+    "servo": Servo(ser)
 }
 
 def readSerial():
