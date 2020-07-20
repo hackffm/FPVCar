@@ -7,6 +7,9 @@ class Base(Component):
         
         if "right" in message:
             self.moveRightLeft(message)
+        elif "switchoff" in message:    
+            cmd = "p!999" + "\r"
+            self.ser.write(cmd.encode())
         else:
             print("no usefull command found")
     
