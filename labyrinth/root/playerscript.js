@@ -29,6 +29,12 @@ window.onload = function() {
   $(document).on('input', '#servo_v', function() {
       servoVertical();
   });
+  $(document).on('click', '#led_uv', function() {
+      ledUV();
+  });
+  $(document).on('click', '#switch_off', function() {
+      switchOff();
+  });
 }
 
 function dispatchMsg(message) {
@@ -72,13 +78,22 @@ function move(id, l, r) {
     //ws.send('{ "tid":"'+id+'", "component":"base", "left":'+l+', "right":'+r+' }\r');
 }
 function whiteLED() {
-    console.log("white led");
     ws.send(msgPrefixCar + '"light", "type":"white", "intensity":"'+$('#white_led').val()+'" }\r');
+}
+function ledUV() {
+    var val = '0';
+   if($('#led_uv').prop("checked") == true){
+       val = '1';
+   }
+   ws.send(msgPrefixCar + '"light", "type":"uv", "intensity":"'+val+'" }\r'); 
 }
 function servoHorizontal() {
     ws.send(msgPrefixCar + '"servo", "type":"h", "intensity":"'+$('#servo_h').val()+'" }\r');
 }
 function servoVertical() {
     ws.send(msgPrefixCar + '"servo", "type":"v", "intensity":"'+$('#servo_v').val()+'" }\r');
+}
+function switchOff() {
+    ws.send(msgPrefixCar+'"base", "switchoff":"true" }\r');
 }
     
