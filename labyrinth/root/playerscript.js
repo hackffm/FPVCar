@@ -35,6 +35,7 @@ window.onload = function() {
   $(document).on('click', '#switch_off', function() {
       switchOff();
   });
+  
 }
 
 function dispatchMsg(message) {
