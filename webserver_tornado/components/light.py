@@ -13,3 +13,7 @@ class Light(Component):
             cmd = "Tu" + str(message["intensity"]) + "\r"
             print("uv: " + cmd)
             self.ser.write(cmd.encode())
+        elif(message["type"] == "color"):
+            cmd = "Tc"+str(message["hex"]) + "\r"
+            print("color: " + cmd)
+            self.ser.write(cmd.encode())
