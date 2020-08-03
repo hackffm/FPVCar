@@ -26,7 +26,8 @@ components = {
     "cam": Cam(ser),
     "stats": Stats(ser),
     "light": Light(ser),
-    "servo": Servo(ser)
+    "servo": Servo(ser),
+    "ir": Ir(ser)
 }
 
 def readSerial():
@@ -40,10 +41,24 @@ def readSerial():
         if(b != b'\r'): 
             if(b == b'\n'):
                 print('msg from arduino: ', data)
-                [con.write_message(data.decode("utf-8")) for con in WebSocketHandler.connections]
+                #[con.write_message(data.decode("utf-8")) for con in WebSocketHandler.connections]
+                sendDataToLabyrinth(data)
                 data = b''
             else:
                 data += b
+            
+def sendDataToLabyrinth(data):
+    str = data.decode("utf-8") 
+    tokens = str.split(';')
+    print(tokens)
+    for token in tokens:
+        if token == '':
+            return None
+        print(token)
+        #if token.startswith('a'):
+        #
+        #elif token.startswith('x'):
+        #    ws_app.ws.write_message(data.decode("utf-8"))
 
 class WebSocketHandler(tornado.websocket.WebSocketHandler):
     connections = set()

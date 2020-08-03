@@ -17,3 +17,7 @@ class Light(Component):
             cmd = "Tc"+str(message["hex"]) + "\r"
             print("color: " + cmd)
             self.ser.write(cmd.encode())
+        elif(message["type"] == "laser"):
+            cmd = "Tl" + str(message["intensity"]) + "\r"
+            print("laser: " + cmd)
+            self.ser.write(cmd.encode())
