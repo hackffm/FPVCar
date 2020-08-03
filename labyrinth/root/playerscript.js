@@ -23,6 +23,9 @@ window.onload = function() {
   $(document).on('input', '#white_led', function() {
       whiteLED();
   });
+  $(document).on('input', '#laser', function() {
+      laser();
+  });
   $(document).on('input', '#servo_h', function() {
       servoHorizontal();
   });
@@ -31,6 +34,12 @@ window.onload = function() {
   });
   $(document).on('click', '#led_uv', function() {
       ledUV();
+  });
+  $(document).on('click', '#switch_ir_code', function() {
+      irCodeSimulation();
+  });
+  $(document).on('click', '#switch_ir_code_list', function() {
+      irCodeList();
   });
   $(document).on('click', '#switch_off', function() {
       switchOff();
@@ -81,6 +90,9 @@ function move(id, l, r) {
 function whiteLED() {
     ws.send(msgPrefixCar + '"light", "type":"white", "intensity":"'+$('#white_led').val()+'" }\r');
 }
+function laser() {
+    ws.send(msgPrefixCar + '"light", "type":"laser", "intensity":"'+$('#laser').val()+'" }\r');
+}
 function ledUV() {
     var val = '0';
    if($('#led_uv').prop("checked") == true){
@@ -93,6 +105,12 @@ function servoHorizontal() {
 }
 function servoVertical() {
     ws.send(msgPrefixCar + '"servo", "type":"v", "intensity":"'+$('#servo_v').val()+'" }\r');
+}
+function irCodeSimulation() {
+    ws.send(msgPrefixCar + '"ir", "code":"simulation" }\r');
+}
+function irCodeList() {
+    ws.send(msgPrefixCar + '"ir" }\r');
 }
 function switchOff() {
     ws.send(msgPrefixCar+'"base", "switchoff":"true" }\r');
