@@ -55,10 +55,10 @@ def sendDataToLabyrinth(data):
         if token == '':
             return None
         print(token)
-        #if token.startswith('a'):
-        #
-        #elif token.startswith('x'):
-        #    ws_app.ws.write_message(data.decode("utf-8"))
+        if token.startswith('t'):
+            ws_app.ws.write_message('{ "tid":"ir", "car":"car1", "type":"t", "irid":"'+token[1:]+'"}')
+        elif token.startswith('x'):
+            ws_app.ws.write_message('{ "tid":"ir", "car":"car1", "type":"x", "irid":"'+token[1:]+'"}')
 
 class WebSocketHandler(tornado.websocket.WebSocketHandler):
     connections = set()
@@ -115,7 +115,7 @@ class Application(tornado.web.Application):
             print("connection error")
         else:
             print("connected")
-            self.ws.write_message("{ \"tid\": \"car1\", \"name\": \"schokomobil\", \"init\":\"true\" }")
+            self.ws.write_message('{ "tid": "car", "name": "schokomobil", "hostname":"'+hostname+'", "init":"true" }')
             
         self.receiverLoop()
 
