@@ -40,6 +40,7 @@ class Application(tornado.web.Application):
     def keep_alive(self):
         logging.info("keep alive")
         [con.write_message("keep alive from server") for con in WsHandler.connections]
+        
 
 class IndexPageHandler(tornado.web.RequestHandler):
     def get(self):
@@ -52,7 +53,7 @@ class PlayerPageHandler(tornado.web.RequestHandler):
 class PlayerCssPageHandler(tornado.web.RequestHandler):  
     def get(self):
         self.set_header("Content-Type", 'text/css')
-        self.render("playerstyle.css", hostname=hostname)
+        self.render("playerstyle.css", hostname="schokomobile")
 
 def main():
     tornado.options.parse_command_line()
