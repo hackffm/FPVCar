@@ -1,5 +1,6 @@
 import json
 import tornado.websocket
+from things.car import Car
 
 # Is a connection endpoint of a websocket
 # With on_message() you receive and with write_message() you can send messages
@@ -25,7 +26,18 @@ class WsHandler(tornado.websocket.WebSocketHandler):
         print("WsHandler: msg: {}".format(msg))
         m = json.loads(msg)
         if 'init' in m:
-            thing = WsHandler.labyrinth.get_thing(m['tid'])
-            thing.wshandler = self
+            if m['tid'] == 'car':
+                print("type car")
+                cars = WsHandler.labyrinth.get_things("Car")
+                for car in cars: 
+                    print(car.tid)
+                    if car.wshandler == None:
+                        car.wshandler = self
+                        car.hostname = m['hostname']
+                        car.name = m['name']
+                        return
+            else:
+                thing = WsHandler.labyrinth.get_thing(m['tid'])
+                thing.wshandler = self
         else:
             WsHandler.labyrinth.handle_message(msg, m, None)

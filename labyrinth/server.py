@@ -52,7 +52,7 @@ class PlayerPageHandler(tornado.web.RequestHandler):
 class PlayerCssPageHandler(tornado.web.RequestHandler):  
     def get(self):
         self.set_header("Content-Type", 'text/css')
-        self.render("playerstyle.css", hostname="schokomobile")
+        self.render("playerstyle.css", hostname=hostname)
 
 def main():
     tornado.options.parse_command_line()

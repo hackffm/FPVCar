@@ -7,6 +7,8 @@ class Car(Thing):
         self.wshandler = None
         self.items = {}
         self.ctrl = None
+        self.hostname = None
+        self.name = None
 
     def handleMessage(self, msg, m):
         print(str(self.tid) + ": " + msg)
