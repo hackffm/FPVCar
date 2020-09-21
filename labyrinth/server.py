@@ -35,7 +35,7 @@ class Application(tornado.web.Application):
         tornado.web.Application.__init__(self, handlers, **settings)
         PeriodicCallback(self.keep_alive, 10000).start()
         serialHandler = labyrinth.get_thing('serh')
-        serialHandler.find_my_things()
+        #serialHandler.find_my_things()
 
     def keep_alive(self):
         logging.info("keep alive")
