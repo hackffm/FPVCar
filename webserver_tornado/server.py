@@ -3,6 +3,7 @@ import tornado.websocket
 import tornado.httpserver
 import tornado.ioloop
 from tornado import gen
+from tornado.ioloop import PeriodicCallback
 import serial
 import _thread
 import pygame
@@ -40,7 +41,8 @@ def readSerial():
         b = ser.read(1)
         if(b != b'\r'): 
             if(b == b'\n'):
-                print('msg from arduino: ', data)
+                if data:
+                    print('msg from arduino: ', data)
                 #[con.write_message(data.decode("utf-8")) for con in WebSocketHandler.connections]
                 sendDataToLabyrinth(data)
                 data = b''
@@ -50,7 +52,8 @@ def readSerial():
 def sendDataToLabyrinth(data):
     str = data.decode("utf-8") 
     tokens = str.split(';')
-    print(tokens)
+    if not tokens:
+        print(tokens)
     for token in tokens:
         if token == '':
             return None
@@ -60,6 +63,7 @@ def sendDataToLabyrinth(data):
         elif token.startswith('x'):
             ws_app.ws.write_message('{ "tid":"ir", "car":"car1", "type":"x", "irid":"'+token[1:]+'"}')
 
+            
 class WebSocketHandler(tornado.websocket.WebSocketHandler):
     connections = set()
 
@@ -105,6 +109,11 @@ class Application(tornado.web.Application):
         tornado.web.Application.__init__(self, handlers, **settings)
         self.ws = None
         self.connectToLabyrinth()
+        PeriodicCallback(self.poll_ir, 2000).start()
+        
+    def poll_ir(self):
+        component = components["ir"]
+        component.poll()
         
     @gen.coroutine
     def connectToLabyrinth(self):

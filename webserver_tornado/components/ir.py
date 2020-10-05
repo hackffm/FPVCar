@@ -12,5 +12,8 @@ class Ir(Component):
                 cmd = "Tp" + "\r"
                 self.ser.write(cmd.encode())
         else:
-            cmd = "Tr" + "\r"
-            self.ser.write(cmd.encode())
+            self.poll()
+
+    def poll(self):
+        cmd = "Tr" + "\r"
+        self.ser.write(cmd.encode())
