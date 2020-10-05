@@ -1,8 +1,4 @@
-import tornado.web
-import tornado.websocket
-import tornado.httpserver
 import tornado.ioloop
-from tornado import gen
 from tornado.ioloop import PeriodicCallback
 
 class SerialToCar():
@@ -10,28 +6,29 @@ class SerialToCar():
     def __init__(self, app, ser):
         self.app = app
         self.ser = ser
+        self.data = b''
         
     def start(self):
         serial_loop = tornado.ioloop.PeriodicCallback(self.readSerial, 30)
         serial_loop.start()
 
     def readSerial(self):
-        global data
+        #global data
         try:
-            data
+            self.data
         except:
-            data = b''
+            self.data = b''
         for i in range(self.ser.inWaiting()):
             b = self.ser.read(1)
             if(b != b'\r'): 
                 if(b == b'\n'):
-                    if data:
-                        print('msg from arduino: ', data)
+                    if self.data:
+                        print('msg from arduino: ', self.data)
                     #[con.write_message(data.decode("utf-8")) for con in WebSocketHandler.connections]
-                    self.sendDataToLabyrinth(data)
-                    data = b''
+                    self.sendDataToLabyrinth(self.data)
+                    self.data = b''
                 else:
-                    data += b
+                    self.data += b
 
     def sendDataToLabyrinth(self, data):
         str = data.decode("utf-8") 
