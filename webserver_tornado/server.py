@@ -14,6 +14,7 @@ import asyncio
 from tornado.websocket import websocket_connect
 import toml
 import time
+from serialtocar import SerialToCar
 
 print("       .__                             ")
 print("______ |  | _____  ___.__. ___________ ")
@@ -47,41 +48,7 @@ components = {
     "servo": Servo(ser),
     "ir": Ir(ser)
 }
-
-
-def readSerial():
-    global data
-    try:
-        data
-    except:
-        data = b''
-    for i in range(ser.inWaiting()):
-        b = ser.read(1)
-        if(b != b'\r'): 
-            if(b == b'\n'):
-                if data:
-                    print('msg from arduino: ', data)
-                #[con.write_message(data.decode("utf-8")) for con in WebSocketHandler.connections]
-                sendDataToLabyrinth(data)
-                data = b''
-            else:
-                data += b
-            
-def sendDataToLabyrinth(data):
-    str = data.decode("utf-8") 
-    tokens = str.split(';')
-    if not tokens:
-        print(tokens)
-    for token in tokens:
-        if token == '':
-            return None
-        print(token)
-        if token.startswith('t'):
-            ws_app.ws.write_message('{ "tid":"ir", "car":"car1", "type":"t", "irid":"'+token[1:]+'"}')
-        elif token.startswith('x'):
-            ws_app.ws.write_message('{ "tid":"ir", "car":"car1", "type":"x", "irid":"'+token[1:]+'"}')
-
-            
+       
 class WebSocketHandler(tornado.websocket.WebSocketHandler):
     connections = set()
 
@@ -173,11 +140,14 @@ class Application(tornado.web.Application):
 
 if __name__ == '__main__':
     ser.flushInput()
-    _thread.start_new_thread(readSerial, ())
     ws_app = Application()
+
+    #_thread.start_new_thread(serial.readSerial, ())
     server = tornado.httpserver.HTTPServer(ws_app)
     server.listen(9090)
     loop = tornado.ioloop.IOLoop.instance()
-    serial_loop = tornado.ioloop.PeriodicCallback(readSerial, 30)
-    serial_loop.start()    
+    serial = SerialToCar(ws_app, ser)
+    serial.start()
+    #serial_loop = tornado.ioloop.PeriodicCallback(serial.readSerial, 30)
+    #serial_loop.start()    
     loop.start()
