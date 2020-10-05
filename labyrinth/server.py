@@ -1,3 +1,5 @@
+from os import environ
+environ['PYGAME_HIDE_SUPPORT_PROMPT'] = 'hide'
 import logging
 import socket
 import tornado.ioloop
@@ -11,14 +13,26 @@ import toml
 from logic import WsHandler
 from logic import Labyrinth
 
+
+
+#http://patorjk.com/software/taag/#p=display&f=Graffiti&t=Labyrith
+print(".____          ___.                 .__  __  .__     ")
+print("|    |   _____ \_ |__ ___.__._______|__|/  |_|  |__  ")
+print("|    |   \__  \ | __ <   |  |\_  __ \  \   __\  |  \ ")
+print("|    |___ / __ \| \_\ \___  | |  | \/  ||  | |   Y  \\")
+print("|_______ (____  /___  / ____| |__|  |__||__| |___|  /")
+print("        \/    \/    \/\/                          \/ ")
+print("")
+
 logging.basicConfig(level=logging.DEBUG)
 
 define("port", default=3000, help="run on the given port", type=int)
 
 config = toml.load('config_strange.toml')
-print(config)
 hostname = socket.gethostname()
-print(hostname)
+port = 3000
+print("website: " + hostname + ":" + str(port))
+print("")
 
 labyrinth = Labyrinth()
 WsHandler.labyrinth = labyrinth
@@ -35,7 +49,7 @@ class Application(tornado.web.Application):
         tornado.web.Application.__init__(self, handlers, **settings)
         PeriodicCallback(self.keep_alive, 10000).start()
         serialHandler = labyrinth.get_thing('serh')
-        serialHandler.find_my_things()
+        #serialHandler.find_my_things()
 
     def keep_alive(self):
         logging.info("keep alive")
@@ -48,6 +62,9 @@ class IndexPageHandler(tornado.web.RequestHandler):
 
 class PlayerPageHandler(tornado.web.RequestHandler):
     def get(self):
+        name = self.get_argument('tid', True)
+        print(name)
+
         self.render("player.html", hostname=hostname)
         
 class PlayerCssPageHandler(tornado.web.RequestHandler):  

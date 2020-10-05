@@ -41,6 +41,8 @@ class SerialHandler(Thing):
         if len(ports) == 0:
             print('no used ports found')
         for p in ports:
+            if p.description == 'ttyAMA0':
+                return
             print('write to ' + p.description + ' on port ' + p.device)
             ser = serial.Serial(p.device, 38400, )
             #self.serials.append(ser)
