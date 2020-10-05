@@ -13,12 +13,29 @@ from components import *
 import asyncio
 from tornado.websocket import websocket_connect
 import toml
+import time
 
-config = toml.load('config_strange.toml')
+print("       .__                             ")
+print("______ |  | _____  ___.__. ___________ ")
+print("\____ \|  | \__  \<   |  |/ __ \_  __ \\")
+print("|  |_> >  |__/ __ \\___  \  ___/|  | \/")
+print("|   __/|____(____  / ____|\___  >__|   ")
+print("|__|             \/\/         \/      ")
+print("")
+
+try:
+    config = toml.load('config.toml')
+except FileNotFoundError as e:
+    print("Config file 'config.toml' not found.")
+    print("Please make a copy of the 'config.template.toml' and name it config.toml.")
+    exit(1)
+    
 ser = serial.Serial('/dev/ttyS0', 38400)
-print(ser.name)
 hostname = socket.gethostname()
-print(hostname)
+print("serial:   " + ser.name)
+print("hostname: " + hostname)
+print("")
+
 pygame.mixer.init(44100, -16, 1, 1024)
 
 components = {
@@ -30,6 +47,7 @@ components = {
     "servo": Servo(ser),
     "ir": Ir(ser)
 }
+
 
 def readSerial():
     global data
@@ -117,14 +135,18 @@ class Application(tornado.web.Application):
         
     @gen.coroutine
     def connectToLabyrinth(self):
-        print("trying to connect to labyrinth")
-        try:
-            self.ws = yield websocket_connect("ws://"+config.get('labyrint_host_name')+":3000/ws")
-        except Exception:
-            print("connection error")
-        else:
-            print("connected")
-            self.ws.write_message('{ "tid": "car", "name": "schokomobil", "hostname":"'+hostname+'", "init":"true" }')
+        url = "ws://"+config.get('labyrint_host_name')+":3000/ws"
+        while True:
+            print("trying to connect to labyrinth ("+url+")")
+            try:
+                self.ws = yield websocket_connect(url)
+            except Exception:
+                print("connection error")
+            else:
+                print("connected")
+                self.ws.write_message('{ "tid": "car", "name": "schokomobil", "hostname":"'+hostname+'", "init":"true" }')
+                break
+            time.sleep(10)
             
         self.receiverLoop()
 
@@ -132,7 +154,10 @@ class Application(tornado.web.Application):
     def receiverLoop(self):
         while True:
             msg = yield self.ws.read_message()
-            if msg is None: return
+            if msg is None:
+                print("verbindung abgebrochen")
+                self.connectToLabyrinth()
+                return
             print("from labyrinth: " + msg)
             try:
                 m = json.loads(msg)
