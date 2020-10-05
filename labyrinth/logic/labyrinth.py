@@ -6,13 +6,12 @@ from things.door import Door
 from things.car import Car
 from things.controller import Controller
 from things.mcu import Mcu
-from things.ps3handler import Ps3Handler
+#from things.ps3handler import Ps3Handler
 
 
 class Labyrinth:
 
     def __init__(self):
-        print("Labyrinth")
 
         self.things = {}
         self.add_thing(Rfid(self, "rfid"))

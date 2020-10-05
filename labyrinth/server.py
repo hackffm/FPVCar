@@ -16,9 +16,8 @@ logging.basicConfig(level=logging.DEBUG)
 define("port", default=3000, help="run on the given port", type=int)
 
 config = toml.load('config_strange.toml')
-print(config)
 hostname = socket.gethostname()
-print(hostname)
+print("hostname: " + hostname)
 
 labyrinth = Labyrinth()
 WsHandler.labyrinth = labyrinth
@@ -48,6 +47,9 @@ class IndexPageHandler(tornado.web.RequestHandler):
 
 class PlayerPageHandler(tornado.web.RequestHandler):
     def get(self):
+        name = self.get_argument('tid', True)
+        print(name)
+
         self.render("player.html", hostname=hostname)
         
 class PlayerCssPageHandler(tornado.web.RequestHandler):  
