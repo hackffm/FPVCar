@@ -15,6 +15,7 @@ from tornado.websocket import websocket_connect
 import toml
 import time
 from serialtocar import SerialToCar
+import logging
 
 print("       .__                             ")
 print("______ |  | _____  ___.__. ___________ ")
@@ -30,6 +31,8 @@ except FileNotFoundError as e:
     print("Config file 'config.toml' not found.")
     print("Please make a copy of the 'config.template.toml' and name it config.toml.")
     exit(1)
+    
+logging.basicConfig(level=logging.DEBUG)
     
 ser = serial.Serial('/dev/ttyS0', 38400)
 hostname = socket.gethostname()
@@ -102,15 +105,16 @@ class Application(tornado.web.Application):
         
     @gen.coroutine
     def connectToLabyrinth(self):
+        log = logging.getLogger("ws labyrith")
         url = "ws://"+config.get('labyrint_host_name')+":3000/ws"
         while True:
-            print("trying to connect to labyrinth ("+url+")")
+            log.info("trying to connect to labyrinth ("+url+")")
             try:
                 self.ws = yield websocket_connect(url)
             except Exception:
-                print("connection error")
+                log.info("connection error")
             else:
-                print("connected")
+                log.info("connected")
                 self.ws.write_message('{ "tid": "car", "name": "schokomobil", "hostname":"'+hostname+'", "init":"true" }')
                 break
             time.sleep(10)
@@ -119,22 +123,23 @@ class Application(tornado.web.Application):
 
     @gen.coroutine
     def receiverLoop(self):
+        log = logging.getLogger("ws labyrith receiver")
         while True:
             msg = yield self.ws.read_message()
             if msg is None:
-                print("verbindung abgebrochen")
+                log.debug("verbindung abgebrochen")
                 self.connectToLabyrinth()
                 return
-            print("from labyrinth: " + msg)
+            log.debug(msg)
             try:
                 m = json.loads(msg)
             except Exception:
-                print("no json")
+                log.debug("no json")
             else: 
                 component = components[m["component"]]
                 component.handleMessage(m)
                 if msg is None:
-                    print("connection to labyrinth closed")
+                    log.debug("connection to labyrinth closed")
                     self.ws = None
                     break
 
